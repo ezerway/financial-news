@@ -1,0 +1,32 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+import CalendarTable from "@components/CalendarTable.astro";
+import { toTableItems } from "@libs/soccerTransformer";
+import { Debug } from "astro:components";
+
+const model = "soccer";
+const collection = await getCollection(model);
+const items = toTableItems(collection, model);
+
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+---
+
+<!-- <Debug answer={collection} /> -->
+<Layout>
+    <div>
+        <CalendarTable
+            header={[
+                { key: "league", label: "League" },
+                { key: "match", label: "Match" },
+                { key: "start", label: "Start" },
+                { key: "bet_100", label: "Bet 100" },
+                { key: "win_win", label: "Win Win" },
+                { key: "win_draw", label: "Win Draw" },
+            ]}
+            items={items}
+        />
+    </div>
+</Layout>

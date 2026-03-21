@@ -1,0 +1,56 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import Table from "@components/Table.astro";
+import { Debug } from "astro:components";
+import { toTableItems } from "@libs/commonTransformer";
+import { toTableItems as toSoccerTableItems } from "@libs/soccerTransformer";
+
+const today = new Date().toDateString();
+
+const goldItems = toTableItems(await getCollection("gold"), "gold");
+const oilItems = toTableItems(await getCollection("oil"), "oil");
+const soccerItems = toSoccerTableItems(await getCollection("soccer"), "soccer");
+
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+---
+
+<!-- <Debug answer={items[0]} /> -->
+<Layout title={today}>
+	<div class="flex flex-col sm:flex-row justify-between gap-2">
+		<Table
+			title="Oil"
+			header={[
+				{ key: "title", label: "Tên" },
+				{ key: "zone1_price", label: "Giá vùng 1" },
+				{ key: "zone2_price", label: "Giá vùng 2" },
+			]}
+			items={oilItems.at(-1).data}
+		/>
+
+		<Table
+			title="Gold"
+			header={[
+				{ key: "masp", label: "Mã" },
+				{ key: "tensp", label: "Tên" },
+				{ key: "giamua", label: "Giá mua vào" },
+				{ key: "giaban", label: "Giá bán ra" },
+			]}
+			items={goldItems.at(-1).data}
+		/>
+
+		<Table
+			title="Soccer"
+			header={[
+				{ key: "league", label: "League" },
+				{ key: "match", label: "Match" },
+				{ key: "start", label: "Start" },
+				{ key: "bet_100", label: "Bet 100" },
+				{ key: "win_win", label: "Win Win" },
+				{ key: "win_draw", label: "Win Draw" },
+			]}
+			items={soccerItems.at(-1).data}
+		/>
+	</div>
+</Layout>

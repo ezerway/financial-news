@@ -1,0 +1,275 @@
+---
+import Table from "./Table.astro";
+
+interface Props {
+	header?: Record<string, any>[];
+	items: any[];
+}
+
+const { items, header } = Astro.props;
+
+// Pass minimal data to client about which dates have records
+// Ensure it works nicely if items have identical dates (uniques only)
+const availableDates = [...new Set(items.map((i) => i.date))];
+---
+
+<calendar-widget data-dates={JSON.stringify(availableDates)}>
+	<div
+		class="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200 dark:md:divide-white/10"
+	>
+		<!-- Calendar Section -->
+		<div class="md:pr-14">
+			<div class="flex items-center">
+				<h2
+					id="calendar-title"
+					class="flex-auto text-sm font-semibold text-gray-900 dark:text-white"
+				>
+					<!-- Title Populated by JS -->
+				</h2>
+				<button
+					id="prev-month"
+					type="button"
+					class="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500 dark:text-gray-400 dark:hover:text-white transition"
+				>
+					<span class="sr-only">Previous month</span>
+					<svg viewBox="0 0 20 20" fill="currentColor" class="size-5"
+						><path
+							fill-rule="evenodd"
+							d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+							clip-rule="evenodd"></path></svg
+					>
+				</button>
+				<button
+					id="next-month"
+					type="button"
+					class="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500 dark:text-gray-400 dark:hover:text-white transition"
+				>
+					<span class="sr-only">Next month</span>
+					<svg viewBox="0 0 20 20" fill="currentColor" class="size-5"
+						><path
+							fill-rule="evenodd"
+							d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+							clip-rule="evenodd"></path></svg
+					>
+				</button>
+			</div>
+			<div
+				class="mt-10 grid grid-cols-7 text-center text-xs/6 text-gray-500 dark:text-gray-400"
+			>
+				<div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>
+					Fr
+				</div><div>Sa</div><div>Su</div>
+			</div>
+			<div id="calendar-grid" class="mt-2 grid grid-cols-7 text-sm">
+				<!-- Grid built by JS -->
+			</div>
+		</div>
+
+		<!-- Table Section -->
+		<section class="mt-12 md:mt-0 md:pl-14">
+			{
+				items.map((item) => (
+					<div class="table-container hidden" data-date={item.date}>
+						<Table
+							items={item.data}
+							header={header}
+							title={`Records for ${item.date}`}
+						/>
+					</div>
+				))
+			}
+			<p
+				id="empty-state"
+				class="text-sm text-gray-500 dark:text-gray-400 text-center py-8 hidden"
+			>
+				No records found for the selected date. Choose a highlighted
+				date in the calendar!
+			</p>
+		</section>
+	</div>
+</calendar-widget>
+
+<script>
+	class CalendarWidget extends HTMLElement {
+		connectedCallback() {
+			// Read data passed from the server
+			const availableDates = JSON.parse(this.dataset.dates || "[]");
+
+			// DOM Elements
+			const titleEl = this.querySelector("#calendar-title")!;
+			const prevBtn = this.querySelector("#prev-month")!;
+			const nextBtn = this.querySelector("#next-month")!;
+			const gridEl = this.querySelector("#calendar-grid")!;
+			const tables = this.querySelectorAll(
+				".table-container",
+			) as NodeListOf<HTMLElement>;
+			const emptyState = this.querySelector("#empty-state");
+
+			let today = new Date();
+			today.setHours(0, 0, 0, 0);
+
+			// If no dates available, just default to today
+			// Else, select the latest available date
+			let maxDate = today;
+			if (availableDates.length > 0) {
+				const sorted = [...availableDates].sort();
+				maxDate = new Date(sorted[sorted.length - 1]);
+			}
+
+			let selectedDate = new Date(maxDate.getTime());
+			let currentMonth = new Date(
+				selectedDate.getFullYear(),
+				selectedDate.getMonth(),
+				1,
+			);
+
+			const render = () => {
+				// Format Title (e.g. "March 2026")
+				titleEl.textContent = currentMonth.toLocaleString("en-US", {
+					month: "long",
+					year: "numeric",
+				});
+
+				// Clear current calendar grid
+				gridEl.innerHTML = "";
+
+				const year = currentMonth.getFullYear();
+				const month = currentMonth.getMonth();
+
+				// Start generating days from the first visible pad day
+				let startDate = new Date(year, month, 1);
+				let dayOfWeek = startDate.getDay();
+				let offset = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Map Sun=0->6, Mon=1->0
+				startDate.setDate(startDate.getDate() - offset);
+
+				const formatYMD = (d: Date) => {
+					const y = d.getFullYear();
+					const m = String(d.getMonth() + 1).padStart(2, "0");
+					const day = String(d.getDate()).padStart(2, "0");
+					return `${y}-${m}-${day}`;
+				};
+
+				const todayStr = formatYMD(today);
+				const selectedStr = formatYMD(selectedDate);
+
+				// Create 42 days (6 weeks)
+				for (let i = 0; i < 42; i++) {
+					const d = new Date(startDate);
+					d.setDate(d.getDate() + i);
+
+					const formatStr = formatYMD(d);
+					const isCurrentMonth = d.getMonth() === month;
+					const isToday = formatStr === todayStr;
+					const isSelected = formatStr === selectedStr;
+					const isFirstLine = i < 7;
+					const hasData = availableDates.includes(formatStr);
+
+					// Wrapper <div>
+					const div = document.createElement("div");
+					div.className =
+						"py-2 not-data-first-line:border-t not-data-first-line:border-gray-200 dark:not-data-first-line:border-white/10";
+					if (isFirstLine) {
+						div.setAttribute("data-first-line", "true");
+					}
+
+					// The <button>
+					const btn = document.createElement("button");
+					btn.type = "button";
+
+					// Standard Tailwind class blob for state toggles
+					btn.className =
+						"mx-auto flex size-8 items-center justify-center rounded-full transition " +
+						"not-data-is-selected:not-data-is-today:not-data-is-current-month:text-gray-400 " +
+						"not-data-is-selected:hover:bg-gray-200 " +
+						"not-data-is-selected:not-data-is-today:data-is-current-month:text-gray-900 " +
+						"data-is-selected:font-semibold data-is-selected:text-white " +
+						"data-is-selected:not-data-is-today:bg-gray-900 " +
+						"data-is-today:font-semibold " +
+						"not-data-is-selected:data-is-today:text-indigo-600 " +
+						"data-is-selected:data-is-today:bg-indigo-600 " +
+						"dark:not-data-is-selected:not-data-is-today:not-data-is-current-month:text-gray-500 " +
+						"dark:not-data-is-selected:hover:bg-white/10 " +
+						"dark:not-data-is-selected:not-data-is-today:data-is-current-month:text-white " +
+						"dark:data-is-selected:not-data-is-today:bg-white " +
+						"dark:data-is-selected:not-data-is-today:text-gray-900 " +
+						"dark:not-data-is-selected:data-is-today:text-indigo-400 " +
+						"dark:data-is-selected:data-is-today:bg-indigo-500";
+
+					// State attributes toggled based on the calendar iteration
+					if (isCurrentMonth)
+						btn.setAttribute("data-is-current-month", "true");
+					if (isToday) btn.setAttribute("data-is-today", "true");
+					if (isSelected)
+						btn.setAttribute("data-is-selected", "true");
+
+					// Highlight dates that actually have data visually distinct (e.g. underline or ring)
+					if (hasData && !isSelected) {
+						btn.classList.add(
+							"ring-2",
+							"ring-indigo-500",
+							"ring-offset-2",
+							"dark:ring-offset-gray-800",
+						);
+					}
+
+					const time = document.createElement("time");
+					time.dateTime = formatStr;
+					time.textContent = String(d.getDate());
+
+					btn.appendChild(time);
+					div.appendChild(btn);
+
+					// Click triggers state update
+					btn.addEventListener("click", () => {
+						selectedDate = new Date(d.getTime());
+						// optional: snap current view to the selected month
+						currentMonth = new Date(
+							selectedDate.getFullYear(),
+							selectedDate.getMonth(),
+							1,
+						);
+						render();
+					});
+
+					gridEl.appendChild(div);
+				}
+
+				// Show matching table, hide others
+				let foundAny = false;
+				tables.forEach((t) => {
+					if (t.dataset.date === selectedStr) {
+						t.classList.remove("hidden");
+						foundAny = true;
+					} else {
+						t.classList.add("hidden");
+					}
+				});
+
+				if (emptyState) {
+					if (foundAny) {
+						emptyState.classList.add("hidden");
+					} else {
+						emptyState.classList.remove("hidden");
+					}
+				}
+			};
+
+			// Nav button events
+			prevBtn.addEventListener("click", () => {
+				currentMonth.setMonth(currentMonth.getMonth() - 1);
+				render();
+			});
+
+			nextBtn.addEventListener("click", () => {
+				currentMonth.setMonth(currentMonth.getMonth() + 1);
+				render();
+			});
+
+			// Initial render iteration
+			render();
+		}
+	}
+
+	// Register Web Component with browser
+	customElements.define("calendar-widget", CalendarWidget);
+</script>
