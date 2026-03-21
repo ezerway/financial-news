@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { title } = Astro.props;
-const currentPathname = Astro.url.pathname.replace("/", "");
+const currentPathname = Astro.url.pathname.split("/").at(-1);
 const isDashboard = currentPathname === "";
 const displayTitle =
 	title || currentPathname.charAt(0).toUpperCase() + currentPathname.slice(1);
