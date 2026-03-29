@@ -8,7 +8,9 @@ interface Props {
 }
 
 const { title } = Astro.props;
-const currentPathname = Astro.url.pathname.split("/").at(-1);
+const currentPathname =
+	Astro.url.pathname.split("/").at(-1) ||
+	Astro.url.pathname.split("/").at(-2);
 const isDashboard = currentPathname === "";
 const displayTitle =
 	title || currentPathname.charAt(0).toUpperCase() + currentPathname.slice(1);
@@ -203,14 +205,16 @@ const mdPages = ["electric"];
 							>Dashboard</a
 						>
 						{
-							Object.keys(collections).map((collection) => (
-								<a
-									href={`/financial-news/${collection}`}
-									class="capitalize block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800 dark:text-gray-400 dark:hover:border-gray-500 dark:hover:bg-white/5 dark:hover:text-gray-200"
-								>
-									{collection}
-								</a>
-							))
+							Object.keys(collections)
+								.concat(mdPages)
+								.map((collection) => (
+									<a
+										href={`/financial-news/${collection}`}
+										class="capitalize block border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800 dark:text-gray-400 dark:hover:border-gray-500 dark:hover:bg-white/5 dark:hover:text-gray-200"
+									>
+										{collection}
+									</a>
+								))
 						}
 					</div>
 					<div
