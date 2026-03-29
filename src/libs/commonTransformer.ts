@@ -9,4 +9,48 @@ export const toTableItems = (collection, model) => collection.map((record) => {
         date: date,
         data: record.data,
     };
-});	
+});
+
+export const filesToItems = (collection, model, type = "md") => collection.map((record) => {
+    const [dateString, timeString] = record.file.split(model);
+    const date = dateString.split("/").at(-2);
+    const time = timeString.replace("/", "").replace(`.${type}`, "");
+
+    return {
+        created_at: `${date}T${time}`,
+        date: date,
+        data: record,
+    };
+});
+
+export const toChart = (collection, keyField, valueField, pageSize = 30, ids = []) => {
+
+    let series = {};
+    const latest = collection.length > pageSize ? collection.sort((a, b) => b.date - a.date).slice(0, pageSize) : collection;
+    latest.map((record) => {
+        record.data.forEach((item) => {
+
+            if (ids.length > 0 && !ids.includes(item[keyField])) {
+                return;
+            }
+
+            if (!series[item[keyField]]) {
+                series[item[keyField]] = [];
+            }
+            series[item[keyField]].push(item[valueField]);
+        });
+    })
+
+    return {
+        categories: latest.map((record) => (new Date(record.date).toLocaleDateString(undefined, {
+            month: 'short',
+            day: 'numeric'
+        }))),
+        series: Object.keys(series).map((key) => {
+            return {
+                name: key,
+                data: series[key],
+            };
+        })
+    };
+};

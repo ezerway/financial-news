@@ -47,4 +47,4 @@ const soccer = defineCollection({
     ),
 });
 
-export const collections = { gold, oil, soccer };
+export const collections = { gold, oil };

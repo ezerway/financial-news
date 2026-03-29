@@ -63,6 +63,10 @@ const availableDates = [...new Set(items.map((i) => i.date))];
 			<div id="calendar-grid" class="mt-2 grid grid-cols-7 text-sm">
 				<!-- Grid built by JS -->
 			</div>
+
+			<div class="mt-4">
+				<slot name="chart" />
+			</div>
 		</div>
 
 		<!-- Table Section -->

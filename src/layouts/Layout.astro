@@ -12,6 +12,8 @@ const currentPathname = Astro.url.pathname.split("/").at(-1);
 const isDashboard = currentPathname === "";
 const displayTitle =
 	title || currentPathname.charAt(0).toUpperCase() + currentPathname.slice(1);
+
+const mdPages = ["electric"];
 ---
 
 <html lang="en" class="h-full">
@@ -48,12 +50,12 @@ const displayTitle =
 							<div class="flex shrink-0 items-center">
 								<img
 									src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-									alt="Your Company"
+									alt="Ezer Way"
 									class="h-8 w-auto dark:hidden"
 								/>
 								<img
 									src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-									alt="Your Company"
+									alt="Ezer Way"
 									class="h-8 w-auto not-dark:hidden"
 								/>
 							</div>
@@ -69,8 +71,9 @@ const displayTitle =
 									>Dashboard</a
 								>
 								{
-									Object.keys(collections).map(
-										(collection) => (
+									Object.keys(collections)
+										.concat(mdPages)
+										.map((collection) => (
 											<a
 												href={`/financial-news/${collection}`}
 												aria-current="page"
@@ -83,8 +86,7 @@ const displayTitle =
 											>
 												{collection}
 											</a>
-										),
-									)
+										))
 								}
 							</div>
 						</div>

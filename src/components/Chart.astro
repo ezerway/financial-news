@@ -1,0 +1,83 @@
+---
+interface Props {
+	id: string;
+	title?: string;
+	description?: string;
+	series: any[];
+	categories: any[];
+}
+
+const { id, title, description, series, categories } = Astro.props;
+
+// Pass minimal data to client about which dates have records
+// Ensure it works nicely if items have identical dates (uniques only)
+const chartData = {
+	credits: {
+		enabled: false,
+	},
+	title: {
+		text: title || " ",
+		align: "left",
+	},
+
+	subtitle: {
+		text: description || " ",
+		align: "left",
+	},
+
+	yAxis: {
+		title: {
+			text: "Giá",
+		},
+	},
+
+	xAxis: {
+		categories,
+		accessibility: {
+			rangeDescription: "Ngày",
+		},
+	},
+
+	legend: {
+		layout: "vertical",
+		align: "right",
+		verticalAlign: "middle",
+	},
+
+	plotOptions: {
+		series: {
+			label: {
+				connectorAllowed: false,
+			},
+		},
+	},
+
+	series,
+
+	responsive: {
+		rules: [
+			{
+				condition: {
+					maxWidth: 500,
+				},
+				chartOptions: {
+					legend: {
+						layout: "horizontal",
+						align: "center",
+						verticalAlign: "bottom",
+					},
+				},
+			},
+		],
+	},
+};
+---
+
+<script>
+	import Highcharts from "highcharts";
+	document.querySelectorAll(".astro-chart").forEach((el) => {
+		const chartData = JSON.parse(el.dataset.chart || "{}");
+		Highcharts.chart(el, chartData);
+	});
+</script>
+<div id={id} class="astro-chart" data-chart={JSON.stringify(chartData)}></div>

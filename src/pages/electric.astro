@@ -1,0 +1,25 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { filesToItems } from "@libs/commonTransformer";
+import Prose from "@components/Prose.astro";
+
+import { Debug } from "astro:components";
+const collection = Object.values(
+    import.meta.glob("@databases/*/electric/*.md", { eager: true }),
+);
+
+const model = "electric";
+const items = filesToItems(collection, model);
+const latest = items.sort((a, b) => b.date - a.date).at(0);
+
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+---
+
+<!-- <Debug answer={items} /> -->
+<Layout>
+    <!-- {latest.data.compiledContent()} -->
+    <Prose>
+        <Fragment set:html={latest.data.compiledContent()} />
+    </Prose>
+</Layout>

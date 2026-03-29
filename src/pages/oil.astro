@@ -1,19 +1,30 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import { Debug } from "astro:components";
+
 import { getCollection } from "astro:content";
 
 import CalendarTable from "@components/CalendarTable.astro";
-import { toTableItems } from "@libs/commonTransformer";
+import { toChart, toTableItems } from "@libs/commonTransformer";
+import Chart from "@components/Chart.astro";
 
 const model = "oil";
 const collection = await getCollection(model);
 
 const items = toTableItems(collection, model);
+const chart = toChart(items, "title", "zone1_price", 30, [
+    "Xăng RON 95-V",
+    "Xăng RON 95-III",
+    "Xăng E5 RON 92-II",
+    "Xăng E10 RON 95-III",
+    "DO 0,05S-II",
+]);
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
+<!-- <Debug answer={chart} /> -->
 <Layout>
     <div>
         <CalendarTable
@@ -23,6 +34,13 @@ const items = toTableItems(collection, model);
                 { key: "zone2_price", label: "Giá vùng 2" },
             ]}
             items={items}
-        />
+        >
+            <Chart
+                slot="chart"
+                id="oil-chart"
+                series={chart.series}
+                categories={chart.categories}
+            />
+        </CalendarTable>
     </div>
 </Layout>
