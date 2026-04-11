@@ -8,8 +8,8 @@ const gold = defineCollection({
         z.object({
             masp: z.string(),
             tensp: z.string(),
-            giaban: z.number(),
-            giamua: z.number(),
+            giaban: z.union([z.string(), z.number()]),
+            giamua: z.union([z.string(), z.number()]),
         })
     ),
 });
