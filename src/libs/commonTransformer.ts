@@ -26,7 +26,7 @@ export const filesToItems = (collection, model, type = "md") => collection.map((
 export const toChart = (collection, keyField, valueField, pageSize = 30, ids = []) => {
 
     let series = {};
-    const latest = collection.length > pageSize ? collection.sort((a, b) => b.date - a.date).slice(0, pageSize) : collection;
+    let latest = collection.sort((a, b) => b.date - a.date).slice(collection.length > pageSize ? -pageSize : 0);
     latest.map((record) => {
         record.data.forEach((item) => {
 

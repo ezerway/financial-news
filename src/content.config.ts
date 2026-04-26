@@ -30,21 +30,21 @@ const oil = defineCollection({
     ),
 });
 
-const soccer = defineCollection({
-    loader: glob({ pattern: '**/soccer/*.json', base: './databases' }),
-    schema: z.array(
-        z.object({
-            serie: z.string().optional(),
-            title: z.string().optional(),
-            sortTitle: z.string().optional(),
-            start: z.string().optional(),
-            startDate: z.string().optional(),
-            startTime: z.string().optional(),
-            winMarketOutcomePrices: z.array(z.string()).optional(),
-            drawMarketOutcomePrices: z.array(z.string()).optional(),
-            lossMarketOutcomePrices: z.array(z.string()).optional(),
-        })
-    ),
-});
+// const soccer = defineCollection({
+//     loader: glob({ pattern: '**/soccer/*.json', base: './databases' }),
+//     schema: z.array(
+//         z.object({
+//             serie: z.string().optional(),
+//             title: z.string().optional(),
+//             sortTitle: z.string().optional(),
+//             start: z.string().optional(),
+//             startDate: z.string().optional(),
+//             startTime: z.string().optional(),
+//             winMarketOutcomePrices: z.array(z.string()).optional(),
+//             drawMarketOutcomePrices: z.array(z.string()).optional(),
+//             lossMarketOutcomePrices: z.array(z.string()).optional(),
+//         })
+//     ),
+// });
 
 export const collections = { gold, oil };
