@@ -8,6 +8,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-  site: "https://ezerway.github.io",
-  base: "/financial-news"
+  site: "https://financial-news@ezerway.com",
+  base: "/"
 });
