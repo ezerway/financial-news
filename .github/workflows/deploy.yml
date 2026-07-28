@@ -34,10 +34,7 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
           pnpm run build
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
+      # 4. Deploy
       - name: Deploy files via Rsync
         uses: burnett01/rsync-deployments@v9
         with:
