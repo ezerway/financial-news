@@ -20,7 +20,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 9  # Or your preferred version
+          version: 11.2.2  # Or your preferred version
 
       # 2. Setup Node.js with pnpm caching
       - name: Setup Node.js
