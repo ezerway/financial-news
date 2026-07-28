@@ -1,0 +1,73 @@
+# Task Tracking & Feature Backlog
+
+## Task Legend
+- `[x]` Completed
+- `[/]` In Progress
+- `[ ]` Planned / Backlog
+
+---
+
+## Phase 1: Core Framework & Environment Setup
+- [x] Initialize Astro 6.x project with TypeScript support.
+- [x] Configure Tailwind CSS v4 (`@tailwindcss/vite` & `@tailwindcss/typography`).
+- [x] Set up pnpm package management (`pnpm@11.2.2`).
+- [x] Integrate Highcharts library (`highcharts^12.5.0`) for data visualization.
+- [x] Configure TypeScript path aliases (`@/*`, `@components/*`, `@layouts/*`, `@libs/*`).
+
+---
+
+## Phase 2: Data Schemas & Content Layer
+- [x] Define `databases/schema.ts` domain model interfaces for Gold, Petroleum, and Soccer.
+- [x] Configure `src/content.config.ts` Astro collections loader with Zod validation rules:
+  - [x] `gold` collection loader (`**/gold/*.json`).
+  - [x] `oil` collection loader (`**/oil/*.json`).
+  - [x] `soccer` collection loader (`**/soccer/*.json`).
+- [x] Implement glob dataset parser for Markdown electricity documents in `src/pages/electric.astro`.
+
+---
+
+## Phase 3: Data Transformers & Utility Libraries
+- [x] Create `src/libs/commonTransformer.ts`:
+  - [x] `toTableItems()` transformer parsing date/timestamp paths.
+  - [x] `filesToItems()` transformer for markdown content files.
+  - [x] `toChart()` transformer producing Highcharts categories and multi-series arrays.
+- [x] Create `src/libs/soccerTransformer.ts` for sports dataset structuring.
+
+---
+
+## Phase 4: UI Components & Page Layouts
+- [x] Develop main layout shell `src/layouts/Layout.astro`:
+  - [x] Dynamic navigation navbar mapping collections and markdown pages.
+  - [x] Dark mode color palette styling.
+  - [x] Mobile responsive drawer with `@tailwindplus/elements` integration.
+- [x] Implement reusable UI components:
+  - [x] `src/components/Table.astro` (generic data table grid).
+  - [x] `src/components/CalendarTable.astro` (calendar date picker & data switcher).
+  - [x] `src/components/Chart.astro` (client-side Highcharts wrapper).
+  - [x] `src/components/Prose.astro` (Tailwind typography container for markdown).
+- [x] Implement route pages:
+  - [x] `/` (Dashboard overview with Gold and Oil latest prices).
+  - [x] `/gold` (Gold analytics table & interactive Highchart).
+  - [x] `/oil` (Oil analytics table & interactive Highchart).
+  - [x] `/electric` (Electricity tariff markdown reader).
+  - [x] `/soccer` (Soccer odds grid).
+
+---
+
+## Phase 5: CI/CD & Production Deployment
+- [x] Create GitHub Actions workflow `.github/workflows/deploy.yml`:
+  - [x] Setup Node 24 and pnpm caching.
+  - [x] Frozen lockfile installation and Astro production build.
+  - [x] Rsync deployment over SSH to CloudPanel VPS (`htdocs/financial-news.ezerway.com/public`).
+- [x] Integrate `@astrojs/sitemap` to generate production sitemap index and routes (`sitemap-index.xml`) with `changefreq: 'daily'`.
+- [x] Create dynamic `src/pages/robots.txt.ts` endpoint referencing `sitemap-index.xml`.
+- [x] Add `<link rel="sitemap" href="/sitemap-index.xml" />` inside HTML `<head>` in `src/layouts/Layout.astro`.
+
+---
+
+## Phase 6: Upcoming Enhancements & Backlog
+- [ ] Add RSS / Atom feed generator for daily gold and fuel price updates.
+- [ ] Implement automated data scraper cron script to write daily folders into `./databases/YYYY-MM-DD/`.
+- [ ] Add export tools (CSV / Excel export) on `CalendarTable` component.
+- [ ] Implement percentage change indicators (+/- %) comparing current day prices to previous day.
+- [ ] Enhance mobile table horizontal scrolling and accessibility.
