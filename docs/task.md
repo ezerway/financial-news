@@ -65,7 +65,12 @@
 
 ---
 
-## Phase 6: Upcoming Enhancements & Backlog
+## Phase 6: Internationalization & Backlog
+- [x] Implement Internationalization (i18n) support:
+  - [x] Configure `astro.config.mjs` with `locales: ['vi', 'en']`, `defaultLocale: 'vi'`, `prefixDefaultLocale: false`.
+  - [x] Create `src/i18n/ui.ts` for Vietnamese and English UI translation dictionaries and path helpers.
+  - [x] Add dynamic locale switcher (VI / EN) in `Layout.astro` desktop & mobile navigation bars.
+  - [x] Create English localized route pages under `src/pages/en/` (`/en`, `/en/gold`, `/en/oil`, `/en/electric`, `/en/soccer`).
 - [ ] Add RSS / Atom feed generator for daily gold and fuel price updates.
 - [ ] Implement automated data scraper cron script to write daily folders into `./databases/YYYY-MM-DD/`.
 - [ ] Add export tools (CSV / Excel export) on `CalendarTable` component.

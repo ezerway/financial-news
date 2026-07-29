@@ -7,7 +7,7 @@ import { toTableItems, toChart } from "@libs/commonTransformer";
 import Chart from "@components/Chart.astro";
 import { useTranslations } from "@/i18n/ui";
 
-const currentLocale = (Astro.currentLocale || "vi") as "vi" | "en";
+const currentLocale = (Astro.currentLocale || "en") as "vi" | "en";
 const t = useTranslations(currentLocale);
 
 const model = "gold";

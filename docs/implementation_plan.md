@@ -117,13 +117,15 @@ When pushing changes to `main`:
 
 ---
 
-## 4. SEO & Search Engine Crawling (`@astrojs/sitemap` & `robots.txt`)
+## 5. Internationalization (i18n) Architecture
 
-The application configures search engine indexing and sitemap generation:
-- **Sitemap Configuration**: Registered in `astro.config.mjs` with integration `sitemap({ changefreq: 'daily' })` and canonical domain `site: "https://financial-news.ezerway.com"`.
-- **Sitemap Output**: Generates `sitemap-index.xml` and `sitemap-0.xml` (with `<changefreq>daily</changefreq>` on all route entries) in `./dist` upon executing `pnpm build`.
-- **Head Link Discovery**: Included `<link rel="sitemap" href="/sitemap-index.xml" />` in `src/layouts/Layout.astro` `<head>`.
-- **Robots Endpoint**: Dynamic endpoint [`src/pages/robots.txt.ts`](file:///Users/ezerway/PhpstormProjects/ezerway/finance/src/pages/robots.txt.ts) dynamically constructs `robots.txt` referencing `https://financial-news.ezerway.com/sitemap-index.xml`.
+The application supports multi-language rendering for Vietnamese (`vi`) and English (`en`):
+- **Configuration**: Configured in `astro.config.mjs` with `locales: ['vi', 'en']`, `defaultLocale: 'vi'`, and `routing: { prefixDefaultLocale: false }`.
+- **Default Locale Routes (`vi`)**: Routes do not have a locale prefix (`/`, `/gold`, `/oil`, `/electric`, `/soccer`).
+- **Secondary Locale Routes (`en`)**: Routes are prefixed under `/en/` (`/en`, `/en/gold`, `/en/oil`, `/en/electric`, `/en/soccer`).
+- **Translation Dictionary**: Maintained in `src/i18n/ui.ts` using `useTranslations(lang)` and path switcher helper `getLocalizedPath(path, lang)`.
+- **Language Switcher**: Built into desktop and mobile navigation headers in `src/layouts/Layout.astro`.
+
 
 
 

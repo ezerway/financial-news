@@ -6,7 +6,7 @@ import CalendarTable from "@components/CalendarTable.astro";
 import { toTableItems } from "@libs/soccerTransformer";
 import { useTranslations } from "@/i18n/ui";
 
-const currentLocale = (Astro.currentLocale || "vi") as "vi" | "en";
+const currentLocale = (Astro.currentLocale || "en") as "vi" | "en";
 const t = useTranslations(currentLocale);
 
 const model = "soccer";

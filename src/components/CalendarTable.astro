@@ -1,5 +1,6 @@
 ---
 import Table from "./Table.astro";
+import { useTranslations } from "@/i18n/ui";
 
 interface Props {
 	header?: Record<string, any>[];
@@ -7,13 +8,15 @@ interface Props {
 }
 
 const { items, header } = Astro.props;
+const currentLocale = (Astro.currentLocale || "vi") as "vi" | "en";
+const t = useTranslations(currentLocale);
 
 // Pass minimal data to client about which dates have records
 // Ensure it works nicely if items have identical dates (uniques only)
 const availableDates = [...new Set(items.map((i) => i.date))];
 ---
 
-<calendar-widget data-dates={JSON.stringify(availableDates)}>
+<calendar-widget data-dates={JSON.stringify(availableDates)} data-locale={currentLocale}>
 	<div
 		class="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200 dark:md:divide-white/10"
 	>
@@ -31,7 +34,7 @@ const availableDates = [...new Set(items.map((i) => i.date))];
 					type="button"
 					class="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500 dark:text-gray-400 dark:hover:text-white transition"
 				>
-					<span class="sr-only">Previous month</span>
+					<span class="sr-only">{t("calendar.prevMonth")}</span>
 					<svg viewBox="0 0 20 20" fill="currentColor" class="size-5"
 						><path
 							fill-rule="evenodd"
@@ -44,7 +47,7 @@ const availableDates = [...new Set(items.map((i) => i.date))];
 					type="button"
 					class="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500 dark:text-gray-400 dark:hover:text-white transition"
 				>
-					<span class="sr-only">Next month</span>
+					<span class="sr-only">{t("calendar.nextMonth")}</span>
 					<svg viewBox="0 0 20 20" fill="currentColor" class="size-5"
 						><path
 							fill-rule="evenodd"
@@ -77,7 +80,7 @@ const availableDates = [...new Set(items.map((i) => i.date))];
 						<Table
 							items={item.data}
 							header={header}
-							title={`Records for ${item.date}`}
+							title={`${t("calendar.recordsFor")} ${item.date}`}
 						/>
 					</div>
 				))
@@ -86,8 +89,7 @@ const availableDates = [...new Set(items.map((i) => i.date))];
 				id="empty-state"
 				class="text-sm text-gray-500 dark:text-gray-400 text-center py-8 hidden"
 			>
-				No records found for the selected date. Choose a highlighted
-				date in the calendar!
+				{t("calendar.noRecords")}
 			</p>
 		</section>
 	</div>
@@ -98,6 +100,7 @@ const availableDates = [...new Set(items.map((i) => i.date))];
 		connectedCallback() {
 			// Read data passed from the server
 			const availableDates = JSON.parse(this.dataset.dates || "[]");
+			const locale = this.dataset.locale === "vi" ? "vi-VN" : "en-US";
 
 			// DOM Elements
 			const titleEl = this.querySelector("#calendar-title")!;
@@ -128,8 +131,8 @@ const availableDates = [...new Set(items.map((i) => i.date))];
 			);
 
 			const render = () => {
-				// Format Title (e.g. "March 2026")
-				titleEl.textContent = currentMonth.toLocaleString("en-US", {
+				// Format Title (e.g. "Tháng 3 2026" or "March 2026")
+				titleEl.textContent = currentMonth.toLocaleString(locale, {
 					month: "long",
 					year: "numeric",
 				});
