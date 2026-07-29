@@ -3,7 +3,6 @@ import Layout from "@layouts/Layout.astro";
 import { filesToItems } from "@libs/commonTransformer";
 import Prose from "@components/Prose.astro";
 
-import { Debug } from "astro:components";
 const collection = Object.values(
     import.meta.glob("@databases/*/electric/*.md", { eager: true }),
 );
@@ -12,14 +11,19 @@ const model = "electric";
 const items = filesToItems(collection, model);
 const latest = items.sort((a, b) => b.date - a.date).at(0);
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const rawHtml = latest?.data?.compiledContent ? latest.data.compiledContent() : "";
+const sanitizedHtml = rawHtml
+    .replace(/http:\/\//gi, "https://")
+    .replace(/<a\s+([^>]*?)href=["']([^"']+)["']/gi, (match, p1, href) => {
+        if (href.startsWith("http") || href.endsWith(".pdf")) {
+            return `<a ${p1}href="${href}" rel="nofollow noopener noreferrer" target="_blank"`;
+        }
+        return match;
+    });
 ---
 
-<!-- <Debug answer={items} /> -->
 <Layout>
-    <!-- {latest.data.compiledContent()} -->
     <Prose>
-        <Fragment set:html={latest.data.compiledContent()} />
+        <Fragment set:html={sanitizedHtml} />
     </Prose>
 </Layout>
