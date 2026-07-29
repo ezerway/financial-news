@@ -10,12 +10,14 @@ export const ui = {
     'nav.dashboard': 'Bảng điều khiển',
     'nav.gold': 'Giá Vàng',
     'nav.oil': 'Giá Xăng Dầu',
+    'nav.gas': 'Giá Gas',
     'nav.electric': 'Giá Điện',
     'nav.soccer': 'Tỷ lệ Bóng đá',
 
     'title.dashboard': 'Bảng điều khiển',
     'title.gold': 'Thống kê Giá Vàng',
     'title.oil': 'Thống kê Giá Xăng Dầu',
+    'title.gas': 'Thống kê Giá Gas',
     'title.electric': 'Biểu giá & Thông tư Điện lực',
     'title.soccer': 'Tỷ lệ & Kèo Bóng đá',
 
@@ -27,6 +29,10 @@ export const ui = {
     'oil.name': 'Tên nhiên liệu',
     'oil.zone1': 'Giá Vùng 1 (VNĐ)',
     'oil.zone2': 'Giá Vùng 2 (VNĐ)',
+
+    'gas.title': 'Khu vực / Tỉnh thành',
+    'gas.type1': 'Bình 12kg (VNĐ)',
+    'gas.type2': 'Bình 45kg (VNĐ)',
 
     'soccer.league': 'Giải đấu',
     'soccer.match': 'Trận đấu',
@@ -48,12 +54,14 @@ export const ui = {
     'nav.dashboard': 'Dashboard',
     'nav.gold': 'Gold Prices',
     'nav.oil': 'Fuel Prices',
+    'nav.gas': 'Gas Prices',
     'nav.electric': 'Electricity Tariffs',
     'nav.soccer': 'Soccer Odds',
 
     'title.dashboard': 'Dashboard',
     'title.gold': 'Gold Price Analytics',
     'title.oil': 'Fuel Price Analytics',
+    'title.gas': 'Gas Price Analytics',
     'title.electric': 'Electricity Tariffs & Notices',
     'title.soccer': 'Soccer Odds & Matches',
 
@@ -65,6 +73,10 @@ export const ui = {
     'oil.name': 'Fuel Type',
     'oil.zone1': 'Zone 1 Price (VND)',
     'oil.zone2': 'Zone 2 Price (VND)',
+
+    'gas.title': 'Zone / City',
+    'gas.type1': '12kg Cylinder (VND)',
+    'gas.type2': '45kg Cylinder (VND)',
 
     'soccer.league': 'League',
     'soccer.match': 'Match',

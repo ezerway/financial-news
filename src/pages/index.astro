@@ -10,34 +10,44 @@ const t = useTranslations(currentLocale);
 
 const goldItems = toTableItems(await getCollection("gold"), "gold");
 const oilItems = toTableItems(await getCollection("oil"), "oil");
+const gasItems = toTableItems(await getCollection("gas"), "gas");
 ---
 
 <Layout>
-	<div class="flex flex-col gap-4">
-		<div class="flex flex-col sm:flex-row gap-2">
-			<div class="flex-1">
-				<Table
-					title={t("nav.gold")}
-					header={[
-						{ key: "masp", label: t("gold.code") },
-						{ key: "tensp", label: t("gold.name") },
-						{ key: "giamua", label: t("gold.buy") },
-						{ key: "giaban", label: t("gold.sell") },
-					]}
-					items={goldItems.at(-1)?.data || []}
-				/>
-			</div>
-			<div class="flex-1">
-				<Table
-					title={t("nav.oil")}
-					header={[
-						{ key: "title", label: t("oil.name") },
-						{ key: "zone1_price", label: t("oil.zone1") },
-						{ key: "zone2_price", label: t("oil.zone2") },
-					]}
-					items={oilItems.at(-1)?.data || []}
-				/>
-			</div>
+	<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+		<div>
+			<Table
+				title={t("nav.gold")}
+				header={[
+					{ key: "masp", label: t("gold.code") },
+					{ key: "tensp", label: t("gold.name") },
+					{ key: "giamua", label: t("gold.buy") },
+					{ key: "giaban", label: t("gold.sell") },
+				]}
+				items={goldItems.at(-1)?.data || []}
+			/>
+		</div>
+		<div>
+			<Table
+				title={t("nav.oil")}
+				header={[
+					{ key: "title", label: t("oil.name") },
+					{ key: "zone1_price", label: t("oil.zone1") },
+					{ key: "zone2_price", label: t("oil.zone2") },
+				]}
+				items={oilItems.at(-1)?.data || []}
+			/>
+		</div>
+		<div>
+			<Table
+				title={t("nav.gas")}
+				header={[
+					{ key: "title", label: t("gas.title") },
+					{ key: "type_1_price", label: t("gas.type1") },
+					{ key: "type_2_price", label: t("gas.type2") },
+				]}
+				items={gasItems.at(-1)?.data || []}
+			/>
 		</div>
 	</div>
 </Layout>

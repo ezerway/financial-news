@@ -27,3 +27,14 @@ export interface SoccerMatch {
   drawMarketOutcomePrices?: string[];
   lossMarketOutcomePrices?: string[];
 }
+
+export interface GasPrice {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  zone_id: number;
+  date: string;
+  title: string;
+  type_1_price: number;
+  type_2_price: number;
+}

@@ -1,0 +1,43 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+import CalendarTable from "@components/CalendarTable.astro";
+import { toChart, toTableItems } from "@libs/commonTransformer";
+import Chart from "@components/Chart.astro";
+import { useTranslations } from "@/i18n/ui";
+
+const currentLocale = (Astro.currentLocale || "en") as "vi" | "en";
+const t = useTranslations(currentLocale);
+
+const model = "gas";
+const collection = await getCollection(model);
+
+const items = toTableItems(collection, model);
+const chart = toChart(items, "title", "type_1_price", 30, [
+    "Hà Nội",
+    "Hồ Chí Minh",
+    "Đà Nẵng",
+    "Hải Phòng",
+]);
+---
+
+<Layout>
+    <div>
+        <CalendarTable
+            header={[
+                { key: "title", label: t("gas.title") },
+                { key: "type_1_price", label: t("gas.type1") },
+                { key: "type_2_price", label: t("gas.type2") },
+            ]}
+            items={items}
+        >
+            <Chart
+                slot="chart"
+                id="gas-chart"
+                series={chart.series}
+                categories={chart.categories}
+            />
+        </CalendarTable>
+    </div>
+</Layout>

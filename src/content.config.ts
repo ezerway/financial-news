@@ -30,6 +30,22 @@ const oil = defineCollection({
     ),
 });
 
+const gas = defineCollection({
+    loader: glob({ pattern: '**/gas/*.json', base: './databases' }),
+    schema: z.array(
+        z.object({
+            id: z.number(),
+            created_at: z.string(),
+            updated_at: z.string(),
+            zone_id: z.number(),
+            date: z.string(),
+            title: z.string(),
+            type_1_price: z.number(),
+            type_2_price: z.number(),
+        })
+    ),
+});
+
 const soccer = defineCollection({
     loader: glob({ pattern: '**/soccer/*.json', base: './databases' }),
     schema: z.array(
@@ -47,4 +63,4 @@ const soccer = defineCollection({
     ),
 });
 
-export const collections = { gold, oil, soccer };
+export const collections = { gold, oil, gas, soccer };

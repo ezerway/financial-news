@@ -133,7 +133,23 @@ Data is stored hierarchically in `./databases/YYYY-MM-DD/<collection>/<filename>
   }
   ```
 
-### 4.3 Electricity Collection (`electric`)
+### 4.3 Gas Collection (`gas`)
+- **Loader:** Glob pattern `**/gas/*.json`
+- **Schema:**
+  ```ts
+  {
+    id: number;
+    created_at: string;
+    updated_at: string;
+    zone_id: number;
+    date: string;
+    title: string;          // Zone / City name (e.g. Hà Nội, Hồ Chí Minh)
+    type_1_price: number;   // Price for 12kg gas cylinder in VND
+    type_2_price: number;   // Price for 45kg gas cylinder in VND
+  }
+  ```
+
+### 4.4 Electricity Collection (`electric`)
 - Loaded via `import.meta.glob("@databases/*/electric/*.md")` for rendering compiled HTML content.
 
 ---

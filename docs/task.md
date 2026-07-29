@@ -49,6 +49,7 @@
   - [x] `/` (Dashboard overview with Gold and Oil latest prices).
   - [x] `/gold` (Gold analytics table & interactive Highchart).
   - [x] `/oil` (Oil analytics table & interactive Highchart).
+  - [x] `/gas` (Gas price analytics for 12kg and 45kg cylinders).
   - [x] `/electric` (Electricity tariff markdown reader).
   - [x] `/soccer` (Soccer odds grid).
 
