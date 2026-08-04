@@ -1,7 +1,12 @@
 ---
 import "../styles/global.css";
 import { collections } from "@/content.config";
-import { useTranslations, getLocalizedPath, languages, type UIKey } from "@/i18n/ui";
+import {
+	useTranslations,
+	getLocalizedPath,
+	languages,
+	type UIKey,
+} from "@/i18n/ui";
 
 interface Props {
 	title?: string;
@@ -51,12 +56,12 @@ const navPages = Object.keys(collections).concat(mdPages);
 							<div class="flex shrink-0 items-center">
 								<a href={getLocalizedPath("/", currentLocale)}>
 									<img
-										src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+										src="/logo.svg"
 										alt="Ezer Way"
 										class="h-8 w-auto dark:hidden"
 									/>
 									<img
-										src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+										src="/logo.svg"
 										alt="Ezer Way"
 										class="h-8 w-auto not-dark:hidden"
 									/>
@@ -74,12 +79,21 @@ const navPages = Object.keys(collections).concat(mdPages);
 								>
 								{
 									navPages.map((collection) => {
-										const navKey = `nav.${collection}` as UIKey;
-										const isActive = currentPathname === collection;
+										const navKey =
+											`nav.${collection}` as UIKey;
+										const isActive =
+											currentPathname === collection;
 										return (
 											<a
-												href={getLocalizedPath(`/${collection}`, currentLocale)}
-												aria-current={isActive ? "page" : undefined}
+												href={getLocalizedPath(
+													`/${collection}`,
+													currentLocale,
+												)}
+												aria-current={
+													isActive
+														? "page"
+														: undefined
+												}
 												class={
 													isActive
 														? "inline-flex items-center border-b-2 border-indigo-600 px-1 pt-1 text-sm font-medium text-gray-900 dark:border-indigo-500 dark:text-white"
@@ -93,20 +107,31 @@ const navPages = Object.keys(collections).concat(mdPages);
 								}
 							</div>
 						</div>
-						<div class="hidden sm:ml-6 sm:flex sm:items-center sm:space-x-3">
+						<div
+							class="hidden sm:ml-6 sm:flex sm:items-center sm:space-x-3"
+						>
 							<!-- Language Toggler -->
-							<div class="inline-flex rounded-md shadow-xs" role="group">
+							<div
+								class="inline-flex rounded-md shadow-xs"
+								role="group"
+							>
 								<a
-									href={getLocalizedPath(Astro.url.pathname, 'vi')}
-									class={currentLocale === 'vi'
+									href={getLocalizedPath(
+										Astro.url.pathname,
+										"vi",
+									)}
+									class={currentLocale === "vi"
 										? "px-2.5 py-1 text-xs font-semibold text-white bg-indigo-600 rounded-l-md border border-indigo-600 dark:bg-indigo-500"
 										: "px-2.5 py-1 text-xs font-medium text-gray-700 bg-white rounded-l-md border border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700"}
 								>
 									VI
 								</a>
 								<a
-									href={getLocalizedPath(Astro.url.pathname, 'en')}
-									class={currentLocale === 'en'
+									href={getLocalizedPath(
+										Astro.url.pathname,
+										"en",
+									)}
+									class={currentLocale === "en"
 										? "px-2.5 py-1 text-xs font-semibold text-white bg-indigo-600 rounded-r-md border border-indigo-600 dark:bg-indigo-500"
 										: "px-2.5 py-1 text-xs font-medium text-gray-700 bg-white rounded-r-md border border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700"}
 								>
@@ -230,7 +255,10 @@ const navPages = Object.keys(collections).concat(mdPages);
 								const isActive = currentPathname === collection;
 								return (
 									<a
-										href={getLocalizedPath(`/${collection}`, currentLocale)}
+										href={getLocalizedPath(
+											`/${collection}`,
+											currentLocale,
+										)}
 										class={
 											isActive
 												? "block border-l-4 border-indigo-600 bg-indigo-50 py-2 pr-4 pl-3 text-base font-medium text-indigo-700 dark:border-indigo-500 dark:bg-indigo-600/10 dark:text-indigo-300"
@@ -270,16 +298,22 @@ const navPages = Object.keys(collections).concat(mdPages);
 							</div>
 							<div class="inline-flex rounded-md shadow-xs">
 								<a
-									href={getLocalizedPath(Astro.url.pathname, 'vi')}
-									class={currentLocale === 'vi'
+									href={getLocalizedPath(
+										Astro.url.pathname,
+										"vi",
+									)}
+									class={currentLocale === "vi"
 										? "px-2.5 py-1 text-xs font-semibold text-white bg-indigo-600 rounded-l-md border border-indigo-600 dark:bg-indigo-500"
 										: "px-2.5 py-1 text-xs font-medium text-gray-700 bg-white rounded-l-md border border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300"}
 								>
 									VI
 								</a>
 								<a
-									href={getLocalizedPath(Astro.url.pathname, 'en')}
-									class={currentLocale === 'en'
+									href={getLocalizedPath(
+										Astro.url.pathname,
+										"en",
+									)}
+									class={currentLocale === "en"
 										? "px-2.5 py-1 text-xs font-semibold text-white bg-indigo-600 rounded-r-md border border-indigo-600 dark:bg-indigo-500"
 										: "px-2.5 py-1 text-xs font-medium text-gray-700 bg-white rounded-r-md border border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300"}
 								>
