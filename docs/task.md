@@ -74,6 +74,32 @@
   - [x] Create English localized route pages under `src/pages/en/` (`/en`, `/en/gold`, `/en/oil`, `/en/electric`, `/en/soccer`, `/en/oil/widget`, `/en/gold/widget`).
   - [x] Internationalize `FuelSlider.astro` component with multi-language dictionary support (`slider.*`).
   - [x] Internationalize `GoldSlider.astro` component with multi-language dictionary support (`goldSlider.*`).
+
+---
+
+## Phase 7: SEO Optimization & Structured Data
+- [x] Comprehensive Meta Tags & Descriptions:
+  - [x] Add dynamic page titles and meta descriptions for all pages in both Vietnamese (`vi`) and English (`en`) in `src/i18n/ui.ts`.
+  - [x] Render `<meta name="description">`, `<meta name="robots">`, `<meta name="theme-color">`, `<meta name="author">` in `Layout.astro`.
+- [x] Canonical & Multilingual Hreflang Tags:
+  - [x] Add `<link rel="canonical">` referencing production URLs.
+  - [x] Add bidirectional `<link rel="alternate" hreflang="vi">`, `hreflang="en"`, and `hreflang="x-default">`.
+- [x] Social Cards (Open Graph & Twitter):
+  - [x] Implement `og:site_name`, `og:type`, `og:title`, `og:description`, `og:url`, `og:image`, `og:locale`.
+  - [x] Implement Twitter Cards (`twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`).
+- [x] Rich Snippets & Schema.org JSON-LD:
+  - [x] Inject `Organization`, `WebSite`, and dynamic `BreadcrumbList` JSON-LD payloads.
+- [x] Semantic Structure & UX:
+  - [x] Add semantic `<footer>` element with copyright, brand link, and sticky layout container.
+- [x] AI SEO & Generative Engine Optimization (GEO):
+  - [x] Create dynamic `/llms.txt` endpoint (`src/pages/llms.txt.ts`) providing LLM discovery index.
+  - [x] Create dynamic `/llms-full.txt` endpoint (`src/pages/llms-full.txt.ts`) serving raw pre-parsed Markdown price tables.
+  - [x] Configure AI crawler permissions in `src/pages/robots.txt.ts` (`GPTBot`, `ChatGPT-User`, `ClaudeBot`, `PerplexityBot`, `Google-Extended`, `Applebot-Extended`).
+  - [x] Add `<link rel="help" href="/llms.txt">` and Schema.org `DataFeed` / `Dataset` JSON-LD payloads.
+
+---
+
+## Phase 8: Backlog & Future Improvements
 - [ ] Add RSS / Atom feed generator for daily gold and fuel price updates.
 - [ ] Implement automated data scraper cron script to write daily folders into `./databases/YYYY-MM-DD/`.
 - [ ] Add export tools (CSV / Excel export) on `CalendarTable` component.

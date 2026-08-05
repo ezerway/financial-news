@@ -10,9 +10,12 @@ import {
 
 interface Props {
 	title?: string;
+	description?: string;
+	image?: string;
+	type?: "website" | "article";
 }
 
-const { title } = Astro.props;
+const { title, description, image = "/logo.svg", type = "website" } = Astro.props;
 const currentLocale = (Astro.currentLocale || "vi") as keyof typeof languages;
 const t = useTranslations(currentLocale);
 
@@ -22,23 +25,136 @@ const currentPathname =
 const isDashboard = currentPathname === "" || currentPathname === "en";
 
 const pageTitleKey = `title.${currentPathname || "dashboard"}` as UIKey;
-const displayTitle = title || t(pageTitleKey);
+const pageDescKey = `desc.${currentPathname || "dashboard"}` as UIKey;
+
+const displayTitle = title || t(pageTitleKey) || t("site.title");
+const displayDescription = description || t(pageDescKey) || t("site.description");
+
+const siteUrl = Astro.site ? Astro.site.origin : "https://financial-news.ezerway.com";
+const canonicalURL = new URL(Astro.url.pathname, siteUrl).href;
+
+const viURL = new URL(getLocalizedPath(Astro.url.pathname, "vi"), siteUrl).href;
+const enURL = new URL(getLocalizedPath(Astro.url.pathname, "en"), siteUrl).href;
+
+const imageUrl = image.startsWith("http") ? image : new URL(image, siteUrl).href;
+const ogLocale = currentLocale === "vi" ? "vi_VN" : "en_US";
 
 const mdPages = ["electric"];
 const navPages = Object.keys(collections).concat(mdPages);
+
+const schemaOrg = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      "name": "EzerWay Financial News",
+      "url": siteUrl,
+      "logo": `${siteUrl}/logo.svg`
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      "url": siteUrl,
+      "name": "EzerWay Financial News",
+      "publisher": { "@id": `${siteUrl}/#organization` },
+      "inLanguage": currentLocale
+    },
+    {
+      "@type": "DataFeed",
+      "@id": `${canonicalURL}#datafeed`,
+      "name": displayTitle,
+      "description": displayDescription,
+      "provider": { "@id": `${siteUrl}/#organization` },
+      "dataFeedElement": [
+        {
+          "@type": "DataFeedItem",
+          "dateModified": new Date().toISOString().split("T")[0],
+          "item": {
+            "@type": "Dataset",
+            "name": "Daily Financial Commodities & Utility Tariffs Vietnam",
+            "description": displayDescription,
+            "distribution": [
+              {
+                "@type": "DataDownload",
+                "encodingFormat": "text/markdown",
+                "contentUrl": `${siteUrl}/llms-full.txt`
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonicalURL}#breadcrumb`,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": t("nav.dashboard"),
+          "item": siteUrl
+        },
+        ...(!isDashboard ? [{
+          "@type": "ListItem",
+          "position": 2,
+          "name": displayTitle,
+          "item": canonicalURL
+        }] : [])
+      ]
+    }
+  ]
+};
 ---
 
 <html lang={currentLocale} class="h-full">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="referrer" content="no-referrer-when-downgrade" />
 		<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+
+		<!-- Basic SEO -->
+		<title>{displayTitle}</title>
+		<meta name="description" content={displayDescription} />
+		<link rel="canonical" href={canonicalURL} />
+		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+		<meta name="theme-color" content="#4f46e5" />
+		<meta name="author" content="EzerWay" />
+
+		<!-- AI & LLM Discovery Links -->
+		<link rel="help" type="text/markdown" href="/llms.txt" />
+		<link rel="alternate" type="text/markdown" href="/llms-full.txt" title="Full Text Data Snapshot for AI Agents" />
+		<meta name="ai-content-declaration" content="official financial data snapshots" />
+
+		<!-- Hreflang Tags -->
+		<link rel="alternate" hreflang="vi" href={viURL} />
+		<link rel="alternate" hreflang="en" href={enURL} />
+		<link rel="alternate" hreflang="x-default" href={viURL} />
+
+		<!-- OpenGraph / Facebook -->
+		<meta property="og:type" content={type} />
+		<meta property="og:site_name" content="EzerWay Financial News" />
+		<meta property="og:title" content={displayTitle} />
+		<meta property="og:description" content={displayDescription} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:image" content={imageUrl} />
+		<meta property="og:locale" content={ogLocale} />
+
+		<!-- Twitter Cards -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={displayTitle} />
+		<meta name="twitter:description" content={displayDescription} />
+		<meta name="twitter:image" content={imageUrl} />
+
+		<!-- Icons & Sitemap -->
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<link rel="sitemap" href="/sitemap-index.xml" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{displayTitle || "Finance News"}</title>
+
+		<!-- JSON-LD Structured Data -->
+		<script type="application/ld+json" is:inline set:html={JSON.stringify(schemaOrg)} />
 	</head>
 	<body
 		class="h-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
@@ -46,7 +162,7 @@ const navPages = Object.keys(collections).concat(mdPages);
 		<script
 			src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1"
 			type="module"></script>
-		<div class="min-h-full">
+		<div class="min-h-full flex flex-col">
 			<nav
 				class="border-b border-gray-200 bg-white dark:border-white/10 dark:bg-gray-900"
 			>
@@ -335,12 +451,20 @@ const navPages = Object.keys(collections).concat(mdPages);
 						</h1>
 					</div>
 				</header>
-				<main>
+				<main class="grow">
 					<div class="mx-auto max-w-full px-4 py-8 sm:px-6 lg:px-8">
 						<slot />
 					</div>
 				</main>
 			</div>
+
+			<footer class="mt-auto border-t border-gray-200 bg-white py-6 dark:border-white/10 dark:bg-gray-900">
+				<div class="mx-auto max-w-full px-4 text-center sm:px-6 lg:px-8">
+					<p class="text-sm text-gray-500 dark:text-gray-400">
+						&copy; {new Date().getFullYear()} <a href={siteUrl} class="font-medium text-indigo-600 hover:underline dark:text-indigo-400">EzerWay Financial News</a>. All rights reserved.
+					</p>
+				</div>
+			</footer>
 		</div>
 	</body>
 </html>
