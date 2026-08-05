@@ -1,0 +1,13 @@
+---
+import Layout from "@layouts/BlankLayout.astro";
+import { getCollection } from "astro:content";
+
+import GoldSlider from "@components/GoldSlider.astro";
+
+const model = "gold";
+const collection = await getCollection(model);
+---
+
+<Layout>
+    <GoldSlider collection={collection} date={new Date()} />
+</Layout>

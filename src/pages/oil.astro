@@ -32,6 +32,8 @@ const chart = toChart(items, "title", "zone1_price", 30, [
                 { key: "zone2_price", label: t("oil.zone2") },
             ]}
             items={items}
+            note={t("slider.footerNote")}
+            widget="/oil/widget"
         >
             <Chart
                 slot="chart"

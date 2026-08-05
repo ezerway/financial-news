@@ -1,0 +1,856 @@
+---
+// GoldSlider.astro
+import { useTranslations } from "@/i18n/ui";
+
+export interface GoldItem {
+	id: string;
+	short: string;
+	sub: string;
+	buy: string;
+	sell: string;
+}
+
+export interface Props {
+	collection: any[];
+	date: Date;
+}
+
+const { collection, date } = Astro.props;
+
+const currentLocale = (Astro.currentLocale || "vi") as "vi" | "en";
+const t = useTranslations(currentLocale);
+const numLocale = currentLocale === "en" ? "en-US" : "vi-VN";
+
+const goldData: GoldItem[] = collection
+	?.at(0)
+	.data.slice(0, 7)
+	.map((item: any) => {
+		return {
+			id: item.masp,
+			short: item.tensp,
+			sub: item.masp,
+			buy: item.giaban?.toLocaleString(numLocale),
+			sell: item.giamua?.toLocaleString(numLocale),
+		};
+	});
+
+const totalSlides = goldData.length + 1;
+
+const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
+	date.getMonth() + 1
+)
+	.toString()
+	.padStart(2, "0")}. ${date.getFullYear()}`;
+---
+
+<div class="gold-slider-container">
+	<div class="video-root">
+		<!-- Glow Effect Header -->
+		<div class="glow-bg"></div>
+
+		<!-- Header Section -->
+		<div class="header-section">
+			<div class="header-top">
+				<span class="header-title">{t("goldSlider.headerTitle")}</span>
+				<span class="live-badge">LIVE</span>
+			</div>
+			<div class="header-date">{displayDate}</div>
+			<div class="header-sub">
+				{t("goldSlider.headerSub")}
+			</div>
+
+			<!-- Indicators -->
+			<div class="indicators-wrap">
+				{
+					Array.from({ length: totalSlides }).map((_, idx) => (
+						<button
+							class="dot-btn"
+							data-target-index={idx}
+							aria-label={`Slide ${idx + 1}`}
+						/>
+					))
+				}
+				<div class="spacer"></div>
+				<div id="slide-counter" class="slide-counter">
+					1/{totalSlides}
+				</div>
+			</div>
+		</div>
+
+		<!-- Main Content Slide Area -->
+		<div class="content-area">
+			<!-- Single Gold Cards -->
+			{
+				goldData.map((item, index) => {
+					const diff = (parseFloat(item.sell) - parseFloat(item.buy))
+						.toFixed(3)
+						.slice(0, 5);
+					return (
+						<div
+							class="slide-card card-item"
+							data-slide-index={index}
+						>
+							<div class="card-header">
+								<div class="badge-icon">
+									{item.id.slice(0, 4)}
+								</div>
+								<div class="info-wrap">
+									<div class="item-short" title={item.short}>
+										{item.short}
+									</div>
+									<div class="item-sub">{item.sub}</div>
+								</div>
+							</div>
+
+							<div class="divider" />
+
+							<div class="price-grid">
+								<div class="price-box buy-box">
+									<div class="price-label buy-label">{t("goldSlider.buy")}</div>
+									<div class="price-value buy-value">
+										{item.buy}
+									</div>
+									<div class="price-unit buy-unit">
+										{t("goldSlider.unit")}
+									</div>
+								</div>
+
+								<div class="price-box sell-box">
+									<div class="price-label sell-label">
+										{t("goldSlider.sell")}
+									</div>
+									<div class="price-value sell-value">
+										{item.sell}
+									</div>
+									<div class="price-unit sell-unit">
+										{t("goldSlider.unit")}
+									</div>
+								</div>
+							</div>
+
+							<div class="card-footer-info">
+								<div class="diff-text">
+									{t("goldSlider.diffLabel")}{" "}
+									<span class="diff-num">
+										{diff} {t("goldSlider.unit")}
+									</span>
+								</div>
+								<div class="icon-arrow">↗</div>
+							</div>
+						</div>
+					);
+				})
+			}
+
+			<!-- Summary Table (Last Slide) -->
+			<div
+				class="slide-card table-summary"
+				data-slide-index={goldData.length}
+			>
+				<div class="table-top">
+					<div class="table-title">{t("goldSlider.summaryTitle")}</div>
+					<div class="table-date">{displayDate}</div>
+				</div>
+
+				<div class="table-cols">
+					<div class="col-type">{t("goldSlider.colType")}</div>
+					<div class="col-price col-buy">{t("goldSlider.buy")}</div>
+					<div class="col-price col-sell">{t("goldSlider.sell")}</div>
+				</div>
+
+				<div class="table-rows">
+					{
+						goldData.map((item) => (
+							<div class="table-row">
+								<div class="row-type">
+									<div class="row-short">{item.short}</div>
+									<div class="row-sub">{item.id}</div>
+								</div>
+								<div class="row-price buy-text">{item.buy}</div>
+								<div class="row-price sell-text">
+									{item.sell}
+								</div>
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</div>
+
+		<!-- Footer Section -->
+		<div class="footer-section">
+			<div class="footer-left">
+				<div class="au-badge">Au</div>
+				<div class="footer-info">
+					<div class="footer-title">{t("goldSlider.footerTitle")}</div>
+					<div class="footer-sub">financial-news.ezerway.com</div>
+				</div>
+			</div>
+			<div class="footer-ratio">{t("slider.source")}</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	* {
+		box-sizing: border-box;
+	}
+
+	.gold-slider-container {
+		min-height: 100vh;
+		background: #050a14;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 16px;
+		font-family:
+			-apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter",
+			"Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	}
+
+	.video-root {
+		width: 320px;
+		height: 568px;
+		background: #0b1220;
+		border-radius: 24px;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		box-shadow:
+			0 20px 60px rgba(0, 0, 0, 0.6),
+			0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+		flex-shrink: 0;
+		word-break: keep-all;
+		overflow-wrap: break-word;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	.glow-bg {
+		position: absolute;
+		top: -60px;
+		left: -40px;
+		width: 260px;
+		height: 260px;
+		background: radial-gradient(
+			60% 60% at 50% 50%,
+			rgba(246, 216, 122, 0.16) 0%,
+			rgba(0, 0, 0, 0) 70%
+		);
+		pointer-events: none;
+	}
+
+	/* Header Styles */
+	.header-section {
+		padding: 18px 16px 10px;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		position: relative;
+		z-index: 1;
+		overflow: hidden;
+		max-width: 100%;
+		width: 100%;
+		flex-shrink: 0;
+	}
+
+	.header-top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		max-width: 100%;
+		overflow: hidden;
+	}
+
+	.header-title {
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		color: #7b8cae;
+		line-height: 1;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.live-badge {
+		font-size: 10px;
+		font-weight: 600;
+		color: hsl(133, 71%, 71%);
+		background: #111d31;
+		border: 1px solid #1c2b45;
+		padding: 3px 7px;
+		border-radius: 999px;
+		line-height: 1;
+		white-space: nowrap;
+	}
+
+	.header-date {
+		font-size: 20px;
+		font-weight: 800;
+		color: #ffffff;
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.header-sub {
+		font-size: 11px;
+		font-weight: 500;
+		color: #4a5c7c;
+		line-height: 1;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	/* Indicators */
+	.indicators-wrap {
+		display: flex;
+		gap: 4px;
+		margin-top: 12px;
+		align-items: center;
+		width: 100%;
+		max-width: 100%;
+		overflow: hidden;
+	}
+
+	.dot-btn {
+		height: 4px;
+		border-radius: 999px;
+		border: 0;
+		padding: 0;
+		cursor: pointer;
+		transition: all 0.22s ease;
+		width: 4px;
+		background: #233145;
+		opacity: 0.9;
+		flex-shrink: 0;
+	}
+
+	.dot-btn.active {
+		width: 16px;
+		background: #f6d87a;
+		opacity: 1;
+	}
+
+	.spacer {
+		flex: 1;
+	}
+
+	.slide-counter {
+		font-size: 10px;
+		color: #3a4d6e;
+		font-weight: 600;
+		letter-spacing: 0.02em;
+		white-space: nowrap;
+	}
+
+	/* Content Area */
+	.content-area {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 6px 10px 10px;
+		width: 100%;
+		max-width: 100%;
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+
+	.slide-card {
+		display: none;
+		width: 300px;
+		max-width: 100%;
+		padding: 14px;
+		background: #162032;
+		border-radius: 18px;
+		border: 1px solid #1e2e4a;
+		overflow: hidden;
+		box-sizing: border-box;
+		flex-direction: column;
+	}
+
+	.slide-card.active {
+		display: flex;
+		animation: cardIn 0.32s ease;
+	}
+
+	@keyframes cardIn {
+		from {
+			transform: translateY(8px);
+			opacity: 0;
+		}
+		to {
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+
+	/* Card Item Details */
+	.card-header {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		width: 100%;
+		max-width: 100%;
+		overflow: hidden;
+		min-width: 0;
+	}
+
+	.badge-icon {
+		padding: 4px;
+		border-radius: 9px;
+		background: #1c2c48;
+		border: 1px solid #243654;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		font-size: 11px;
+		font-weight: 800;
+		color: #f6d87a;
+		letter-spacing: -0.02em;
+	}
+
+	.info-wrap {
+		min-width: 0;
+		flex: 1;
+		overflow: hidden;
+	}
+
+	.item-short {
+		font-size: 13px;
+		font-weight: 600;
+		color: #ffffff;
+		line-height: 1.2;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 100%;
+	}
+
+	.item-sub {
+		font-size: 11px;
+		font-weight: 500;
+		color: #5c708f;
+		line-height: 1.1;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		margin-top: 1px;
+	}
+
+	.purity-badge {
+		font-size: 10px;
+		font-weight: 700;
+		color: #2f4364;
+		background: #0e1a2d;
+		border: 1px solid #1b2b47;
+		padding: 4px 6px;
+		border-radius: 7px;
+		line-height: 1;
+		flex-shrink: 0;
+		white-space: nowrap;
+	}
+
+	.divider {
+		height: 1px;
+		background: linear-gradient(
+			90deg,
+			rgba(255, 255, 255, 0.06),
+			rgba(255, 255, 255, 0)
+		);
+		margin-top: 12px;
+		margin-bottom: 12px;
+		width: 100%;
+	}
+
+	.price-grid {
+		display: flex;
+		gap: 8px;
+		width: 100%;
+		max-width: 100%;
+		overflow: hidden;
+	}
+
+	.price-box {
+		flex: 1;
+		min-width: 0;
+		padding: 10px 8px;
+		border-radius: 12px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 6px;
+		overflow: hidden;
+		max-width: 100%;
+	}
+
+	.buy-box {
+		background: #0f1b2f;
+		border: 1px solid #1d2d4a;
+	}
+
+	.sell-box {
+		background: linear-gradient(180deg, #1b2740 0%, #121e34 100%);
+		border: 1px solid #2a3b5e;
+	}
+
+	.price-label {
+		font-size: 10px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		line-height: 1;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	.buy-label {
+		color: #6b7fa0;
+	}
+	.sell-label {
+		color: #bda76a;
+	}
+
+	.price-value {
+		font-size: 24px;
+		font-weight: 800;
+		line-height: 1;
+		letter-spacing: -0.03em;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: clip;
+	}
+
+	.buy-value {
+		color: #ffffff;
+	}
+	.sell-value {
+		color: #f6d87a;
+	}
+
+	.price-unit {
+		font-size: 9px;
+		font-weight: 600;
+		line-height: 1;
+		white-space: nowrap;
+	}
+
+	.buy-unit {
+		color: #2f405e;
+	}
+	.sell-unit {
+		color: #5a4f33;
+	}
+
+	.card-footer-info {
+		margin-top: 10px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		max-width: 100%;
+		overflow: hidden;
+	}
+
+	.diff-text {
+		font-size: 10px;
+		color: #3d4f6b;
+		font-weight: 500;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	.diff-num {
+		color: #5a7194;
+		font-weight: 700;
+	}
+
+	.icon-arrow {
+		width: 18px;
+		height: 18px;
+		border-radius: 6px;
+		background: #0e1a2d;
+		border: 1px solid #1d2e4e;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 10px;
+		color: #4a5e81;
+	}
+
+	/* Summary Table */
+	.table-top {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 10px;
+		width: 100%;
+		max-width: 100%;
+		overflow: hidden;
+	}
+
+	.table-title {
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		color: #7b8cae;
+		line-height: 1;
+	}
+
+	.table-date {
+		font-size: 10px;
+		font-weight: 600;
+		color: #2f425f;
+		white-space: nowrap;
+	}
+
+	.table-cols {
+		display: flex;
+		gap: 6px;
+		padding: 0 0 6px;
+		border-bottom: 1px solid #1d2d4a;
+		width: 100%;
+		max-width: 100%;
+		overflow: hidden;
+	}
+
+	.col-type {
+		flex: 1.2;
+		min-width: 0;
+		font-size: 10px;
+		font-weight: 700;
+		color: #4a5e81;
+		letter-spacing: 0.06em;
+	}
+
+	.col-price {
+		width: 66px;
+		flex-shrink: 0;
+		text-align: right;
+		font-size: 10px;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+	}
+
+	.col-buy {
+		color: #4a5e81;
+	}
+	.col-sell {
+		color: #8a7a4e;
+	}
+
+	.table-rows {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		max-width: 100%;
+	}
+
+	.table-row {
+		display: flex;
+		gap: 6px;
+		align-items: center;
+		height: 40px;
+		min-height: 40px;
+		border-bottom: 1px solid rgba(29, 45, 74, 0.7);
+		width: 100%;
+		max-width: 100%;
+		overflow: hidden;
+	}
+
+	.row-type {
+		flex: 1.2;
+		min-width: 0;
+		overflow: hidden;
+	}
+
+	.row-short {
+		font-size: 11px;
+		font-weight: 600;
+		color: #d6e0f0;
+		line-height: 1.1;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.row-sub {
+		font-size: 9px;
+		color: #3f5374;
+		line-height: 1;
+		margin-top: 2px;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	.row-price {
+		width: 66px;
+		flex-shrink: 0;
+		display: flex;
+		justify-content: flex-end;
+		min-width: 0;
+		overflow: hidden;
+		font-size: 12px;
+		font-weight: 800;
+		line-height: 1;
+		letter-spacing: -0.03em;
+		white-space: nowrap;
+	}
+
+	.buy-text {
+		color: #ffffff;
+	}
+	.sell-text {
+		color: #f6d87a;
+	}
+
+	/* Footer Styles */
+	.footer-section {
+		padding: 10px 16px 14px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		border-top: 1px solid rgba(255, 255, 255, 0.05);
+		width: 100%;
+		max-width: 100%;
+		overflow: hidden;
+		flex-shrink: 0;
+		background: rgba(0, 0, 0, 0.18);
+	}
+
+	.footer-left {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		min-width: 0;
+		overflow: hidden;
+	}
+
+	.au-badge {
+		width: 20px;
+		height: 20px;
+		border-radius: 6px;
+		background: #f6d87a;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 10px;
+		font-weight: 900;
+		color: #0b1220;
+		flex-shrink: 0;
+	}
+
+	.footer-info {
+		min-width: 0;
+		overflow: hidden;
+	}
+
+	.footer-title {
+		font-size: 10px;
+		font-weight: 700;
+		color: #c9d6ea;
+		line-height: 1;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.footer-sub {
+		font-size: 9px;
+		color: #3a4d6e;
+		line-height: 1;
+		margin-top: 2px;
+		white-space: nowrap;
+	}
+
+	.footer-ratio {
+		font-size: 9px;
+		color: #2c3d5a;
+		font-weight: 500;
+		white-space: nowrap;
+		flex-shrink: 0;
+	}
+</style>
+
+<script>
+	let currentIndex = 0;
+	let timer: number | null = null;
+	const totalSlides = document.querySelectorAll(".slide-card").length;
+
+	const slides = document.querySelectorAll(".slide-card");
+	const dots = document.querySelectorAll(".dot-btn");
+	const slideCounter = document.getElementById("slide-counter");
+
+	function getSlideInterval(index: number): number {
+		// Thời gian chờ ở trang tổng hợp dài hơn (3.8s), các trang chi tiết (2.6s)
+		return index === totalSlides - 1 ? 3800 : 2600;
+	}
+
+	function updateSlider(index: number) {
+		currentIndex = index;
+
+		// Cập nhật hiển thị thẻ active
+		slides.forEach((slide, idx) => {
+			if (idx === currentIndex) {
+				slide.classList.add("active");
+			} else {
+				slide.classList.remove("active");
+			}
+		});
+
+		// Cập nhật trạng thái các chấm chuyển slide
+		dots.forEach((dot, idx) => {
+			if (idx === currentIndex) {
+				dot.classList.add("active");
+			} else {
+				dot.classList.remove("active");
+			}
+		});
+
+		// Cập nhật số đếm slide (ví dụ: 1/7)
+		if (slideCounter) {
+			slideCounter.textContent = `${currentIndex + 1}/${totalSlides}`;
+		}
+	}
+
+	function startNextTimeout() {
+		stopTimeout();
+		const interval = getSlideInterval(currentIndex);
+		timer = window.setTimeout(() => {
+			const nextIndex = (currentIndex + 1) % totalSlides;
+			updateSlider(nextIndex);
+			startNextTimeout();
+		}, interval);
+	}
+
+	function stopTimeout() {
+		if (timer !== null) {
+			clearTimeout(timer);
+			timer = null;
+		}
+	}
+
+	// Lắng nghe sự kiện click trực tiếp vào chấm chọn trang
+	dots.forEach((dot) => {
+		dot.addEventListener("click", (e) => {
+			const target = e.currentTarget as HTMLElement;
+			const index = parseInt(
+				target.getAttribute("data-target-index") || "0",
+				10,
+			);
+			updateSlider(index);
+			startNextTimeout(); // Reset lại thời gian chờ tự động chuyển
+		});
+	});
+
+	// Khởi chạy slider khi tải trang
+	updateSlider(0);
+	startNextTimeout();
+</script>

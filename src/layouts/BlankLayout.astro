@@ -1,0 +1,54 @@
+---
+import "../styles/global.css";
+import {
+	useTranslations,
+	getLocalizedPath,
+	languages,
+	type UIKey,
+} from "@/i18n/ui";
+
+interface Props {
+	title?: string;
+}
+
+const { title } = Astro.props;
+const currentLocale = (Astro.currentLocale || "vi") as keyof typeof languages;
+const t = useTranslations(currentLocale);
+
+const currentPathname =
+	Astro.url.pathname.split("/").at(-1) ||
+	Astro.url.pathname.split("/").at(-2);
+
+const pageTitleKey = `title.${currentPathname || "dashboard"}` as UIKey;
+const displayTitle = title || t(pageTitleKey);
+---
+
+<html lang={currentLocale} class="h-full">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="referrer" content="no-referrer-when-downgrade" />
+		<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<link rel="sitemap" href="/sitemap-index.xml" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{displayTitle || "Finance News"}</title>
+	</head>
+	<body
+		class="h-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+	>
+		<div class="min-h-full">
+			<slot />
+		</div>
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
+</style>

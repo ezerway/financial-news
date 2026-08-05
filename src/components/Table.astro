@@ -4,9 +4,11 @@ interface Props {
 	items: any[];
 	title?: string;
 	description?: string;
+	note?: string;
+	widget?: string;
 }
 
-const { items, title, description, header } = Astro.props;
+const { items, title, description, note, header, widget } = Astro.props;
 const itemKeys = Object.keys(items.at(0) || []).map((h) => ({
 	label: h,
 	key: h,
@@ -30,19 +32,22 @@ const formatValue = (val: any) => {
 };
 ---
 
-<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-xs transition hover:shadow-md dark:border-white/10 dark:bg-gray-900/90">
+<div
+	class="rounded-2xl border border-gray-200 bg-white p-5 shadow-xs transition hover:shadow-md dark:border-white/10 dark:bg-gray-900/90"
+>
 	{
 		title && (
 			<div class="mb-4 flex items-center justify-between border-b border-gray-100 pb-3 dark:border-white/10">
 				<div>
 					<h2 class="flex items-center gap-2 text-base font-bold text-gray-900 dark:text-white">
 						<span class="size-2 rounded-full bg-indigo-600 dark:bg-indigo-400" />
-						{title}
+						{widget ? <a href={widget}>{title}</a> : title}
 					</h2>
 					{description && (
-						<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-							{description}
-						</p>
+						<p
+							class="mt-1 text-xs text-gray-500 dark:text-gray-400"
+							set:html={description}
+						/>
 					)}
 				</div>
 			</div>
@@ -50,8 +55,12 @@ const formatValue = (val: any) => {
 	}
 	<div class="flow-root">
 		<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-			<div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-				<table class="min-w-full divide-y divide-gray-200 dark:divide-white/10">
+			<div
+				class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8"
+			>
+				<table
+					class="min-w-full divide-y divide-gray-200 dark:divide-white/10"
+				>
 					<thead>
 						<tr class="bg-gray-50/80 dark:bg-white/[0.03]">
 							{
@@ -82,7 +91,11 @@ const formatValue = (val: any) => {
 													: "px-3 py-3.5 text-sm whitespace-nowrap text-gray-600 dark:text-gray-300"
 											}
 										>
-											<Fragment set:html={formatValue(item[h.key])} />
+											<Fragment
+												set:html={formatValue(
+													item[h.key],
+												)}
+											/>
 										</td>
 									))}
 								</tr>
@@ -93,4 +106,17 @@ const formatValue = (val: any) => {
 			</div>
 		</div>
 	</div>
+
+	{
+		note && (
+			<div class="mt-4 flex items-center justify-between border-t border-gray-100 pt-3 dark:border-white/10">
+				<div>
+					<p
+						class="mt-1 text-xs text-gray-500 dark:text-gray-400"
+						set:html={note}
+					/>
+				</div>
+			</div>
+		)
+	}
 </div>

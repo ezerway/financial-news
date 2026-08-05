@@ -5,9 +5,12 @@ import { useTranslations } from "@/i18n/ui";
 interface Props {
 	header?: Record<string, any>[];
 	items: any[];
+	description?: string;
+	note?: string;
+	widget?: string;
 }
 
-const { items, header } = Astro.props;
+const { items, header, description, note, widget } = Astro.props;
 const currentLocale = (Astro.currentLocale || "vi") as "vi" | "en";
 const t = useTranslations(currentLocale);
 
@@ -16,7 +19,10 @@ const t = useTranslations(currentLocale);
 const availableDates = [...new Set(items.map((i) => i.date))];
 ---
 
-<calendar-widget data-dates={JSON.stringify(availableDates)} data-locale={currentLocale}>
+<calendar-widget
+	data-dates={JSON.stringify(availableDates)}
+	data-locale={currentLocale}
+>
 	<div
 		class="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200 dark:md:divide-white/10"
 	>
@@ -29,6 +35,7 @@ const availableDates = [...new Set(items.map((i) => i.date))];
 				>
 					<!-- Title Populated by JS -->
 				</h2>
+
 				<button
 					id="prev-month"
 					type="button"
@@ -80,7 +87,10 @@ const availableDates = [...new Set(items.map((i) => i.date))];
 						<Table
 							items={item.data}
 							header={header}
+							description={description}
+							note={note}
 							title={`${t("calendar.recordsFor")} ${item.date}`}
+							widget={widget}
 						/>
 					</div>
 				))

@@ -1,0 +1,13 @@
+---
+import Layout from "@layouts/BlankLayout.astro";
+import { getCollection } from "astro:content";
+
+import FuelSlider from "@components/FuelSlider.astro";
+
+const model = "oil";
+const collection = await getCollection(model);
+---
+
+<Layout>
+    <FuelSlider collection={collection} date={new Date()} />
+</Layout>

@@ -1,0 +1,978 @@
+---
+// FuelSlider.astro
+import { useTranslations } from "@/i18n/ui";
+
+export interface FuelItem {
+	id: string;
+	shortName: string;
+	sub: string | null;
+	type: "xang" | "dau";
+	v1: string;
+	v2: string;
+	v1n: number;
+	v2n: number;
+}
+
+export interface Props {
+	collection: any[];
+	date: Date;
+}
+
+const { collection, date } = Astro.props;
+
+const currentLocale = (Astro.currentLocale || "vi") as "vi" | "en";
+const t = useTranslations(currentLocale);
+const numLocale = currentLocale === "en" ? "en-US" : "vi-VN";
+
+const fuelData: FuelItem[] = collection?.at(0).data.map((item: any) => {
+	return {
+		id: item.title,
+		shortName: item.title,
+		sub: item.title,
+		type: item.title.includes("Xăng") ? "xang" : "dau",
+		v1: item.zone1_price?.toLocaleString(numLocale),
+		v2: item.zone2_price?.toLocaleString(numLocale),
+		v1n: item.zone1_price,
+		v2n: item.zone2_price,
+	};
+});
+
+const totalSlides = fuelData.length + 1;
+
+const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
+	date.getMonth() + 1
+)
+	.toString()
+	.padStart(2, "0")}. ${date.getFullYear()}`;
+---
+
+<div class="slider-wrapper">
+	<div id="capture-target" class="slider-card">
+		<!-- Header -->
+		<div class="card-header">
+			<div class="header-content">
+				<div class="header-info">
+					<div class="header-tag">{t("slider.headerTag")}</div>
+					<div class="header-date">{displayDate}</div>
+					<div class="header-sub">
+						{t("slider.headerSub")}
+					</div>
+				</div>
+				<div class="header-icon">⛽</div>
+			</div>
+		</div>
+
+		<!-- Progress Bar -->
+		<div class="progress-container">
+			<div id="progress-bar" class="progress-bar"></div>
+		</div>
+
+		<!-- Main Content -->
+		<div class="card-body">
+			<div class="content-box">
+				<!-- Single Item Views -->
+				{
+					fuelData.map((item, index) => {
+						const isDau = item.type === "dau";
+						const accentColor = isDau ? "#fbbf24" : "#38bdf8";
+						const bgColor = isDau
+							? "rgba(251,191,36,0.15)"
+							: "rgba(56,189,248,0.15)";
+						const diff = (item.v2n - item.v1n).toLocaleString(
+							numLocale,
+						);
+
+						return (
+							<div
+								class="slide-item single-item"
+								data-slide-index={index}
+								data-type={item.type}
+								style={`--accent: ${accentColor}; --accent-bg: ${bgColor};`}
+							>
+								<div class="item-header">
+									<div class="type-icon">
+										{isDau ? "🛢️" : "⛽"}
+									</div>
+									<div class="item-title-wrap">
+										<div
+											class="item-name"
+											title={item.shortName}
+										>
+											{item.shortName}
+										</div>
+										<div class="item-sub">
+											{item.sub
+												? item.sub
+												: isDau
+													? t("slider.subDiesel")
+													: t("slider.subGasoline")}
+										</div>
+									</div>
+									<div class="item-badge">
+										{String(index + 1).padStart(2, "0")}/
+										{String(fuelData.length).padStart(
+											2,
+											"0",
+										)}
+									</div>
+								</div>
+
+								<div class="prices-grid">
+									<div class="price-card">
+										<div class="price-label">
+											{t("slider.zone1")}
+										</div>
+										<div
+											class="price-value"
+											style="color: #ffffff;"
+										>
+											{item.v1}
+										</div>
+										<div class="price-unit">
+											{t("slider.unit")}
+										</div>
+									</div>
+									<div class="price-card">
+										<div class="price-label">
+											{t("slider.zone2")}
+										</div>
+										<div
+											class="price-value"
+											style={`color: ${accentColor};`}
+										>
+											{item.v2}
+										</div>
+										<div class="price-unit">
+											{t("slider.unit")}
+										</div>
+									</div>
+								</div>
+
+								<div class="diff-box">
+									<div class="diff-label">
+										{t("slider.diffLabel")}
+									</div>
+									<div class="diff-value">
+										+{diff} {t("slider.currencySymbol")}
+									</div>
+									<div class="spacer" />
+									<div class="diff-sub">
+										{t("slider.diffSub")}
+									</div>
+								</div>
+							</div>
+						);
+					})
+				}
+
+				<!-- Summary Table View (Last Slide) -->
+				<div
+					class="slide-item summary-table"
+					data-slide-index={fuelData.length}
+				>
+					<div class="table-header-top">
+						<div class="table-title">
+							{t("slider.summaryTitle")}
+						</div>
+						<div class="table-count">
+							{fuelData.length}
+							{t("slider.summaryCount")}
+						</div>
+					</div>
+					<div class="table-columns">
+						<div class="col-type">{t("slider.colType")}</div>
+						<div class="col-v1">{t("slider.zone1")}</div>
+						<div class="col-v2">{t("slider.zone2")}</div>
+					</div>
+					<div class="table-rows">
+						{
+							fuelData.map((item) => (
+								<div class="table-row">
+									<div class="row-type">
+										<span
+											class="type-dot"
+											style={`background: ${item.type === "dau" ? "#fbbf24" : "#38bdf8"};`}
+										/>
+										<span
+											class="type-name"
+											title={item.shortName}
+										>
+											{item.shortName}
+										</span>
+									</div>
+									<div class="row-v1">{item.v1}</div>
+									<div
+										class="row-v2"
+										style={`color: ${item.type === "dau" ? "#fbbf24" : "#38bdf8"};`}
+									>
+										{item.v2}
+									</div>
+								</div>
+							))
+						}
+					</div>
+				</div>
+			</div>
+
+			<!-- Indicators -->
+			<div class="indicators">
+				{
+					Array.from({ length: totalSlides }).map((_, idx) => (
+						<button
+							class="indicator-dot"
+							data-target-index={idx}
+							aria-label={`Slide ${idx + 1}`}
+						/>
+					))
+				}
+			</div>
+
+			<!-- Footer Info -->
+			<div class="footer-note">
+				<span id="footer-text" set:html={t("slider.footerNote")} />
+			</div>
+		</div>
+
+		<!-- Card Footer -->
+		<div class="card-footer">
+			<div class="footer-source">
+				<span class="status-dot"></span>
+				<span class="source-text">{t("slider.source")}</span>
+			</div>
+			<div id="slide-counter" class="slide-counter">01/07</div>
+		</div>
+
+		<!-- Background Glow -->
+		<div class="glow-effect"></div>
+	</div>
+</div>
+<canvas class="hidden w-[320px] h-142" width="320" height="568" id="canvas"
+></canvas>
+<div class="flex justify-center py-4">
+	<video class="hidden w-[320px] h-142" controls id="video"></video>
+</div>
+<style>
+	* {
+		box-sizing: border-box;
+	}
+
+	.slider-wrapper {
+		min-height: 100vh;
+		background: #050a14;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 16px;
+		font-family:
+			-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	}
+
+	.slider-card {
+		width: 320px;
+		height: 568px;
+		background: #0b1220;
+		border-radius: 24px;
+		overflow: hidden;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		border: 1px solid #1a2744;
+		box-shadow:
+			0 20px 60px rgba(0, 0, 0, 0.6),
+			0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+		flex-shrink: 0;
+	}
+
+	.card-header {
+		padding: 18px 16px 14px 16px;
+		width: 320px;
+		max-width: 320px;
+		overflow: hidden;
+	}
+
+	.header-content {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		gap: 8px;
+		width: 100%;
+		max-width: 288px;
+	}
+
+	.header-info {
+		min-width: 0;
+		flex: 1;
+	}
+
+	.header-tag {
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 1.6px;
+		color: #fbbf24;
+		line-height: 14px;
+		text-transform: uppercase;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.header-date {
+		font-size: 20px;
+		font-weight: 800;
+		color: #ffffff;
+		line-height: 24px;
+		margin-top: 4px;
+		letter-spacing: -0.3px;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.header-sub {
+		font-size: 10px;
+		font-weight: 500;
+		color: #6b7a94;
+		margin-top: 3px;
+		line-height: 12px;
+	}
+
+	.header-icon {
+		width: 34px;
+		height: 34px;
+		border-radius: 10px;
+		background: #162032;
+		border: 1px solid #1f2e4a;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		font-size: 16px;
+	}
+
+	.progress-container {
+		width: 320px;
+		height: 2px;
+		background: #162032;
+		position: relative;
+		overflow: hidden;
+		flex-shrink: 0;
+	}
+
+	.progress-bar {
+		height: 100%;
+		width: 0%;
+		background: #38bdf8;
+	}
+
+	.progress-bar.animate {
+		animation: prog 3s linear forwards;
+	}
+
+	@keyframes prog {
+		from {
+			width: 0%;
+		}
+		to {
+			width: 100%;
+		}
+	}
+
+	@keyframes fadeUp {
+		from {
+			opacity: 0;
+			transform: translateY(6px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.card-body {
+		flex: 1;
+		width: 320px;
+		padding: 12px 10px 10px 10px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		overflow: hidden;
+		min-height: 0;
+	}
+
+	.content-box {
+		width: 300px;
+		max-width: 300px;
+		background: #162032;
+		border: 1px solid #1f2e4a;
+		border-radius: 16px;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
+		position: relative;
+		height: 230px;
+	}
+
+	.slide-item {
+		display: none;
+		width: 100%;
+		max-width: 300px;
+		padding: 14px 12px 12px 12px;
+		overflow: hidden;
+	}
+
+	.slide-item.active {
+		display: flex;
+		flex-direction: column;
+		animation: fadeUp 0.35s ease;
+		/* animation: fadeUp 0.1s ease; */
+	}
+
+	/* Single Item Styles */
+	.item-header {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		width: 100%;
+		max-width: 274px;
+		overflow: hidden;
+		min-width: 0;
+	}
+
+	.type-icon {
+		width: 36px;
+		height: 36px;
+		border-radius: 11px;
+		background: var(--accent-bg);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 18px;
+		flex-shrink: 0;
+	}
+
+	.item-title-wrap {
+		min-width: 0;
+		flex: 1;
+		overflow: hidden;
+	}
+
+	.item-name {
+		font-size: 13px;
+		font-weight: 700;
+		color: #e2e8f0;
+		line-height: 16px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		width: 100%;
+	}
+
+	.item-sub {
+		font-size: 11px;
+		font-weight: 500;
+		color: #7a8aaa;
+		line-height: 13px;
+		margin-top: 2px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.item-badge {
+		font-size: 10px;
+		font-weight: 700;
+		color: var(--accent);
+		background: var(--accent-bg);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		padding: 3px 6px;
+		border-radius: 6px;
+		flex-shrink: 0;
+		letter-spacing: 0.3px;
+	}
+
+	.prices-grid {
+		display: flex;
+		gap: 8px;
+		margin-top: 14px;
+		width: 100%;
+		max-width: 274px;
+	}
+
+	.price-card {
+		flex: 1;
+		min-width: 0;
+		background: #0f1a2e;
+		border-radius: 12px;
+		padding: 10px 8px;
+		border: 1px solid rgba(255, 255, 255, 0.06);
+		overflow: hidden;
+	}
+
+	.price-label {
+		font-size: 10px;
+		font-weight: 600;
+		color: #6b7a94;
+		letter-spacing: 0.5px;
+		text-transform: uppercase;
+		line-height: 12px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.price-value {
+		font-size: 24px;
+		font-weight: 800;
+		line-height: 26px;
+		margin-top: 6px;
+		font-variant-numeric: tabular-nums;
+		letter-spacing: -0.5px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.price-unit {
+		font-size: 9px;
+		color: #4b5a75;
+		margin-top: 4px;
+		font-weight: 600;
+		letter-spacing: 0.2px;
+	}
+
+	.diff-box {
+		margin-top: 10px;
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		background: rgba(255, 255, 255, 0.03);
+		border: 1px dashed rgba(255, 255, 255, 0.08);
+		border-radius: 8px;
+		padding: 7px 8px;
+		width: 100%;
+		max-width: 274px;
+		overflow: hidden;
+	}
+
+	.diff-label {
+		font-size: 10px;
+		color: #7a8aaa;
+		font-weight: 500;
+		white-space: nowrap;
+	}
+	.diff-value {
+		font-size: 11px;
+		font-weight: 700;
+		color: #cbd5e1;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.spacer {
+		flex: 1;
+	}
+	.diff-sub {
+		font-size: 9px;
+		color: #4b5a75;
+		font-weight: 600;
+		white-space: nowrap;
+	}
+
+	/* Summary Table Styles */
+	.slide-item.summary-table {
+		padding: 0;
+	}
+
+	.table-header-top {
+		padding: 12px 12px 8px 12px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: 1px solid #1f2e4a;
+		width: 100%;
+	}
+
+	.table-title {
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 0.8px;
+		color: #fbbf24;
+		text-transform: uppercase;
+	}
+	.table-count {
+		font-size: 9px;
+		font-weight: 600;
+		color: #6b7a94;
+		background: #0f1a2e;
+		border-radius: 5px;
+		padding: 2px 5px;
+	}
+
+	.table-columns {
+		display: flex;
+		width: 100%;
+		padding: 6px 12px;
+		gap: 4px;
+		background: #0f1a2e;
+		border-bottom: 1px solid #1f2e4a;
+		font-size: 9px;
+		font-weight: 700;
+		color: #5a6b8a;
+		letter-spacing: 0.4px;
+		text-transform: uppercase;
+	}
+
+	.col-type {
+		width: 44%;
+	}
+	.col-v1 {
+		width: 28%;
+		text-align: right;
+	}
+	.col-v2 {
+		width: 28%;
+		text-align: right;
+	}
+
+	.table-rows {
+		width: 100%;
+	}
+	.table-row {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		height: 28px;
+		padding: 0 12px;
+		gap: 4px;
+		border-bottom: 1px solid rgba(31, 46, 74, 0.6);
+		overflow: hidden;
+	}
+
+	.row-type {
+		width: 44%;
+		min-width: 0;
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		gap: 5px;
+	}
+	.type-dot {
+		width: 6px;
+		height: 6px;
+		border-radius: 3px;
+		flex-shrink: 0;
+	}
+	.type-name {
+		font-size: 11px;
+		font-weight: 600;
+		color: #e2e8f0;
+		line-height: 12px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.row-v1 {
+		width: 28%;
+		font-size: 11px;
+		font-weight: 700;
+		color: #ffffff;
+		text-align: right;
+		font-variant-numeric: tabular-nums;
+	}
+	.row-v2 {
+		width: 28%;
+		font-size: 11px;
+		font-weight: 800;
+		text-align: right;
+		font-variant-numeric: tabular-nums;
+	}
+
+	/* Indicators */
+	.indicators {
+		display: flex;
+		gap: 6px;
+		margin-top: 12px;
+		align-items: center;
+		justify-content: center;
+		width: 300px;
+		max-width: 300px;
+		flex-wrap: wrap;
+	}
+
+	.indicator-dot {
+		width: 6px;
+		height: 6px;
+		border-radius: 999px;
+		border: none;
+		background: #2a3a5a;
+		cursor: pointer;
+		padding: 0;
+		transition: all 0.25s ease;
+		flex-shrink: 0;
+	}
+
+	.indicator-dot.active {
+		width: 18px;
+		background: #38bdf8;
+	}
+
+	.footer-note {
+		margin-top: 10px;
+		width: 300px;
+		max-width: 300px;
+		display: flex;
+		justify-content: center;
+		overflow: hidden;
+	}
+
+	.footer-note span {
+		font-size: 9px;
+		font-weight: 500;
+		color: #3d4f6b;
+	}
+
+	.card-footer {
+		width: 320px;
+		max-width: 320px;
+		height: 36px;
+		border-top: 1px solid #162032;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 16px;
+		overflow: hidden;
+		flex-shrink: 0;
+	}
+
+	.footer-source {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		min-width: 0;
+		overflow: hidden;
+	}
+
+	.status-dot {
+		width: 4px;
+		height: 4px;
+		border-radius: 2px;
+		background: #22c55e;
+		flex-shrink: 0;
+	}
+
+	.source-text {
+		font-size: 9px;
+		font-weight: 600;
+		color: #5a6b8a;
+		letter-spacing: 0.3px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.slide-counter {
+		font-size: 9px;
+		font-weight: 700;
+		color: #3d4f6b;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+		flex-shrink: 0;
+	}
+
+	.glow-effect {
+		position: absolute;
+		top: -40px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 200px;
+		height: 200px;
+		background: radial-gradient(
+			circle,
+			rgba(56, 189, 248, 0.12) 0%,
+			transparent 70%
+		);
+		pointer-events: none;
+	}
+</style>
+
+<script>
+	let currentIndex = 0;
+	const totalSlides = document.querySelectorAll(".slide-item").length;
+	const slideInterval = 3000;
+	let timer: number | null = null;
+
+	const slides = document.querySelectorAll(".slide-item");
+	const dots = document.querySelectorAll(".indicator-dot");
+	const progressBar = document.getElementById("progress-bar");
+	const slideCounter = document.getElementById("slide-counter");
+
+	function updateSlider(index: number) {
+		currentIndex = index;
+
+		// Update active slide
+		slides.forEach((slide, idx) => {
+			if (idx === currentIndex) {
+				slide.classList.add("active");
+			} else {
+				slide.classList.remove("active");
+			}
+		});
+
+		// Update indicators
+		dots.forEach((dot, idx) => {
+			const fuelType = slides[idx]?.dataset.type || "table";
+			const activeColor =
+				fuelType === "dau"
+					? "#fbbf24"
+					: fuelType === "table"
+						? "#94a3b8"
+						: "#38bdf8";
+
+			if (idx === currentIndex) {
+				dot.classList.add("active");
+				(dot as HTMLElement).style.background = activeColor;
+			} else {
+				dot.classList.remove("active");
+				(dot as HTMLElement).style.background = "#2a3a5a";
+			}
+		});
+
+		// Reset & restart progress bar animation
+		if (progressBar) {
+			progressBar.classList.remove("animate");
+			// Trigger reflow
+			void progressBar.offsetWidth;
+			progressBar.classList.add("animate");
+
+			// Set progress bar color matching current item
+			const isSummary = currentIndex === totalSlides - 1;
+			const isDau = slides[currentIndex]?.dataset.type === "dau";
+			progressBar.style.background = isSummary
+				? "#94a3b8"
+				: isDau
+					? "#fbbf24"
+					: "#38bdf8";
+		}
+
+		if (slideCounter) {
+			slideCounter.textContent = `${String(currentIndex + 1).padStart(
+				2,
+				"0",
+			)}/${totalSlides.toString().padStart(2, "0")}`;
+		}
+	}
+
+	function startTimer() {
+		stopTimer();
+		timer = window.setInterval(() => {
+			const nextIndex = (currentIndex + 1) % totalSlides;
+			updateSlider(nextIndex);
+		}, slideInterval);
+	}
+
+	function stopTimer() {
+		if (timer !== null) {
+			clearInterval(timer);
+			timer = null;
+		}
+	}
+
+	// Click event for dots
+	dots.forEach((dot) => {
+		dot.addEventListener("click", (e) => {
+			const target = e.currentTarget as HTMLElement;
+			const index = parseInt(
+				target.getAttribute("data-target-index") || "0",
+				10,
+			);
+			updateSlider(index);
+			startTimer(); // Restart timer on click
+		});
+	});
+
+	// Initialize
+	updateSlider(0);
+	startTimer();
+</script>
+
+<script type="module">
+	import domtoimage from "https://cdn.jsdelivr.net/npm/dom-to-image-more@3.10.2/+esm";
+
+	const target = document.getElementById("capture-target");
+	let canvas = document.querySelector("canvas");
+	let ctx = canvas.getContext("2d");
+	var video = document.querySelector("video");
+
+	let images = [];
+	let chunks = [];
+	let mediaRecorder;
+	let interval;
+
+	const start = async () => {
+		mediaRecorder = null;
+		let videoStream = canvas.captureStream(30);
+		mediaRecorder = new MediaRecorder(videoStream);
+		interval = setInterval(() => {
+			domtoimage
+				.toPng(target)
+				.then((dataUrl) => {
+					var base_img = new Image();
+					base_img.src = dataUrl;
+					base_img.onload = () => {
+						ctx.drawImage(base_img, 0, 0);
+						images.push(base_img);
+					};
+				})
+				.catch((error) => {
+					console.error("oops, something went wrong!", error);
+				});
+		}, 100);
+
+		chunks = [];
+		mediaRecorder.ondataavailable = (e) => {
+			chunks.push(e.data);
+		};
+		mediaRecorder.onstop = (e) => {
+			// mp4 or webm
+			let type = "video/mp4";
+			if (MediaRecorder.isTypeSupported("video/mp4;codecs=avc1")) {
+				type = "video/mp4;codecs=avc1";
+			} else if (MediaRecorder.isTypeSupported("video/mp4")) {
+				type = "video/mp4";
+			} else if (MediaRecorder.isTypeSupported("video/webm")) {
+				type = "video/webm";
+			}
+			var blob = new Blob(chunks, { type: type });
+			chunks = [];
+			var videoURL = URL.createObjectURL(blob);
+			video.src = videoURL;
+			video.classList.remove("hidden");
+			// download video
+			// const downloadLink = document.createElement("a");
+			// downloadLink.href = videoURL;
+			// downloadLink.download = `oil-${new Date().toLocaleDateString()}.mp4`;
+			// downloadLink.click();
+		};
+		mediaRecorder.start();
+	};
+
+	const stop = async () => {
+		clearInterval(interval);
+		mediaRecorder.stop();
+	};
+
+	const totalSlides = document.querySelectorAll(".slide-item").length;
+	const slideInterval = 3000;
+	const footerText = document.getElementById("footer-text");
+
+	footerText.addEventListener("click", () => {
+		start();
+		setTimeout(
+			() => {
+				stop();
+			},
+			5000 + slideInterval * totalSlides + 2000,
+		);
+	});
+</script>

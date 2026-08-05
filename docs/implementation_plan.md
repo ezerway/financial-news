@@ -122,8 +122,8 @@ When pushing changes to `main`:
 The application supports multi-language rendering for Vietnamese (`vi`) and English (`en`):
 - **Configuration**: Configured in `astro.config.mjs` with `locales: ['vi', 'en']`, `defaultLocale: 'vi'`, and `routing: { prefixDefaultLocale: false }`.
 - **Default Locale Routes (`vi`)**: Routes do not have a locale prefix (`/`, `/gold`, `/oil`, `/electric`, `/soccer`).
-- **Secondary Locale Routes (`en`)**: Routes are prefixed under `/en/` (`/en`, `/en/gold`, `/en/oil`, `/en/electric`, `/en/soccer`).
-- **Translation Dictionary**: Maintained in `src/i18n/ui.ts` using `useTranslations(lang)` and path switcher helper `getLocalizedPath(path, lang)`.
+- **Secondary Locale Routes (`en`)**: Routes are prefixed under `/en/` (`/en`, `/en/gold`, `/en/oil`, `/en/electric`, `/en/soccer`, `/en/oil/widget`, `/en/gold/widget`).
+- **Translation Dictionary**: Maintained in `src/i18n/ui.ts` using `useTranslations(lang)` and path switcher helper `getLocalizedPath(path, lang)`. Includes `slider.*` and `goldSlider.*` keys for fuel and gold slider widget localizations.
 - **Language Switcher**: Built into desktop and mobile navigation headers in `src/layouts/Layout.astro`.
 
 
