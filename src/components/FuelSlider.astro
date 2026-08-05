@@ -55,7 +55,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 					<div class="header-tag">{t("slider.headerTag")}</div>
 					<div class="header-date">{displayDate}</div>
 					<div class="header-sub">
-						{t("slider.headerSub")}
+						<!-- {t("slider.headerSub")} -->
 					</div>
 				</div>
 				<div class="header-icon">⛽</div>
@@ -408,7 +408,9 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		flex-direction: column;
 		min-height: 0;
 		position: relative;
-		height: 230px;
+		padding-top: 6px;
+		padding-bottom: 6px;
+		/* height: 280px; */
 	}
 
 	.slide-item {
@@ -727,7 +729,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.footer-note span {
-		font-size: 9px;
+		font-size: 8px;
 		font-weight: 500;
 		color: #3d4f6b;
 	}
@@ -915,7 +917,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		mediaRecorder = new MediaRecorder(videoStream);
 		interval = setInterval(() => {
 			domtoimage
-				.toPng(target)
+				.toSvg(target)
 				.then((dataUrl) => {
 					var base_img = new Image();
 					base_img.src = dataUrl;

@@ -44,7 +44,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 ---
 
 <div class="gold-slider-container">
-	<div class="video-root">
+	<div id="capture-target" class="video-root">
 		<!-- Glow Effect Header -->
 		<div class="glow-bg"></div>
 
@@ -106,7 +106,9 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 							<div class="price-grid">
 								<div class="price-box buy-box">
-									<div class="price-label buy-label">{t("goldSlider.buy")}</div>
+									<div class="price-label buy-label">
+										{t("goldSlider.buy")}
+									</div>
 									<div class="price-value buy-value">
 										{item.buy}
 									</div>
@@ -148,7 +150,9 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 				data-slide-index={goldData.length}
 			>
 				<div class="table-top">
-					<div class="table-title">{t("goldSlider.summaryTitle")}</div>
+					<div class="table-title">
+						{t("goldSlider.summaryTitle")}
+					</div>
 					<div class="table-date">{displayDate}</div>
 				</div>
 
@@ -182,7 +186,9 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 			<div class="footer-left">
 				<div class="au-badge">Au</div>
 				<div class="footer-info">
-					<div class="footer-title">{t("goldSlider.footerTitle")}</div>
+					<div class="footer-title">
+						{t("goldSlider.footerTitle")}
+					</div>
 					<div class="footer-sub">financial-news.ezerway.com</div>
 				</div>
 			</div>
@@ -191,6 +197,11 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	</div>
 </div>
 
+<canvas class="hidden w-[320px] h-142" width="320" height="568" id="canvas"
+></canvas>
+<div class="flex justify-center py-4">
+	<video class="hidden w-[320px] h-142" controls id="video"></video>
+</div>
 <style>
 	* {
 		box-sizing: border-box;
@@ -790,7 +801,8 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	function getSlideInterval(index: number): number {
 		// Thời gian chờ ở trang tổng hợp dài hơn (3.8s), các trang chi tiết (2.6s)
-		return index === totalSlides - 1 ? 3800 : 2600;
+		// return index === totalSlides - 1 ? 3800 : 2600;
+		return 3000;
 	}
 
 	function updateSlider(index: number) {
@@ -853,4 +865,85 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	// Khởi chạy slider khi tải trang
 	updateSlider(0);
 	startNextTimeout();
+</script>
+
+<script type="module">
+	import domtoimage from "https://cdn.jsdelivr.net/npm/dom-to-image-more@3.10.2/+esm";
+
+	const target = document.getElementById("capture-target");
+	let canvas = document.querySelector("canvas");
+	let ctx = canvas.getContext("2d");
+	var video = document.querySelector("video");
+
+	let images = [];
+	let chunks = [];
+	let mediaRecorder;
+	let interval;
+
+	const start = async () => {
+		mediaRecorder = null;
+		let videoStream = canvas.captureStream(30);
+		mediaRecorder = new MediaRecorder(videoStream);
+		interval = setInterval(() => {
+			domtoimage
+				.toSvg(target)
+				.then((dataUrl) => {
+					var base_img = new Image();
+					base_img.src = dataUrl;
+					base_img.onload = () => {
+						ctx.drawImage(base_img, 0, 0);
+						images.push(base_img);
+					};
+				})
+				.catch((error) => {
+					console.error("oops, something went wrong!", error);
+				});
+		}, 100);
+
+		chunks = [];
+		mediaRecorder.ondataavailable = (e) => {
+			chunks.push(e.data);
+		};
+		mediaRecorder.onstop = (e) => {
+			// mp4 or webm
+			let type = "video/mp4";
+			if (MediaRecorder.isTypeSupported("video/mp4;codecs=avc1")) {
+				type = "video/mp4;codecs=avc1";
+			} else if (MediaRecorder.isTypeSupported("video/mp4")) {
+				type = "video/mp4";
+			} else if (MediaRecorder.isTypeSupported("video/webm")) {
+				type = "video/webm";
+			}
+			var blob = new Blob(chunks, { type: type });
+			chunks = [];
+			var videoURL = URL.createObjectURL(blob);
+			video.src = videoURL;
+			video.classList.remove("hidden");
+			// download video
+			// const downloadLink = document.createElement("a");
+			// downloadLink.href = videoURL;
+			// downloadLink.download = `gold-${new Date().toLocaleDateString()}.mp4`;
+			// downloadLink.click();
+		};
+		mediaRecorder.start();
+	};
+
+	const stop = async () => {
+		clearInterval(interval);
+		mediaRecorder.stop();
+	};
+
+	const totalSlides = document.querySelectorAll(".slide-card").length;
+	const slideInterval = 3000;
+	const footerText = document.querySelector(".au-badge");
+
+	footerText.addEventListener("click", () => {
+		start();
+		setTimeout(
+			() => {
+				stop();
+			},
+			5000 + slideInterval * totalSlides,
+		);
+	});
 </script>
