@@ -2,7 +2,7 @@
 
 ## 1. High-Level System Architecture
 
-The **EzerWay Financial News** system follows a static-first data-driven architecture using Astro 6, Tailwind CSS v4, and Highcharts. The application reads date-partitioned file storage directly at build time to produce a fully static web interface hosted on a Linux VPS running CloudPanel.
+The **Financial News** system follows a static-first data-driven architecture using Astro 6, Tailwind CSS v4, and Highcharts. The application reads date-partitioned file storage directly at build time to produce a fully static web interface hosted on a Linux VPS running CloudPanel.
 
 ```
 ┌─────────────────────────────────────────────────────────┐

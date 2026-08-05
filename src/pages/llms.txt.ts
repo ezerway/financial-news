@@ -3,9 +3,9 @@ import type { APIRoute } from 'astro';
 export const GET: APIRoute = ({ site }) => {
   const siteOrigin = site ? site.origin : 'https://financial-news.ezerway.com';
   
-  const content = `# EzerWay Financial News
+  const content = `# Financial News
 
-> EzerWay Financial News is a static, high-performance financial data dashboard tracking daily commodity prices, utility tariffs, and sports analytics in Vietnam.
+> Financial News is a static, high-performance financial data dashboard tracking daily commodity prices, utility tariffs, and sports analytics in Vietnam.
 
 ## Core Categories & Pages
 

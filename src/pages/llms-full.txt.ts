@@ -34,7 +34,7 @@ export const GET: APIRoute = async ({ site }) => {
     )
     .join('\n');
 
-  const content = `# EzerWay Financial News - Full Text Data Snapshot
+  const content = `# Financial News - Full Text Data Snapshot
 
 > Source: ${siteOrigin}
 > License: Open Data for AI Search & Retrieval Indexing

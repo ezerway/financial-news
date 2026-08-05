@@ -2,11 +2,11 @@
 
 ## 1. Project Overview
 
-**Product Name:** EzerWay Financial News & Commodity Tracking System (`finance`)  
+**Product Name:** Financial News & Commodity Tracking System (`finance`)  
 **Repository:** `ezerway/financial-news`  
 **Target Domain:** `financial-news.ezerway.com`  
 
-The **EzerWay Financial News** system is a high-performance, lightweight web dashboard engineered to aggregate, transform, and visualize daily financial asset and commodity data in Vietnam. Key assets tracked include **Gold Prices (SJC, PNJ, Ring Gold)**, **Petroleum/Fuel Prices (Petrolimex Zone 1 & Zone 2)**, **Electricity Tariff Schedules**, and **Sports Betting Odds**.
+The **Financial News** system is a high-performance, lightweight web dashboard engineered to aggregate, transform, and visualize daily financial asset and commodity data in Vietnam. Key assets tracked include **Gold Prices (SJC, PNJ, Ring Gold)**, **Petroleum/Fuel Prices (Petrolimex Zone 1 & Zone 2)**, **Electricity Tariff Schedules**, and **Sports Betting Odds**.
 
 ---
 

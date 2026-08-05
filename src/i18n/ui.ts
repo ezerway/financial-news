@@ -14,14 +14,14 @@ export const ui = {
     'nav.electric': 'Giá Điện',
     'nav.soccer': 'Tỷ lệ Bóng đá',
 
-    'title.dashboard': 'Thống kê Giá Vàng & Xăng Dầu Hôm Nay - EzerWay Financial News',
-    'title.gold': 'Bảng Giá Vàng SJC, PNJ, 24K Hôm Nay - EzerWay Financial News',
-    'title.oil': 'Giá Xăng Dầu Petrolimex Vùng 1 & Vùng 2 - EzerWay Financial News',
-    'title.gas': 'Bảng Giá Gas 12kg & 45kg Tỉnh Thành - EzerWay Financial News',
-    'title.electric': 'Biểu Giá Điện & Thông Tư Pháp Quy - EzerWay Financial News',
-    'title.soccer': 'Tỷ Lệ Bóng Đá & Lịch Thi Đấu - EzerWay Financial News',
+    'title.dashboard': 'Thống kê Giá Vàng & Xăng Dầu Hôm Nay - Financial News',
+    'title.gold': 'Bảng Giá Vàng SJC, PNJ, 24K Hôm Nay - Financial News',
+    'title.oil': 'Giá Xăng Dầu Petrolimex Vùng 1 & Vùng 2 - Financial News',
+    'title.gas': 'Bảng Giá Gas 12kg & 45kg Tỉnh Thành - Financial News',
+    'title.electric': 'Biểu Giá Điện & Thông Tư Pháp Quy - Financial News',
+    'title.soccer': 'Tỷ Lệ Bóng Đá & Lịch Thi Đấu - Financial News',
 
-    'site.title': 'EzerWay Financial News - Thống kê Giá Vàng, Xăng Dầu & Thị trường',
+    'site.title': 'Financial News - Thống kê Giá Vàng, Xăng Dầu & Thị trường',
     'site.description': 'Hệ thống tra cứu giá vàng SJC, 24K, giá xăng dầu Petrolimex, giá gas, biểu giá điện lực và tỷ lệ bóng đá cập nhật hàng ngày tại Việt Nam.',
 
     'desc.dashboard': 'Trang tổng hợp giá vàng SJC, giá xăng dầu Petrolimex Vùng 1 & Vùng 2 và giá bình gas trực tuyến mới nhất hôm nay.',
@@ -94,14 +94,14 @@ export const ui = {
     'nav.electric': 'Electricity Tariffs',
     'nav.soccer': 'Soccer Odds',
 
-    'title.dashboard': 'Today Gold & Fuel Price Dashboard - EzerWay Financial News',
-    'title.gold': 'Live SJC & 24K Gold Price Analytics - EzerWay Financial News',
-    'title.oil': 'Petrolimex Fuel Rates (Zone 1 & 2) - EzerWay Financial News',
-    'title.gas': 'LPG Gas Cylinder Prices by Province - EzerWay Financial News',
-    'title.electric': 'Electricity Tariff Schedules & Policies - EzerWay Financial News',
-    'title.soccer': 'Soccer Odds & Match Schedules - EzerWay Financial News',
+    'title.dashboard': 'Today Gold & Fuel Price Dashboard - Financial News',
+    'title.gold': 'Live SJC & 24K Gold Price Analytics - Financial News',
+    'title.oil': 'Petrolimex Fuel Rates (Zone 1 & 2) - Financial News',
+    'title.gas': 'LPG Gas Cylinder Prices by Province - Financial News',
+    'title.electric': 'Electricity Tariff Schedules & Policies - Financial News',
+    'title.soccer': 'Soccer Odds & Match Schedules - Financial News',
 
-    'site.title': 'EzerWay Financial News - Gold Prices, Fuel Rates & Market Data',
+    'site.title': 'Financial News - Gold Prices, Fuel Rates & Market Data',
     'site.description': 'Real-time tracking dashboard for SJC gold prices, Petrolimex petroleum rates, LPG gas prices, electricity tariffs, and soccer betting odds in Vietnam.',
 
     'desc.dashboard': 'Live daily dashboard aggregating Vietnam SJC gold rates, Petrolimex fuel prices, and LPG gas cylinder prices.',
