@@ -22,7 +22,7 @@ const t = useTranslations(currentLocale);
 const numLocale = currentLocale === "en" ? "en-US" : "vi-VN";
 
 const goldData: GoldItem[] = collection
-	?.at(0)
+	?.at(-1)
 	.data.slice(0, 7)
 	.map((item: any) => {
 		return {
