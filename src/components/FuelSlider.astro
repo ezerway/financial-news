@@ -24,7 +24,7 @@ const currentLocale = (Astro.currentLocale || "vi") as "vi" | "en";
 const t = useTranslations(currentLocale);
 const numLocale = currentLocale === "en" ? "en-US" : "vi-VN";
 
-const fuelData: FuelItem[] = collection?.at(0).data.map((item: any) => {
+const fuelData: FuelItem[] = collection?.at(-1).data.map((item: any) => {
 	return {
 		id: item.title,
 		shortName: item.title,
