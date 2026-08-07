@@ -3,7 +3,11 @@ import Layout from "@layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
 import CalendarTable from "@components/CalendarTable.astro";
-import { toChart, toTableItems, attachComparison } from "@libs/commonTransformer";
+import {
+    toChart,
+    toTableItems,
+    attachComparison,
+} from "@libs/commonTransformer";
 import Chart from "@components/Chart.astro";
 import { useTranslations } from "@/i18n/ui";
 
@@ -13,7 +17,10 @@ const t = useTranslations(currentLocale);
 const model = "gas";
 const collection = await getCollection(model);
 
-const items = attachComparison(toTableItems(collection, model), "title", ["type_1_price", "type_2_price"]);
+const items = attachComparison(toTableItems(collection, model), "title", [
+    "type_1_price",
+    "type_2_price",
+]);
 const chart = toChart(items, "title", "type_1_price", 30, [
     "Hà Nội",
     "Hồ Chí Minh",
@@ -22,7 +29,7 @@ const chart = toChart(items, "title", "type_1_price", 30, [
 ]);
 ---
 
-<Layout>
+<Layout image="/images/gas-costs.svg">
     <div>
         <CalendarTable
             header={[
@@ -31,6 +38,7 @@ const chart = toChart(items, "title", "type_1_price", 30, [
                 { key: "type_2_price", label: t("gas.type2") },
             ]}
             items={items}
+            widget="/gas/widget"
         >
             <Chart
                 slot="chart"

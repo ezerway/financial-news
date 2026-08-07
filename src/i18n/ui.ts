@@ -85,6 +85,16 @@ export const ui = {
     'goldSlider.summaryTitle': 'TỔNG HỢP',
     'goldSlider.colType': 'LOẠI',
     'goldSlider.footerTitle': 'Giá vàng hôm nay',
+
+    'gasSlider.headerTitle': 'GIÁ GAS',
+    'gasSlider.headerSub': 'Đơn vị: VNĐ/bình • Cập nhật mới nhất',
+    'gasSlider.type1': 'BÌNH 12KG',
+    'gasSlider.type2': 'BÌNH 45KG',
+    'gasSlider.unit': 'VNĐ',
+    'gasSlider.diffLabel': 'Chênh lệch:',
+    'gasSlider.summaryTitle': 'TỔNG HỢP GIÁ GAS',
+    'gasSlider.colType': 'KHU VỰC',
+    'gasSlider.footerTitle': 'Giá gas hôm nay',
   },
   en: {
     'nav.dashboard': 'Dashboard',
@@ -165,6 +175,16 @@ export const ui = {
     'goldSlider.summaryTitle': 'SUMMARY',
     'goldSlider.colType': 'TYPE',
     'goldSlider.footerTitle': 'Gold prices today',
+
+    'gasSlider.headerTitle': 'GAS PRICES',
+    'gasSlider.headerSub': 'Unit: VND/cylinder • Latest update',
+    'gasSlider.type1': '12KG CYLINDER',
+    'gasSlider.type2': '45KG CYLINDER',
+    'gasSlider.unit': 'VND',
+    'gasSlider.diffLabel': 'Difference:',
+    'gasSlider.summaryTitle': 'GAS SUMMARY',
+    'gasSlider.colType': 'LOCATION',
+    'gasSlider.footerTitle': 'Gas prices today',
   },
 } as const;
 

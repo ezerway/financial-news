@@ -75,6 +75,7 @@
   - [x] Internationalize `FuelSlider.astro` component with multi-language dictionary support (`slider.*`).
   - [x] Add day-before price comparison indicators (`▲ +X` / `▼ -X`) to `GoldSlider.astro` widget component.
   - [x] Add day-before price comparison indicators (`▲ +X` / `▼ -X`) to `FuelSlider.astro` widget component.
+  - [x] Create `GasSlider.astro` component with 6 1-row horizontal item strips showing full province names & 2 summary slides for 34 provinces, day-before price comparison indicators (`▲ +X` / `▼ -X`), and dedicated `/gas/widget` & `/en/gas/widget` routes.
   - [x] Sync English route pages under `src/pages/en/` with default language pages (widgets, Layout image props, footer notes, and locale-aware number formatting).
 
 ---

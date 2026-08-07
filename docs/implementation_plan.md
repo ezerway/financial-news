@@ -146,7 +146,7 @@ The application implements full SSG SEO compliance in `src/layouts/Layout.astro`
 - **Transformer Utility (`attachComparison`)**: Evaluates date-partitioned collections chronologically to compare current day prices against previous day values matching entity primary keys (`masp` for gold, `title` for oil/gas).
 - **Difference & Percentage Calculation**: Dynamically computes `${field}_diff` and `${field}_percent` properties across buying/selling rates and regional fuel prices.
 - **UI Rendering (`Table.astro`)**: Renders inline emerald green badges (`▲ +<diff>`) for price increases and rose red badges (`▼ -<diff>`) for price decreases.
-- **Slider Widgets (`GoldSlider.astro` & `FuelSlider.astro`)**: Integrates `attachComparison` to render day-before change badges across product cards (Buy/Sell & Zone 1/Zone 2 boxes) and summary table slides.
+- **Slider Widgets (`GoldSlider.astro`, `FuelSlider.astro`, `GasSlider.astro`)**: Integrates `attachComparison` to render day-before change badges across product cards (Buy/Sell, Zone 1/Zone 2, and 12kg/45kg boxes) and summary table slides. `GasSlider` chunks 34 province items into 6 1-row horizontal item strips per slide with full multi-line province titles and compact 12K & 45K price chips across 2 summary table slides (parts 1/2 and 2/2) to prevent UI overflow. Dedicated widget routes (`/gold/widget`, `/oil/widget`, `/gas/widget`, and `/en/*` counterparts) serve lightweight visual embeds.
 
 
 
