@@ -1,6 +1,7 @@
 ---
 // GoldSlider.astro
 import { useTranslations } from "@/i18n/ui";
+import { toTableItems, attachComparison } from "@libs/commonTransformer";
 
 export interface GoldItem {
 	id: string;
@@ -8,6 +9,8 @@ export interface GoldItem {
 	sub: string;
 	buy: string;
 	sell: string;
+	buyDiff?: number;
+	sellDiff?: number;
 }
 
 export interface Props {
@@ -21,9 +24,11 @@ const currentLocale = (Astro.currentLocale || "vi") as "vi" | "en";
 const t = useTranslations(currentLocale);
 const numLocale = currentLocale === "en" ? "en-US" : "vi-VN";
 
-const goldData: GoldItem[] = collection
-	?.at(-1)
-	.data.slice(0, 7)
+const items = attachComparison(toTableItems(collection, "gold"), "masp", ["giamua", "giaban"]);
+const latestEntry = items.at(-1);
+
+const goldData: GoldItem[] = (latestEntry?.data || [])
+	.slice(0, 7)
 	.map((item: any) => {
 		return {
 			id: item.masp,
@@ -31,6 +36,8 @@ const goldData: GoldItem[] = collection
 			sub: item.masp,
 			buy: item.giaban?.toLocaleString(numLocale),
 			sell: item.giamua?.toLocaleString(numLocale),
+			buyDiff: item.giaban_diff,
+			sellDiff: item.giamua_diff,
 		};
 	});
 
@@ -112,6 +119,11 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 									<div class="price-value buy-value">
 										{item.buy}
 									</div>
+									{item.buyDiff !== undefined && item.buyDiff !== 0 && (
+										<div class={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${item.buyDiff > 0 ? "text-emerald-400 bg-emerald-500/10" : "text-rose-400 bg-rose-500/10"}`}>
+											{item.buyDiff > 0 ? "▲ +" : "▼ "}{item.buyDiff.toLocaleString(numLocale)}
+										</div>
+									)}
 									<div class="price-unit buy-unit">
 										{t("goldSlider.unit")}
 									</div>
@@ -124,6 +136,11 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 									<div class="price-value sell-value">
 										{item.sell}
 									</div>
+									{item.sellDiff !== undefined && item.sellDiff !== 0 && (
+										<div class={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${item.sellDiff > 0 ? "text-emerald-400 bg-emerald-500/10" : "text-rose-400 bg-rose-500/10"}`}>
+											{item.sellDiff > 0 ? "▲ +" : "▼ "}{item.sellDiff.toLocaleString(numLocale)}
+										</div>
+									)}
 									<div class="price-unit sell-unit">
 										{t("goldSlider.unit")}
 									</div>
@@ -170,9 +187,21 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 									<div class="row-short">{item.short}</div>
 									<div class="row-sub">{item.id}</div>
 								</div>
-								<div class="row-price buy-text">{item.buy}</div>
-								<div class="row-price sell-text">
-									{item.sell}
+								<div class="row-price buy-text flex-col items-end leading-tight">
+									<span>{item.buy}</span>
+									{item.buyDiff !== undefined && item.buyDiff !== 0 && (
+										<span class={`text-[8px] font-bold ${item.buyDiff > 0 ? "text-emerald-400" : "text-rose-400"}`}>
+											{item.buyDiff > 0 ? "▲+" : "▼"}{item.buyDiff.toLocaleString(numLocale)}
+										</span>
+									)}
+								</div>
+								<div class="row-price sell-text flex-col items-end leading-tight">
+									<span>{item.sell}</span>
+									{item.sellDiff !== undefined && item.sellDiff !== 0 && (
+										<span class={`text-[8px] font-bold ${item.sellDiff > 0 ? "text-emerald-400" : "text-rose-400"}`}>
+											{item.sellDiff > 0 ? "▲+" : "▼"}{item.sellDiff.toLocaleString(numLocale)}
+										</span>
+									)}
 								</div>
 							</div>
 						))

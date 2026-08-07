@@ -3,6 +3,10 @@ import Layout from "@layouts/BlankLayout.astro";
 import { getCollection } from "astro:content";
 
 import GoldSlider from "@components/GoldSlider.astro";
+import { useTranslations } from "@/i18n/ui";
+
+const currentLocale = (Astro.currentLocale || "en") as "vi" | "en";
+const t = useTranslations(currentLocale);
 
 const model = "gold";
 const collection = await getCollection(model);

@@ -1,6 +1,7 @@
 ---
 // FuelSlider.astro
 import { useTranslations } from "@/i18n/ui";
+import { toTableItems, attachComparison } from "@libs/commonTransformer";
 
 export interface FuelItem {
 	id: string;
@@ -11,6 +12,8 @@ export interface FuelItem {
 	v2: string;
 	v1n: number;
 	v2n: number;
+	v1Diff?: number;
+	v2Diff?: number;
 }
 
 export interface Props {
@@ -24,7 +27,10 @@ const currentLocale = (Astro.currentLocale || "vi") as "vi" | "en";
 const t = useTranslations(currentLocale);
 const numLocale = currentLocale === "en" ? "en-US" : "vi-VN";
 
-const fuelData: FuelItem[] = collection?.at(-1).data.map((item: any) => {
+const items = attachComparison(toTableItems(collection, "oil"), "title", ["zone1_price", "zone2_price"]);
+const latestEntry = items.at(-1);
+
+const fuelData: FuelItem[] = (latestEntry?.data || []).map((item: any) => {
 	return {
 		id: item.title,
 		shortName: item.title,
@@ -34,6 +40,8 @@ const fuelData: FuelItem[] = collection?.at(-1).data.map((item: any) => {
 		v2: item.zone2_price?.toLocaleString(numLocale),
 		v1n: item.zone1_price,
 		v2n: item.zone2_price,
+		v1Diff: item.zone1_price_diff,
+		v2Diff: item.zone2_price_diff,
 	};
 });
 
@@ -128,6 +136,11 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 										>
 											{item.v1}
 										</div>
+										{item.v1Diff !== undefined && item.v1Diff !== 0 && (
+											<div class={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${item.v1Diff > 0 ? "text-emerald-400 bg-emerald-500/10" : "text-rose-400 bg-rose-500/10"}`}>
+												{item.v1Diff > 0 ? "▲ +" : "▼ "}{item.v1Diff.toLocaleString(numLocale)}
+											</div>
+										)}
 										<div class="price-unit">
 											{t("slider.unit")}
 										</div>
@@ -142,6 +155,11 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 										>
 											{item.v2}
 										</div>
+										{item.v2Diff !== undefined && item.v2Diff !== 0 && (
+											<div class={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${item.v2Diff > 0 ? "text-emerald-400 bg-emerald-500/10" : "text-rose-400 bg-rose-500/10"}`}>
+												{item.v2Diff > 0 ? "▲ +" : "▼ "}{item.v2Diff.toLocaleString(numLocale)}
+											</div>
+										)}
 										<div class="price-unit">
 											{t("slider.unit")}
 										</div>
@@ -200,12 +218,24 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 											{item.shortName}
 										</span>
 									</div>
-									<div class="row-v1">{item.v1}</div>
+									<div class="row-v1 flex flex-col items-end leading-tight">
+										<span>{item.v1}</span>
+										{item.v1Diff !== undefined && item.v1Diff !== 0 && (
+											<span class={`text-[8px] font-bold ${item.v1Diff > 0 ? "text-emerald-400" : "text-rose-400"}`}>
+												{item.v1Diff > 0 ? "▲+" : "▼"}{item.v1Diff.toLocaleString(numLocale)}
+											</span>
+										)}
+									</div>
 									<div
-										class="row-v2"
+										class="row-v2 flex flex-col items-end leading-tight"
 										style={`color: ${item.type === "dau" ? "#fbbf24" : "#38bdf8"};`}
 									>
-										{item.v2}
+										<span>{item.v2}</span>
+										{item.v2Diff !== undefined && item.v2Diff !== 0 && (
+											<span class={`text-[8px] font-bold ${item.v2Diff > 0 ? "text-emerald-400" : "text-rose-400"}`}>
+												{item.v2Diff > 0 ? "▲+" : "▼"}{item.v2Diff.toLocaleString(numLocale)}
+											</span>
+										)}
 									</div>
 								</div>
 							))

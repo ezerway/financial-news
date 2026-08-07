@@ -73,7 +73,9 @@
   - [x] Add dynamic locale switcher (VI / EN) in `Layout.astro` desktop & mobile navigation bars.
   - [x] Create English localized route pages under `src/pages/en/` (`/en`, `/en/gold`, `/en/oil`, `/en/electric`, `/en/soccer`, `/en/oil/widget`, `/en/gold/widget`).
   - [x] Internationalize `FuelSlider.astro` component with multi-language dictionary support (`slider.*`).
-  - [x] Internationalize `GoldSlider.astro` component with multi-language dictionary support (`goldSlider.*`).
+  - [x] Add day-before price comparison indicators (`▲ +X` / `▼ -X`) to `GoldSlider.astro` widget component.
+  - [x] Add day-before price comparison indicators (`▲ +X` / `▼ -X`) to `FuelSlider.astro` widget component.
+  - [x] Sync English route pages under `src/pages/en/` with default language pages (widgets, Layout image props, footer notes, and locale-aware number formatting).
 
 ---
 
@@ -103,5 +105,5 @@
 - [ ] Add RSS / Atom feed generator for daily gold and fuel price updates.
 - [ ] Implement automated data scraper cron script to write daily folders into `./databases/YYYY-MM-DD/`.
 - [ ] Add export tools (CSV / Excel export) on `CalendarTable` component.
-- [ ] Implement percentage change indicators (+/- %) comparing current day prices to previous day.
+- [x] Implement percentage change indicators (+/- %) comparing current day prices to previous day.
 - [ ] Enhance mobile table horizontal scrolling and accessibility.

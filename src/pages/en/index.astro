@@ -2,15 +2,15 @@
 import Layout from "@layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import Table from "@components/Table.astro";
-import { toTableItems } from "@libs/commonTransformer";
+import { toTableItems, attachComparison } from "@libs/commonTransformer";
 import { useTranslations } from "@/i18n/ui";
 
 const currentLocale = (Astro.currentLocale || "en") as "vi" | "en";
 const t = useTranslations(currentLocale);
 
-const goldItems = toTableItems(await getCollection("gold"), "gold");
-const oilItems = toTableItems(await getCollection("oil"), "oil");
-const gasItems = toTableItems(await getCollection("gas"), "gas");
+const goldItems = attachComparison(toTableItems(await getCollection("gold"), "gold"), "masp", ["giamua", "giaban"]);
+const oilItems = attachComparison(toTableItems(await getCollection("oil"), "oil"), "title", ["zone1_price", "zone2_price"]);
+const gasItems = attachComparison(toTableItems(await getCollection("gas"), "gas"), "title", ["type_1_price", "type_2_price"]);
 ---
 
 <Layout>

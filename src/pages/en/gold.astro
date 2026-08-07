@@ -3,7 +3,7 @@ import Layout from "@layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
 import CalendarTable from "@components/CalendarTable.astro";
-import { toTableItems, toChart } from "@libs/commonTransformer";
+import { toTableItems, toChart, attachComparison } from "@libs/commonTransformer";
 import Chart from "@components/Chart.astro";
 import { useTranslations } from "@/i18n/ui";
 
@@ -13,7 +13,7 @@ const t = useTranslations(currentLocale);
 const model = "gold";
 const collection = await getCollection(model);
 
-const items = toTableItems(collection, model);
+const items = attachComparison(toTableItems(collection, model), "masp", ["giamua", "giaban"]);
 const chart = toChart(items, "masp", "giaban", 30, [
     "SJC",
     "N24K",
@@ -23,7 +23,7 @@ const chart = toChart(items, "masp", "giaban", 30, [
 ]);
 ---
 
-<Layout>
+<Layout image="/images/gold-bars-shiny.svg">
     <CalendarTable
         header={[
             { key: "masp", label: t("gold.code") },
@@ -32,6 +32,7 @@ const chart = toChart(items, "masp", "giaban", 30, [
             { key: "giaban", label: t("gold.sell") },
         ]}
         items={items}
+        widget="/en/gold/widget"
     >
         <Chart
             slot="chart"
