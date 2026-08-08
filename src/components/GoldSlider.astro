@@ -24,7 +24,10 @@ const currentLocale = (Astro.currentLocale || "vi") as "vi" | "en";
 const t = useTranslations(currentLocale);
 const numLocale = currentLocale === "en" ? "en-US" : "vi-VN";
 
-const items = attachComparison(toTableItems(collection, "gold"), "masp", ["giamua", "giaban"]);
+const items = attachComparison(toTableItems(collection, "gold"), "masp", [
+	"giamua",
+	"giaban",
+]);
 const latestEntry = items.at(-1);
 
 const goldData: GoldItem[] = (latestEntry?.data || [])
@@ -86,85 +89,10 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 		<!-- Main Content Slide Area -->
 		<div class="content-area">
-			<!-- Single Gold Cards -->
-			{
-				goldData.map((item, index) => {
-					const diff = (parseFloat(item.sell) - parseFloat(item.buy))
-						.toFixed(3)
-						.slice(0, 5);
-					return (
-						<div
-							class="slide-card card-item"
-							data-slide-index={index}
-						>
-							<div class="card-header">
-								<div class="badge-icon">
-									{item.id.slice(0, 4)}
-								</div>
-								<div class="info-wrap">
-									<div class="item-short" title={item.short}>
-										{item.short}
-									</div>
-									<div class="item-sub">{item.sub}</div>
-								</div>
-							</div>
-
-							<div class="divider" />
-
-							<div class="price-grid">
-								<div class="price-box buy-box">
-									<div class="price-label buy-label">
-										{t("goldSlider.buy")}
-									</div>
-									<div class="price-value buy-value">
-										{item.buy}
-									</div>
-									{item.buyDiff !== undefined && item.buyDiff !== 0 && (
-										<div class={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${item.buyDiff > 0 ? "text-emerald-400 bg-emerald-500/10" : "text-rose-400 bg-rose-500/10"}`}>
-											{item.buyDiff > 0 ? "▲ +" : "▼ "}{item.buyDiff.toLocaleString(numLocale)}
-										</div>
-									)}
-									<div class="price-unit buy-unit">
-										{t("goldSlider.unit")}
-									</div>
-								</div>
-
-								<div class="price-box sell-box">
-									<div class="price-label sell-label">
-										{t("goldSlider.sell")}
-									</div>
-									<div class="price-value sell-value">
-										{item.sell}
-									</div>
-									{item.sellDiff !== undefined && item.sellDiff !== 0 && (
-										<div class={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${item.sellDiff > 0 ? "text-emerald-400 bg-emerald-500/10" : "text-rose-400 bg-rose-500/10"}`}>
-											{item.sellDiff > 0 ? "▲ +" : "▼ "}{item.sellDiff.toLocaleString(numLocale)}
-										</div>
-									)}
-									<div class="price-unit sell-unit">
-										{t("goldSlider.unit")}
-									</div>
-								</div>
-							</div>
-
-							<div class="card-footer-info">
-								<div class="diff-text">
-									{t("goldSlider.diffLabel")}{" "}
-									<span class="diff-num">
-										{diff} {t("goldSlider.unit")}
-									</span>
-								</div>
-								<div class="icon-arrow">↗</div>
-							</div>
-						</div>
-					);
-				})
-			}
-
-			<!-- Summary Table (Last Slide) -->
+			<!-- Summary Table (First Slide) -->
 			<div
 				class="slide-card table-summary"
-				data-slide-index={goldData.length}
+				data-slide-index={0}
 			>
 				<div class="table-top">
 					<div class="table-title">
@@ -189,25 +117,128 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 								</div>
 								<div class="row-price buy-text flex-col items-end leading-tight">
 									<span>{item.buy}</span>
-									{item.buyDiff !== undefined && item.buyDiff !== 0 && (
-										<span class={`text-[8px] font-bold ${item.buyDiff > 0 ? "text-emerald-400" : "text-rose-400"}`}>
-											{item.buyDiff > 0 ? "▲+" : "▼"}{item.buyDiff.toLocaleString(numLocale)}
-										</span>
-									)}
+									{item.buyDiff !== undefined &&
+										item.buyDiff !== 0 && (
+											<span
+												class={`text-[16px] font-bold ${item.buyDiff > 0 ? "text-emerald-400" : "text-rose-400"}`}
+											>
+												{item.buyDiff > 0 ? "▲+" : "▼"}
+												{item.buyDiff.toLocaleString(
+													numLocale,
+												)}
+											</span>
+										)}
 								</div>
 								<div class="row-price sell-text flex-col items-end leading-tight">
 									<span>{item.sell}</span>
-									{item.sellDiff !== undefined && item.sellDiff !== 0 && (
-										<span class={`text-[8px] font-bold ${item.sellDiff > 0 ? "text-emerald-400" : "text-rose-400"}`}>
-											{item.sellDiff > 0 ? "▲+" : "▼"}{item.sellDiff.toLocaleString(numLocale)}
-										</span>
-									)}
+									{item.sellDiff !== undefined &&
+										item.sellDiff !== 0 && (
+											<span
+												class={`text-[16px] font-bold ${item.sellDiff > 0 ? "text-emerald-400" : "text-rose-400"}`}
+											>
+												{item.sellDiff > 0 ? "▲+" : "▼"}
+												{item.sellDiff.toLocaleString(
+													numLocale,
+												)}
+											</span>
+										)}
 								</div>
 							</div>
 						))
 					}
 				</div>
 			</div>
+
+			<!-- Single Gold Cards -->
+			{
+				goldData.map((item, index) => {
+					const diff = (parseFloat(item.sell) - parseFloat(item.buy))
+						.toFixed(3)
+						.slice(0, 5);
+					return (
+						<div
+							class="slide-card card-item"
+							data-slide-index={index + 1}
+						>
+							<div class="card-header">
+								<div class="badge-icon">
+									{item.id.slice(0, 4)}
+								</div>
+								<div class="info-wrap">
+									<div class="item-short" title={item.short}>
+										{item.short}
+									</div>
+									<div class="item-sub">{item.sub}</div>
+								</div>
+							</div>
+
+							<div class="divider" />
+
+							<div class="price-grid">
+								<div class="price-box buy-box">
+									<div class="price-label buy-label">
+										{t("goldSlider.buy")}
+									</div>
+									<div class="price-value buy-value">
+										{item.buy}
+									</div>
+									{item.buyDiff !== undefined &&
+										item.buyDiff !== 0 && (
+											<div
+												class={`text-[18px] font-bold px-3 py-1 rounded-full ${item.buyDiff > 0 ? "text-emerald-400 bg-emerald-500/10" : "text-rose-400 bg-rose-500/10"}`}
+											>
+												{item.buyDiff > 0
+													? "▲ +"
+													: "▼ "}
+												{item.buyDiff.toLocaleString(
+													numLocale,
+												)}
+											</div>
+										)}
+									<div class="price-unit buy-unit">
+										{t("goldSlider.unit")}
+									</div>
+								</div>
+
+								<div class="price-box sell-box">
+									<div class="price-label sell-label">
+										{t("goldSlider.sell")}
+									</div>
+									<div class="price-value sell-value">
+										{item.sell}
+									</div>
+									{item.sellDiff !== undefined &&
+										item.sellDiff !== 0 && (
+											<div
+												class={`text-[18px] font-bold px-3 py-1 rounded-full ${item.sellDiff > 0 ? "text-emerald-400 bg-emerald-500/10" : "text-rose-400 bg-rose-500/10"}`}
+											>
+												{item.sellDiff > 0
+													? "▲ +"
+													: "▼ "}
+												{item.sellDiff.toLocaleString(
+													numLocale,
+												)}
+											</div>
+										)}
+									<div class="price-unit sell-unit">
+										{t("goldSlider.unit")}
+									</div>
+								</div>
+							</div>
+
+							<div class="card-footer-info">
+								<div class="diff-text">
+									{t("goldSlider.diffLabel")}{" "}
+									<span class="diff-num">
+										{diff} {t("goldSlider.unit")}
+									</span>
+								</div>
+								<div class="icon-arrow">↗</div>
+							</div>
+						</div>
+					);
+				})
+			}
 		</div>
 
 		<!-- Footer Section -->
@@ -226,10 +257,13 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	</div>
 </div>
 
-<canvas class="hidden w-[320px] h-142" width="320" height="568" id="canvas"
-></canvas>
+<canvas
+	class="hidden w-[640px] h-[1136px]"
+	width="640"
+	height="1136"
+	id="canvas"></canvas>
 <div class="flex justify-center py-4">
-	<video class="hidden w-[320px] h-142" controls id="video"></video>
+	<video class="hidden w-[640px] h-[1136px]" controls id="video"></video>
 </div>
 <style>
 	* {
@@ -242,24 +276,23 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 16px;
 		font-family:
 			-apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter",
 			"Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 	}
 
 	.video-root {
-		width: 320px;
-		height: 568px;
+		width: 640px;
+		height: 1136px;
 		background: #0b1220;
-		border-radius: 24px;
+		border-radius: 48px;
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
 		position: relative;
 		box-shadow:
-			0 20px 60px rgba(0, 0, 0, 0.6),
-			0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+			0 40px 120px rgba(0, 0, 0, 0.6),
+			0 0 0 2px rgba(255, 255, 255, 0.06) inset;
 		flex-shrink: 0;
 		word-break: keep-all;
 		overflow-wrap: break-word;
@@ -269,10 +302,10 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	.glow-bg {
 		position: absolute;
-		top: -60px;
-		left: -40px;
-		width: 260px;
-		height: 260px;
+		top: -120px;
+		left: -80px;
+		width: 520px;
+		height: 520px;
 		background: radial-gradient(
 			60% 60% at 50% 50%,
 			rgba(246, 216, 122, 0.16) 0%,
@@ -283,10 +316,10 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	/* Header Styles */
 	.header-section {
-		padding: 18px 16px 10px;
+		padding: 36px 32px 20px;
 		display: flex;
 		flex-direction: column;
-		gap: 4px;
+		gap: 8px;
 		position: relative;
 		z-index: 1;
 		overflow: hidden;
@@ -305,7 +338,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.header-title {
-		font-size: 11px;
+		font-size: 22px;
 		font-weight: 700;
 		letter-spacing: 0.14em;
 		color: #7b8cae;
@@ -316,19 +349,19 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.live-badge {
-		font-size: 10px;
+		font-size: 20px;
 		font-weight: 600;
 		color: hsl(133, 71%, 71%);
 		background: #111d31;
-		border: 1px solid #1c2b45;
-		padding: 3px 7px;
+		border: 2px solid #1c2b45;
+		padding: 6px 14px;
 		border-radius: 999px;
 		line-height: 1;
 		white-space: nowrap;
 	}
 
 	.header-date {
-		font-size: 20px;
+		font-size: 40px;
 		font-weight: 800;
 		color: #ffffff;
 		line-height: 1.1;
@@ -339,7 +372,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.header-sub {
-		font-size: 11px;
+		font-size: 22px;
 		font-weight: 500;
 		color: #4a5c7c;
 		line-height: 1;
@@ -350,8 +383,8 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	/* Indicators */
 	.indicators-wrap {
 		display: flex;
-		gap: 4px;
-		margin-top: 12px;
+		gap: 8px;
+		margin-top: 24px;
 		align-items: center;
 		width: 100%;
 		max-width: 100%;
@@ -359,20 +392,20 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.dot-btn {
-		height: 4px;
+		height: 8px;
 		border-radius: 999px;
 		border: 0;
 		padding: 0;
 		cursor: pointer;
 		transition: all 0.22s ease;
-		width: 4px;
+		width: 8px;
 		background: #233145;
 		opacity: 0.9;
 		flex-shrink: 0;
 	}
 
 	.dot-btn.active {
-		width: 16px;
+		width: 32px;
 		background: #f6d87a;
 		opacity: 1;
 	}
@@ -382,7 +415,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.slide-counter {
-		font-size: 10px;
+		font-size: 20px;
 		color: #3a4d6e;
 		font-weight: 600;
 		letter-spacing: 0.02em;
@@ -395,7 +428,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 6px 10px 10px;
+		padding: 12px 20px 20px;
 		width: 100%;
 		max-width: 100%;
 		overflow: hidden;
@@ -405,12 +438,12 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	.slide-card {
 		display: none;
-		width: 300px;
+		width: 600px;
 		max-width: 100%;
-		padding: 14px;
+		padding: 28px;
 		background: #162032;
-		border-radius: 18px;
-		border: 1px solid #1e2e4a;
+		border-radius: 36px;
+		border: 2px solid #1e2e4a;
 		overflow: hidden;
 		box-sizing: border-box;
 		flex-direction: column;
@@ -423,7 +456,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	@keyframes cardIn {
 		from {
-			transform: translateY(8px);
+			transform: translateY(16px);
 			opacity: 0;
 		}
 		to {
@@ -436,7 +469,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.card-header {
 		display: flex;
 		align-items: center;
-		gap: 8px;
+		gap: 16px;
 		width: 100%;
 		max-width: 100%;
 		overflow: hidden;
@@ -444,15 +477,15 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.badge-icon {
-		padding: 4px;
-		border-radius: 9px;
+		padding: 8px;
+		border-radius: 18px;
 		background: #1c2c48;
-		border: 1px solid #243654;
+		border: 2px solid #243654;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		flex-shrink: 0;
-		font-size: 11px;
+		font-size: 22px;
 		font-weight: 800;
 		color: #f6d87a;
 		letter-spacing: -0.02em;
@@ -465,7 +498,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.item-short {
-		font-size: 13px;
+		font-size: 26px;
 		font-weight: 600;
 		color: #ffffff;
 		line-height: 1.2;
@@ -476,44 +509,44 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.item-sub {
-		font-size: 11px;
+		font-size: 22px;
 		font-weight: 500;
 		color: #5c708f;
 		line-height: 1.1;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		margin-top: 1px;
+		margin-top: 2px;
 	}
 
 	.purity-badge {
-		font-size: 10px;
+		font-size: 20px;
 		font-weight: 700;
 		color: #2f4364;
 		background: #0e1a2d;
-		border: 1px solid #1b2b47;
-		padding: 4px 6px;
-		border-radius: 7px;
+		border: 2px solid #1b2b47;
+		padding: 8px 12px;
+		border-radius: 14px;
 		line-height: 1;
 		flex-shrink: 0;
 		white-space: nowrap;
 	}
 
 	.divider {
-		height: 1px;
+		height: 2px;
 		background: linear-gradient(
 			90deg,
 			rgba(255, 255, 255, 0.06),
 			rgba(255, 255, 255, 0)
 		);
-		margin-top: 12px;
-		margin-bottom: 12px;
+		margin-top: 24px;
+		margin-bottom: 24px;
 		width: 100%;
 	}
 
 	.price-grid {
 		display: flex;
-		gap: 8px;
+		gap: 16px;
 		width: 100%;
 		max-width: 100%;
 		overflow: hidden;
@@ -522,28 +555,28 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.price-box {
 		flex: 1;
 		min-width: 0;
-		padding: 10px 8px;
-		border-radius: 12px;
+		padding: 20px 16px;
+		border-radius: 24px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 6px;
+		gap: 12px;
 		overflow: hidden;
 		max-width: 100%;
 	}
 
 	.buy-box {
 		background: #0f1b2f;
-		border: 1px solid #1d2d4a;
+		border: 2px solid #1d2d4a;
 	}
 
 	.sell-box {
 		background: linear-gradient(180deg, #1b2740 0%, #121e34 100%);
-		border: 1px solid #2a3b5e;
+		border: 2px solid #2a3b5e;
 	}
 
 	.price-label {
-		font-size: 10px;
+		font-size: 20px;
 		font-weight: 700;
 		letter-spacing: 0.08em;
 		line-height: 1;
@@ -559,7 +592,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.price-value {
-		font-size: 24px;
+		font-size: 48px;
 		font-weight: 800;
 		line-height: 1;
 		letter-spacing: -0.03em;
@@ -576,7 +609,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.price-unit {
-		font-size: 9px;
+		font-size: 18px;
 		font-weight: 600;
 		line-height: 1;
 		white-space: nowrap;
@@ -590,7 +623,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.card-footer-info {
-		margin-top: 10px;
+		margin-top: 20px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -600,7 +633,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.diff-text {
-		font-size: 10px;
+		font-size: 20px;
 		color: #3d4f6b;
 		font-weight: 500;
 		white-space: nowrap;
@@ -613,15 +646,15 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.icon-arrow {
-		width: 18px;
-		height: 18px;
-		border-radius: 6px;
+		width: 36px;
+		height: 36px;
+		border-radius: 12px;
 		background: #0e1a2d;
-		border: 1px solid #1d2e4e;
+		border: 2px solid #1d2e4e;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 10px;
+		font-size: 20px;
 		color: #4a5e81;
 	}
 
@@ -630,14 +663,14 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 10px;
+		margin-bottom: 20px;
 		width: 100%;
 		max-width: 100%;
 		overflow: hidden;
 	}
 
 	.table-title {
-		font-size: 11px;
+		font-size: 22px;
 		font-weight: 700;
 		letter-spacing: 0.12em;
 		color: #7b8cae;
@@ -645,7 +678,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.table-date {
-		font-size: 10px;
+		font-size: 20px;
 		font-weight: 600;
 		color: #2f425f;
 		white-space: nowrap;
@@ -653,9 +686,9 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	.table-cols {
 		display: flex;
-		gap: 6px;
-		padding: 0 0 6px;
-		border-bottom: 1px solid #1d2d4a;
+		gap: 12px;
+		padding: 0 0 12px;
+		border-bottom: 2px solid #1d2d4a;
 		width: 100%;
 		max-width: 100%;
 		overflow: hidden;
@@ -664,17 +697,17 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.col-type {
 		flex: 1.2;
 		min-width: 0;
-		font-size: 10px;
+		font-size: 20px;
 		font-weight: 700;
 		color: #4a5e81;
 		letter-spacing: 0.06em;
 	}
 
 	.col-price {
-		width: 66px;
+		width: 132px;
 		flex-shrink: 0;
 		text-align: right;
-		font-size: 10px;
+		font-size: 20px;
 		font-weight: 700;
 		letter-spacing: 0.06em;
 	}
@@ -695,11 +728,11 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	.table-row {
 		display: flex;
-		gap: 6px;
+		gap: 12px;
 		align-items: center;
-		height: 40px;
-		min-height: 40px;
-		border-bottom: 1px solid rgba(29, 45, 74, 0.7);
+		height: 80px;
+		min-height: 80px;
+		border-bottom: 2px solid rgba(29, 45, 74, 0.7);
 		width: 100%;
 		max-width: 100%;
 		overflow: hidden;
@@ -712,7 +745,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.row-short {
-		font-size: 11px;
+		font-size: 22px;
 		font-weight: 600;
 		color: #d6e0f0;
 		line-height: 1.1;
@@ -722,22 +755,22 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.row-sub {
-		font-size: 9px;
+		font-size: 18px;
 		color: #3f5374;
 		line-height: 1;
-		margin-top: 2px;
+		margin-top: 4px;
 		white-space: nowrap;
 		overflow: hidden;
 	}
 
 	.row-price {
-		width: 66px;
+		width: 132px;
 		flex-shrink: 0;
 		display: flex;
 		justify-content: flex-end;
 		min-width: 0;
 		overflow: hidden;
-		font-size: 12px;
+		font-size: 24px;
 		font-weight: 800;
 		line-height: 1;
 		letter-spacing: -0.03em;
@@ -753,11 +786,11 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	/* Footer Styles */
 	.footer-section {
-		padding: 10px 16px 14px;
+		padding: 20px 32px 28px;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		border-top: 1px solid rgba(255, 255, 255, 0.05);
+		border-top: 2px solid rgba(255, 255, 255, 0.05);
 		width: 100%;
 		max-width: 100%;
 		overflow: hidden;
@@ -768,20 +801,20 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.footer-left {
 		display: flex;
 		align-items: center;
-		gap: 6px;
+		gap: 12px;
 		min-width: 0;
 		overflow: hidden;
 	}
 
 	.au-badge {
-		width: 20px;
-		height: 20px;
-		border-radius: 6px;
+		width: 40px;
+		height: 40px;
+		border-radius: 12px;
 		background: #f6d87a;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 10px;
+		font-size: 20px;
 		font-weight: 900;
 		color: #0b1220;
 		flex-shrink: 0;
@@ -793,7 +826,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.footer-title {
-		font-size: 10px;
+		font-size: 20px;
 		font-weight: 700;
 		color: #c9d6ea;
 		line-height: 1;
@@ -803,15 +836,15 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.footer-sub {
-		font-size: 9px;
+		font-size: 18px;
 		color: #3a4d6e;
 		line-height: 1;
-		margin-top: 2px;
+		margin-top: 4px;
 		white-space: nowrap;
 	}
 
 	.footer-ratio {
-		font-size: 9px;
+		font-size: 18px;
 		color: #2c3d5a;
 		font-weight: 500;
 		white-space: nowrap;

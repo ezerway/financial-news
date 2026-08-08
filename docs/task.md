@@ -76,7 +76,8 @@
   - [x] Add day-before price comparison indicators (`▲ +X` / `▼ -X`) to `GoldSlider.astro` widget component.
   - [x] Add day-before price comparison indicators (`▲ +X` / `▼ -X`) to `FuelSlider.astro` widget component.
   - [x] Create `GasSlider.astro` component with 6 1-row horizontal item strips showing full province names & 2 summary slides for 34 provinces, day-before price comparison indicators (`▲ +X` / `▼ -X`), and dedicated `/gas/widget` & `/en/gas/widget` routes.
-  - [x] Sync English route pages under `src/pages/en/` with default language pages (widgets, Layout image props, footer notes, and locale-aware number formatting).
+  - [x] Scale all 3 commodity sliders (`FuelSlider.astro`, `GasSlider.astro`, `GoldSlider.astro`) from 320x568 to 2x resolution (640x1136) with scaled typography, paddings, canvas recording contexts, and video player outputs.
+  - [x] Reorder slides across all 3 sliders (`FuelSlider.astro`, `GasSlider.astro`, `GoldSlider.astro`) so that summary table slides display first as initial slide 0.
 
 ---
 
