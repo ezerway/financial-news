@@ -176,7 +176,8 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 				{/* 6 Horizontal Items Per Slide (Second) */}
 				{
 					itemSlides.map((group, slideIdx) => {
-						const currentSlideIndex = summarySlides.length + slideIdx;
+						const currentSlideIndex =
+							summarySlides.length + slideIdx;
 						return (
 							<div
 								class="slide-item horiz-slide"
@@ -271,9 +272,9 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 			</div>
 
 			<!-- Footer Note -->
-			<div class="footer-note">
+			<!-- <div class="footer-note">
 				<span>{t("gasSlider.footerNote")}</span>
-			</div>
+			</div> -->
 		</div>
 
 		<!-- Card Footer -->
