@@ -9,6 +9,8 @@ export interface GoldItem {
 	sub: string;
 	buy: string;
 	sell: string;
+	buyn?: number;
+	selln?: number;
 	buyDiff?: number;
 	sellDiff?: number;
 }
@@ -31,7 +33,7 @@ const items = attachComparison(toTableItems(collection, "gold"), "masp", [
 const latestEntry = items.at(-1);
 
 const goldData: GoldItem[] = (latestEntry?.data || [])
-	.slice(0, 7)
+	.slice(0, -2)
 	.map((item: any) => {
 		return {
 			id: item.masp,
@@ -39,12 +41,28 @@ const goldData: GoldItem[] = (latestEntry?.data || [])
 			sub: item.masp,
 			buy: item.giaban?.toLocaleString(numLocale),
 			sell: item.giamua?.toLocaleString(numLocale),
+			buyn: item.giaban,
+			selln: item.giamua,
 			buyDiff: item.giaban_diff,
 			sellDiff: item.giamua_diff,
 		};
 	});
 
-const totalSlides = goldData.length + 1;
+// Chunk goldData into summary slides (2 summary slides)
+const summaryChunkSize = Math.ceil(goldData.length / 2);
+const summarySlides: GoldItem[][] = [];
+for (let i = 0; i < goldData.length; i += summaryChunkSize) {
+	summarySlides.push(goldData.slice(i, i + summaryChunkSize));
+}
+
+// Chunk goldData into non-summary item slides (3 items per slide)
+const itemChunkSize = 3;
+const itemSlides: GoldItem[][] = [];
+for (let i = 0; i < goldData.length; i += itemChunkSize) {
+	itemSlides.push(goldData.slice(i, i + itemChunkSize));
+}
+
+const totalSlides = summarySlides.length + itemSlides.length;
 
 const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	date.getMonth() + 1
@@ -89,151 +107,195 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 		<!-- Main Content Slide Area -->
 		<div class="content-area">
-			<!-- Summary Table (First Slide) -->
-			<div
-				class="slide-card table-summary"
-				data-slide-index={0}
-			>
-				<div class="table-top">
-					<div class="table-title">
-						{t("goldSlider.summaryTitle")}
-					</div>
-					<div class="table-date">{displayDate}</div>
-				</div>
-
-				<div class="table-cols">
-					<div class="col-type">{t("goldSlider.colType")}</div>
-					<div class="col-price col-buy">{t("goldSlider.buy")}</div>
-					<div class="col-price col-sell">{t("goldSlider.sell")}</div>
-				</div>
-
-				<div class="table-rows">
-					{
-						goldData.map((item) => (
-							<div class="table-row">
-								<div class="row-type">
-									<div class="row-short">{item.short}</div>
-									<div class="row-sub">{item.id}</div>
-								</div>
-								<div class="row-price buy-text flex-col items-end leading-tight">
-									<span>{item.buy}</span>
-									{item.buyDiff !== undefined &&
-										item.buyDiff !== 0 && (
-											<span
-												class={`text-[16px] font-bold ${item.buyDiff > 0 ? "text-emerald-400" : "text-rose-400"}`}
-											>
-												{item.buyDiff > 0 ? "▲+" : "▼"}
-												{item.buyDiff.toLocaleString(
-													numLocale,
-												)}
-											</span>
-										)}
-								</div>
-								<div class="row-price sell-text flex-col items-end leading-tight">
-									<span>{item.sell}</span>
-									{item.sellDiff !== undefined &&
-										item.sellDiff !== 0 && (
-											<span
-												class={`text-[16px] font-bold ${item.sellDiff > 0 ? "text-emerald-400" : "text-rose-400"}`}
-											>
-												{item.sellDiff > 0 ? "▲+" : "▼"}
-												{item.sellDiff.toLocaleString(
-													numLocale,
-												)}
-											</span>
-										)}
-								</div>
-							</div>
-						))
-					}
-				</div>
-			</div>
-
-			<!-- Single Gold Cards -->
+			<!-- Summary Table Slides (First) -->
 			{
-				goldData.map((item, index) => {
-					const diff = (parseFloat(item.sell) - parseFloat(item.buy))
-						.toFixed(3)
-						.slice(0, 5);
+				summarySlides.map((summaryChunk, sIdx) => (
+					<div
+						class="slide-card table-summary"
+						data-slide-index={sIdx}
+					>
+						<div class="table-top">
+							<div class="table-title">
+								{t("goldSlider.summaryTitle")} ({sIdx + 1}/
+								{summarySlides.length})
+							</div>
+							<div class="table-date">{displayDate}</div>
+						</div>
+
+						<div class="table-cols">
+							<div class="col-type">
+								{t("goldSlider.colType")}
+							</div>
+							<div class="col-price col-buy">
+								{t("goldSlider.buy")}
+							</div>
+							<div class="col-price col-sell">
+								{t("goldSlider.sell")}
+							</div>
+						</div>
+
+						<div class="table-rows">
+							{summaryChunk.map((item) => (
+								<div class="table-row">
+									<div class="row-type">
+										<div class="row-short font-bold">
+											{item.short}
+										</div>
+										<div class="row-sub">{item.id}</div>
+									</div>
+									<div class="row-price buy-text flex-col items-end leading-tight">
+										<span>{item.buy}</span>
+										{item.buyDiff !== undefined &&
+											item.buyDiff !== 0 && (
+												<span
+													class={`text-[15px] font-bold ${item.buyDiff > 0 ? "text-emerald-400" : "text-rose-400"}`}
+												>
+													{item.buyDiff > 0
+														? "▲+"
+														: "▼"}
+													{item.buyDiff.toLocaleString(
+														numLocale,
+													)}
+												</span>
+											)}
+									</div>
+									<div class="row-price sell-text flex-col items-end leading-tight">
+										<span>{item.sell}</span>
+										{item.sellDiff !== undefined &&
+											item.sellDiff !== 0 && (
+												<span
+													class={`text-[15px] font-bold ${item.sellDiff > 0 ? "text-emerald-400" : "text-rose-400"}`}
+												>
+													{item.sellDiff > 0
+														? "▲+"
+														: "▼"}
+													{item.sellDiff.toLocaleString(
+														numLocale,
+													)}
+												</span>
+											)}
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+				))
+			}
+
+			<!-- Non-Summary Item Slides (3 items per slide) -->
+			{
+				itemSlides.map((group, slideIdx) => {
+					const currentSlideIndex = summarySlides.length + slideIdx;
 					return (
 						<div
-							class="slide-card card-item"
-							data-slide-index={index + 1}
+							class="slide-card item-group-card"
+							data-slide-index={currentSlideIndex}
 						>
-							<div class="card-header">
-								<div class="badge-icon">
-									{item.id.slice(0, 4)}
-								</div>
-								<div class="info-wrap">
-									<div class="item-short" title={item.short}>
-										{item.short}
-									</div>
-									<div class="item-sub">{item.sub}</div>
-								</div>
-							</div>
-
-							<div class="divider" />
-
-							<div class="price-grid">
-								<div class="price-box buy-box">
-									<div class="price-label buy-label">
-										{t("goldSlider.buy")}
-									</div>
-									<div class="price-value buy-value">
-										{item.buy}
-									</div>
-									{item.buyDiff !== undefined &&
-										item.buyDiff !== 0 && (
-											<div
-												class={`text-[18px] font-bold px-3 py-1 rounded-full ${item.buyDiff > 0 ? "text-emerald-400 bg-emerald-500/10" : "text-rose-400 bg-rose-500/10"}`}
-											>
-												{item.buyDiff > 0
-													? "▲ +"
-													: "▼ "}
-												{item.buyDiff.toLocaleString(
-													numLocale,
-												)}
+							<div class="items-list">
+								{group.map((item) => {
+									const diff =
+										item.buyn && item.selln
+											? Math.abs(
+													item.buyn - item.selln,
+												).toLocaleString(numLocale)
+											: (
+													parseFloat(item.sell) -
+													parseFloat(item.buy)
+												)
+													.toFixed(3)
+													.slice(0, 5);
+									return (
+										<div class="gold-item-block">
+											<div class="block-header">
+												<div class="badge-icon-sm">
+													{item.id.slice(0, 4)}
+												</div>
+												<div class="info-wrap-sm">
+													<div
+														class="item-short-sm"
+														title={item.short}
+													>
+														{item.short}
+													</div>
+													<div class="item-sub-sm">
+														{item.sub}
+													</div>
+												</div>
+												<div class="diff-badge-sm">
+													<span class="diff-label">
+														{t(
+															"goldSlider.diffLabel",
+														)}
+													</span>
+													<span class="diff-num">
+														{diff}{" "}
+														{t("goldSlider.unit")}
+													</span>
+												</div>
 											</div>
-										)}
-									<div class="price-unit buy-unit">
-										{t("goldSlider.unit")}
-									</div>
-								</div>
 
-								<div class="price-box sell-box">
-									<div class="price-label sell-label">
-										{t("goldSlider.sell")}
-									</div>
-									<div class="price-value sell-value">
-										{item.sell}
-									</div>
-									{item.sellDiff !== undefined &&
-										item.sellDiff !== 0 && (
-											<div
-												class={`text-[18px] font-bold px-3 py-1 rounded-full ${item.sellDiff > 0 ? "text-emerald-400 bg-emerald-500/10" : "text-rose-400 bg-rose-500/10"}`}
-											>
-												{item.sellDiff > 0
-													? "▲ +"
-													: "▼ "}
-												{item.sellDiff.toLocaleString(
-													numLocale,
-												)}
+											<div class="block-prices">
+												<div class="price-box-sm buy-box-sm">
+													<div class="price-header-sm">
+														<span class="price-label buy-label">
+															{t(
+																"goldSlider.buy",
+															)}
+														</span>
+														{item.buyDiff !==
+															undefined &&
+															item.buyDiff !==
+																0 && (
+																<span
+																	class={`diff-chip ${item.buyDiff > 0 ? "text-emerald-400 bg-emerald-500/10" : "text-rose-400 bg-rose-500/10"}`}
+																>
+																	{item.buyDiff >
+																	0
+																		? "▲+"
+																		: "▼"}
+																	{item.buyDiff.toLocaleString(
+																		numLocale,
+																	)}
+																</span>
+															)}
+													</div>
+													<div class="price-val-sm buy-val-sm">
+														{item.buy}
+													</div>
+												</div>
+
+												<div class="price-box-sm sell-box-sm">
+													<div class="price-header-sm">
+														<span class="price-label sell-label">
+															{t(
+																"goldSlider.sell",
+															)}
+														</span>
+														{item.sellDiff !==
+															undefined &&
+															item.sellDiff !==
+																0 && (
+																<span
+																	class={`diff-chip ${item.sellDiff > 0 ? "text-emerald-400 bg-emerald-500/10" : "text-rose-400 bg-rose-500/10"}`}
+																>
+																	{item.sellDiff >
+																	0
+																		? "▲+"
+																		: "▼"}
+																	{item.sellDiff.toLocaleString(
+																		numLocale,
+																	)}
+																</span>
+															)}
+													</div>
+													<div class="price-val-sm sell-val-sm">
+														{item.sell}
+													</div>
+												</div>
 											</div>
-										)}
-									<div class="price-unit sell-unit">
-										{t("goldSlider.unit")}
-									</div>
-								</div>
-							</div>
-
-							<div class="card-footer-info">
-								<div class="diff-text">
-									{t("goldSlider.diffLabel")}{" "}
-									<span class="diff-num">
-										{diff} {t("goldSlider.unit")}
-									</span>
-								</div>
-								<div class="icon-arrow">↗</div>
+										</div>
+									);
+								})}
 							</div>
 						</div>
 					);
@@ -730,8 +792,8 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		display: flex;
 		gap: 12px;
 		align-items: center;
-		height: 80px;
-		min-height: 80px;
+		height: 72px;
+		min-height: 72px;
 		border-bottom: 2px solid rgba(29, 45, 74, 0.7);
 		width: 100%;
 		max-width: 100%;
@@ -781,6 +843,161 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		color: #ffffff;
 	}
 	.sell-text {
+		color: #f6d87a;
+	}
+
+	/* Item Group Card (3 Items Per Slide) */
+	.item-group-card {
+		padding: 20px 24px;
+		gap: 14px;
+		background: #162032;
+		border-radius: 36px;
+		border: 2px solid #1e2e4a;
+	}
+
+	.items-list {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		width: 100%;
+	}
+
+	.gold-item-block {
+		background: #0f1a2b;
+		border: 2px solid #1c2b45;
+		border-radius: 24px;
+		padding: 16px 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		width: 100%;
+	}
+
+	.block-header {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		width: 100%;
+	}
+
+	.badge-icon-sm {
+		padding: 6px 12px;
+		border-radius: 12px;
+		background: #1c2c48;
+		border: 1.5px solid #243654;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		font-size: 16px;
+		font-weight: 800;
+		color: #f6d87a;
+		letter-spacing: -0.02em;
+	}
+
+	.info-wrap-sm {
+		min-width: 0;
+		flex: 1;
+		overflow: hidden;
+	}
+
+	.item-short-sm {
+		font-size: 20px;
+		font-weight: 700;
+		color: #ffffff;
+		line-height: 1.2;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.item-sub-sm {
+		font-size: 16px;
+		font-weight: 500;
+		color: #5c708f;
+		line-height: 1.1;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		margin-top: 2px;
+	}
+
+	.diff-badge-sm {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		font-size: 14px;
+		flex-shrink: 0;
+	}
+
+	.diff-label {
+		color: #3d4f6b;
+		font-weight: 500;
+		font-size: 13px;
+	}
+
+	.diff-num {
+		color: #8a9bb5;
+		font-weight: 700;
+		font-size: 15px;
+	}
+
+	.block-prices {
+		display: flex;
+		gap: 12px;
+		width: 100%;
+	}
+
+	.price-box-sm {
+		flex: 1;
+		min-width: 0;
+		padding: 12px 14px;
+		border-radius: 16px;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.buy-box-sm {
+		background: #0b1424;
+		border: 1.5px solid #1a2942;
+	}
+
+	.sell-box-sm {
+		background: linear-gradient(180deg, #18233a 0%, #101a2d 100%);
+		border: 1.5px solid #253654;
+	}
+
+	.price-header-sm {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	.diff-chip {
+		font-size: 14px;
+		font-weight: 700;
+		padding: 2px 8px;
+		border-radius: 999px;
+		line-height: 1.2;
+	}
+
+	.price-val-sm {
+		font-size: 30px;
+		font-weight: 800;
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: clip;
+	}
+
+	.buy-val-sm {
+		color: #ffffff;
+	}
+
+	.sell-val-sm {
 		color: #f6d87a;
 	}
 

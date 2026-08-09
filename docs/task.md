@@ -78,6 +78,7 @@
   - [x] Create `GasSlider.astro` component with 6 1-row horizontal item strips showing full province names & 2 summary slides for 34 provinces, day-before price comparison indicators (`▲ +X` / `▼ -X`), and dedicated `/gas/widget` & `/en/gas/widget` routes.
   - [x] Scale all 3 commodity sliders (`FuelSlider.astro`, `GasSlider.astro`, `GoldSlider.astro`) from 320x568 to 2x resolution (640x1136) with scaled typography, paddings, canvas recording contexts, and video player outputs.
   - [x] Reorder slides across all 3 sliders (`FuelSlider.astro`, `GasSlider.astro`, `GoldSlider.astro`) so that summary table slides display first as initial slide 0.
+  - [x] Update `GoldSlider.astro` component to feature 2 summary slides (splitting gold data across 2 summary table slides) and 3 items per non-summary slide (6 item group slides of 3 items each).
 
 ---
 

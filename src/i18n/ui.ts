@@ -77,10 +77,10 @@ export const ui = {
     'slider.source': 'Nguồn: Ezer Way.',
 
     'goldSlider.headerTitle': 'GIÁ VÀNG',
-    'goldSlider.headerSub': 'Đơn vị: Triệu/lượng • Cập nhật mới nhất',
+    'goldSlider.headerSub': 'Đơn vị: Nghìn đ/ chỉ • Cập nhật mới nhất',
     'goldSlider.buy': 'MUA',
     'goldSlider.sell': 'BÁN',
-    'goldSlider.unit': 'Tr/lượng',
+    'goldSlider.unit': 'Nghìn đ/ chỉ',
     'goldSlider.diffLabel': 'Chênh lệch:',
     'goldSlider.summaryTitle': 'TỔNG HỢP',
     'goldSlider.colType': 'LOẠI',
@@ -212,6 +212,6 @@ export function getLocalizedPath(pathname: string, targetLang: 'vi' | 'en'): str
   if (targetLang === 'en') {
     return cleanPath === '/' ? '/en' : `/en${cleanPath}`;
   }
-  
+
   return cleanPath;
 }
