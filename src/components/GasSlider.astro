@@ -138,7 +138,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 												{item.type1Diff !== undefined &&
 													item.type1Diff !== 0 && (
 														<span
-															class={`text-[14px] font-bold ${item.type1Diff > 0 ? "text-emerald-400" : "text-rose-400"}`}
+															class={`text-[22px] font-bold ${item.type1Diff > 0 ? "text-emerald-400" : "text-rose-400"}`}
 														>
 															{item.type1Diff > 0
 																? "▲+"
@@ -149,12 +149,12 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 														</span>
 													)}
 											</div>
-											<div class="row-v2 flex flex-col items-end leading-none text-orange">
+											<div class="row-v2 flex flex-col items-end leading-none">
 												<span>{item.type2}</span>
 												{item.type2Diff !== undefined &&
 													item.type2Diff !== 0 && (
 														<span
-															class={`text-[14px] font-bold ${item.type2Diff > 0 ? "text-emerald-400" : "text-rose-400"}`}
+															class={`text-[22px] font-bold ${item.type2Diff > 0 ? "text-emerald-400" : "text-rose-400"}`}
 														>
 															{item.type2Diff > 0
 																? "▲+"
@@ -309,25 +309,23 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.slider-card {
-		width: 640px;
-		height: 1136px;
+		width: 1080px;
+		height: 1920px;
 		background: #0b1220;
-		border-radius: 48px;
+		border-radius: 0;
 		overflow: hidden;
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		border: 2px solid #1a2744;
-		box-shadow:
-			0 40px 120px rgba(0, 0, 0, 0.6),
-			0 0 0 2px rgba(255, 255, 255, 0.04) inset;
+		border: none;
+		box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6);
 		flex-shrink: 0;
 	}
 
 	.card-header {
-		padding: 32px 32px 20px 32px;
-		width: 640px;
-		max-width: 640px;
+		padding: 54px 54px 34px 54px;
+		width: 1080px;
+		max-width: 1080px;
 		overflow: hidden;
 	}
 
@@ -335,9 +333,9 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		display: flex;
 		justify-content: space-between;
 		align-items: flex-start;
-		gap: 16px;
+		gap: 26px;
 		width: 100%;
-		max-width: 576px;
+		max-width: 972px;
 	}
 
 	.header-info {
@@ -346,11 +344,11 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.header-tag {
-		font-size: 22px;
+		font-size: 36px;
 		font-weight: 700;
-		letter-spacing: 3.2px;
+		letter-spacing: 5px;
 		color: #f97316;
-		line-height: 28px;
+		line-height: 46px;
 		text-transform: uppercase;
 		white-space: nowrap;
 		overflow: hidden;
@@ -358,39 +356,39 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.header-date {
-		font-size: 36px;
+		font-size: 60px;
 		font-weight: 800;
 		color: #ffffff;
-		line-height: 44px;
-		margin-top: 4px;
-		letter-spacing: -0.6px;
+		line-height: 74px;
+		margin-top: 6px;
+		letter-spacing: -1px;
 		font-variant-numeric: tabular-nums;
 	}
 
 	.header-sub {
-		font-size: 20px;
+		font-size: 34px;
 		font-weight: 500;
 		color: #6b7a94;
-		margin-top: 4px;
-		line-height: 24px;
+		margin-top: 6px;
+		line-height: 40px;
 	}
 
 	.header-icon {
-		width: 64px;
-		height: 64px;
-		border-radius: 20px;
+		width: 108px;
+		height: 108px;
+		border-radius: 34px;
 		background: #162032;
-		border: 2px solid #1f2e4a;
+		border: 3px solid #1f2e4a;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		flex-shrink: 0;
-		font-size: 30px;
+		font-size: 50px;
 	}
 
 	.progress-container {
-		width: 640px;
-		height: 4px;
+		width: 1080px;
+		height: 6px;
 		background: #162032;
 		position: relative;
 		overflow: hidden;
@@ -419,7 +417,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	@keyframes fadeUp {
 		from {
 			opacity: 0;
-			transform: translateY(12px);
+			transform: translateY(20px);
 		}
 		to {
 			opacity: 1;
@@ -429,8 +427,8 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	.card-body {
 		flex: 1;
-		width: 640px;
-		padding: 16px 20px 12px 20px;
+		width: 1080px;
+		padding: 26px 34px 20px 34px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -439,26 +437,26 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.content-box {
-		width: 600px;
-		max-width: 600px;
+		width: 1012px;
+		max-width: 1012px;
 		background: #162032;
-		border: 2px solid #1f2e4a;
-		border-radius: 32px;
+		border: 3px solid #1f2e4a;
+		border-radius: 54px;
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
 		min-height: 0;
 		position: relative;
-		padding-top: 8px;
-		padding-bottom: 8px;
+		padding-top: 14px;
+		padding-bottom: 14px;
 		flex: 1;
 	}
 
 	.slide-item {
 		display: none;
 		width: 100%;
-		max-width: 600px;
-		padding: 12px;
+		max-width: 1012px;
+		padding: 20px;
 		overflow: hidden;
 		height: 100%;
 	}
@@ -473,7 +471,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.horiz-container {
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
+		gap: 16px;
 		width: 100%;
 		height: 100%;
 		justify-content: space-between;
@@ -483,34 +481,34 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		flex: 1;
 		min-height: 0;
 		background: #0f1a2e;
-		border: 2px solid #1a2942;
-		border-radius: 20px;
-		padding: 10px 16px;
+		border: 3px solid #1a2942;
+		border-radius: 34px;
+		padding: 16px 26px;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 12px;
+		gap: 20px;
 		overflow: hidden;
 	}
 
 	.horiz-left {
 		display: flex;
 		align-items: center;
-		gap: 10px;
+		gap: 16px;
 		min-width: 0;
 		flex: 1;
 	}
 
 	.horiz-icon {
-		font-size: 22px;
+		font-size: 36px;
 		flex-shrink: 0;
 	}
 
 	.horiz-name {
-		font-size: 22px;
+		font-size: 36px;
 		font-weight: 700;
 		color: #ffffff;
-		line-height: 26px;
+		line-height: 44px;
 		white-space: normal;
 		word-break: break-word;
 		display: -webkit-box;
@@ -524,19 +522,19 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.horiz-right {
 		display: flex;
 		align-items: center;
-		gap: 8px;
+		gap: 14px;
 		flex-shrink: 0;
 	}
 
 	.price-chip {
 		background: #080f1d;
-		border: 2px solid rgba(255, 255, 255, 0.08);
-		border-radius: 10px;
-		padding: 4px 10px;
+		border: 3px solid rgba(255, 255, 255, 0.08);
+		border-radius: 16px;
+		padding: 6px 16px;
 		display: flex;
 		align-items: center;
-		gap: 6px;
-		line-height: 22px;
+		gap: 10px;
+		line-height: 36px;
 	}
 
 	.price-chip.chip-orange {
@@ -545,10 +543,10 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.chip-label {
-		font-size: 16px;
+		font-size: 26px;
 		font-weight: 700;
 		color: #6b7a94;
-		letter-spacing: 0.6px;
+		letter-spacing: 1px;
 		text-transform: uppercase;
 	}
 
@@ -557,11 +555,11 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.chip-val {
-		font-size: 22px;
+		font-size: 36px;
 		font-weight: 800;
 		color: #ffffff;
 		font-variant-numeric: tabular-nums;
-		letter-spacing: -0.4px;
+		letter-spacing: -0.6px;
 	}
 
 	.chip-val.val-orange {
@@ -569,11 +567,11 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.chip-diff {
-		font-size: 16px;
+		font-size: 26px;
 		font-weight: 700;
-		padding: 1px 6px;
-		border-radius: 6px;
-		line-height: 20px;
+		padding: 2px 10px;
+		border-radius: 10px;
+		line-height: 32px;
 	}
 
 	.diff-up {
@@ -592,42 +590,42 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.table-header-top {
-		padding: 12px 16px 8px 16px;
+		padding: 20px 26px 14px 26px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		border-bottom: 2px solid #1f2e4a;
+		border-bottom: 3px solid #1f2e4a;
 		width: 100%;
 	}
 
 	.table-title {
-		font-size: 20px;
+		font-size: 34px;
 		font-weight: 700;
-		letter-spacing: 1px;
+		letter-spacing: 1.6px;
 		color: #f97316;
 		text-transform: uppercase;
 	}
 
 	.table-count {
-		font-size: 16px;
+		font-size: 26px;
 		font-weight: 600;
 		color: #6b7a94;
 		background: #0f1a2e;
-		border-radius: 6px;
-		padding: 2px 8px;
+		border-radius: 10px;
+		padding: 4px 14px;
 	}
 
 	.table-columns {
 		display: flex;
 		width: 100%;
-		padding: 6px 16px;
-		gap: 8px;
+		padding: 10px 26px;
+		gap: 14px;
 		background: #0f1a2e;
-		border-bottom: 2px solid #1f2e4a;
-		font-size: 16px;
+		border-bottom: 3px solid #1f2e4a;
+		font-size: 26px;
 		font-weight: 700;
 		color: #5a6b8a;
-		letter-spacing: 0.6px;
+		letter-spacing: 1px;
 		text-transform: uppercase;
 	}
 
@@ -637,10 +635,12 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.col-v1 {
 		width: 30%;
 		text-align: right;
+		color: #cbd5e1;
 	}
 	.col-v2 {
 		width: 30%;
 		text-align: right;
+		color: #f97316;
 	}
 
 	.table-rows {
@@ -653,10 +653,10 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		display: flex;
 		align-items: center;
 		width: 100%;
-		height: 38px;
-		padding: 0 16px;
-		gap: 6px;
-		border-bottom: 2px solid rgba(31, 46, 74, 0.4);
+		height: 64px;
+		padding: 0 26px;
+		gap: 10px;
+		border-bottom: 3px solid rgba(31, 46, 74, 0.4);
 		overflow: hidden;
 	}
 
@@ -666,21 +666,21 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		overflow: hidden;
 		display: flex;
 		align-items: center;
-		gap: 6px;
+		gap: 10px;
 	}
 
 	.type-dot {
-		width: 8px;
-		height: 8px;
-		border-radius: 4px;
+		width: 14px;
+		height: 14px;
+		border-radius: 7px;
 		flex-shrink: 0;
 	}
 
 	.type-name {
-		font-size: 18px;
+		font-size: 30px;
 		font-weight: 600;
 		color: #e2e8f0;
-		line-height: 20px;
+		line-height: 34px;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -688,7 +688,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	.row-v1 {
 		width: 30%;
-		font-size: 18px;
+		font-size: 30px;
 		font-weight: 700;
 		color: #ffffff;
 		text-align: right;
@@ -697,26 +697,27 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	.row-v2 {
 		width: 30%;
-		font-size: 18px;
+		font-size: 30px;
 		font-weight: 800;
+		color: #f97316;
 		text-align: right;
 		font-variant-numeric: tabular-nums;
 	}
 
 	.indicators {
 		display: flex;
-		gap: 8px;
-		margin-top: 12px;
+		gap: 14px;
+		margin-top: 20px;
 		align-items: center;
 		justify-content: center;
-		width: 600px;
-		max-width: 600px;
+		width: 1012px;
+		max-width: 1012px;
 		flex-wrap: wrap;
 	}
 
 	.indicator-dot {
-		width: 10px;
-		height: 10px;
+		width: 16px;
+		height: 16px;
 		border-radius: 999px;
 		border: none;
 		background: #2a3a5a;
@@ -727,34 +728,34 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.indicator-dot.active {
-		width: 28px;
+		width: 48px;
 		background: #f97316;
 	}
 
 	.footer-note {
-		margin-top: 8px;
-		width: 600px;
-		max-width: 600px;
+		margin-top: 14px;
+		width: 1012px;
+		max-width: 1012px;
 		display: flex;
 		justify-content: center;
 		overflow: hidden;
 	}
 
 	.footer-note span {
-		font-size: 16px;
+		font-size: 26px;
 		font-weight: 500;
 		color: #3d4f6b;
 	}
 
 	.card-footer {
-		width: 640px;
-		max-width: 640px;
-		height: 60px;
-		border-top: 2px solid #162032;
+		width: 1080px;
+		max-width: 1080px;
+		height: 100px;
+		border-top: 3px solid #162032;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 0 32px;
+		padding: 0 54px;
 		overflow: hidden;
 		flex-shrink: 0;
 	}
@@ -762,31 +763,31 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.footer-source {
 		display: flex;
 		align-items: center;
-		gap: 12px;
+		gap: 20px;
 		min-width: 0;
 		overflow: hidden;
 	}
 
 	.status-dot {
-		width: 8px;
-		height: 8px;
-		border-radius: 4px;
+		width: 14px;
+		height: 14px;
+		border-radius: 7px;
 		background: #22c55e;
 		flex-shrink: 0;
 	}
 
 	.source-text {
-		font-size: 18px;
+		font-size: 30px;
 		font-weight: 600;
 		color: #5a6b8a;
-		letter-spacing: 0.6px;
+		letter-spacing: 1px;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
 
 	.slide-counter {
-		font-size: 18px;
+		font-size: 30px;
 		font-weight: 700;
 		color: #3d4f6b;
 		font-variant-numeric: tabular-nums;

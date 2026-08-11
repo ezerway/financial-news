@@ -79,6 +79,8 @@
   - [x] Scale all 3 commodity sliders (`FuelSlider.astro`, `GasSlider.astro`, `GoldSlider.astro`) from 320x568 to 2x resolution (640x1136) with scaled typography, paddings, canvas recording contexts, and video player outputs.
   - [x] Reorder slides across all 3 sliders (`FuelSlider.astro`, `GasSlider.astro`, `GoldSlider.astro`) so that summary table slides display first as initial slide 0.
   - [x] Update `GoldSlider.astro` component to feature 2 summary slides (splitting gold data across 2 summary table slides) and 3 items per non-summary slide (6 item group slides of 3 items each).
+  - [x] Add price text colors (`#f97316` for 45KG and `#cbd5e1`/`#ffffff` for 12KG) to summary table slides in `GasSlider.astro`.
+  - [x] Update all commodity sliders (`FuelSlider.astro`, `GasSlider.astro`, `GoldSlider.astro`) to 1080x1920 resolution, remove outer borders (`border: none`), and remove outer radiuses (`border-radius: 0`).
 
 ---
 

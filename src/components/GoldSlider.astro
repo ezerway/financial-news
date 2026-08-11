@@ -148,7 +148,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 										{item.buyDiff !== undefined &&
 											item.buyDiff !== 0 && (
 												<span
-													class={`text-[15px] font-bold ${item.buyDiff > 0 ? "text-emerald-400" : "text-rose-400"}`}
+													class={`text-[25px] font-bold ${item.buyDiff > 0 ? "text-emerald-400" : "text-rose-400"}`}
 												>
 													{item.buyDiff > 0
 														? "▲+"
@@ -164,7 +164,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 										{item.sellDiff !== undefined &&
 											item.sellDiff !== 0 && (
 												<span
-													class={`text-[15px] font-bold ${item.sellDiff > 0 ? "text-emerald-400" : "text-rose-400"}`}
+													class={`text-[25px] font-bold ${item.sellDiff > 0 ? "text-emerald-400" : "text-rose-400"}`}
 												>
 													{item.sellDiff > 0
 														? "▲+"
@@ -320,12 +320,12 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 </div>
 
 <canvas
-	class="hidden w-[640px] h-[1136px]"
-	width="640"
-	height="1136"
+	class="hidden w-[1080px] h-[1920px]"
+	width="1080"
+	height="1920"
 	id="canvas"></canvas>
 <div class="flex justify-center py-4">
-	<video class="hidden w-[640px] h-[1136px]" controls id="video"></video>
+	<video class="hidden w-[1080px] h-[1920px]" controls id="video"></video>
 </div>
 <style>
 	* {
@@ -344,17 +344,16 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.video-root {
-		width: 640px;
-		height: 1136px;
+		width: 1080px;
+		height: 1920px;
 		background: #0b1220;
-		border-radius: 48px;
+		border-radius: 0;
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
 		position: relative;
-		box-shadow:
-			0 40px 120px rgba(0, 0, 0, 0.6),
-			0 0 0 2px rgba(255, 255, 255, 0.06) inset;
+		border: none;
+		box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6);
 		flex-shrink: 0;
 		word-break: keep-all;
 		overflow-wrap: break-word;
@@ -364,10 +363,10 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	.glow-bg {
 		position: absolute;
-		top: -120px;
-		left: -80px;
-		width: 520px;
-		height: 520px;
+		top: -200px;
+		left: -130px;
+		width: 880px;
+		height: 880px;
 		background: radial-gradient(
 			60% 60% at 50% 50%,
 			rgba(246, 216, 122, 0.16) 0%,
@@ -378,10 +377,10 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	/* Header Styles */
 	.header-section {
-		padding: 36px 32px 20px;
+		padding: 60px 54px 34px;
 		display: flex;
 		flex-direction: column;
-		gap: 8px;
+		gap: 14px;
 		position: relative;
 		z-index: 1;
 		overflow: hidden;
@@ -400,7 +399,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.header-title {
-		font-size: 22px;
+		font-size: 36px;
 		font-weight: 700;
 		letter-spacing: 0.14em;
 		color: #7b8cae;
@@ -411,19 +410,19 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.live-badge {
-		font-size: 20px;
+		font-size: 34px;
 		font-weight: 600;
 		color: hsl(133, 71%, 71%);
 		background: #111d31;
-		border: 2px solid #1c2b45;
-		padding: 6px 14px;
+		border: 3px solid #1c2b45;
+		padding: 10px 24px;
 		border-radius: 999px;
 		line-height: 1;
 		white-space: nowrap;
 	}
 
 	.header-date {
-		font-size: 40px;
+		font-size: 68px;
 		font-weight: 800;
 		color: #ffffff;
 		line-height: 1.1;
@@ -434,7 +433,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.header-sub {
-		font-size: 22px;
+		font-size: 36px;
 		font-weight: 500;
 		color: #4a5c7c;
 		line-height: 1;
@@ -445,8 +444,8 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	/* Indicators */
 	.indicators-wrap {
 		display: flex;
-		gap: 8px;
-		margin-top: 24px;
+		gap: 14px;
+		margin-top: 40px;
 		align-items: center;
 		width: 100%;
 		max-width: 100%;
@@ -454,20 +453,20 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.dot-btn {
-		height: 8px;
+		height: 14px;
 		border-radius: 999px;
 		border: 0;
 		padding: 0;
 		cursor: pointer;
 		transition: all 0.22s ease;
-		width: 8px;
+		width: 14px;
 		background: #233145;
 		opacity: 0.9;
 		flex-shrink: 0;
 	}
 
 	.dot-btn.active {
-		width: 32px;
+		width: 54px;
 		background: #f6d87a;
 		opacity: 1;
 	}
@@ -477,7 +476,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.slide-counter {
-		font-size: 20px;
+		font-size: 34px;
 		color: #3a4d6e;
 		font-weight: 600;
 		letter-spacing: 0.02em;
@@ -490,7 +489,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 12px 20px 20px;
+		padding: 20px 34px 34px;
 		width: 100%;
 		max-width: 100%;
 		overflow: hidden;
@@ -500,12 +499,12 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	.slide-card {
 		display: none;
-		width: 600px;
+		width: 1012px;
 		max-width: 100%;
-		padding: 28px;
+		padding: 46px;
 		background: #162032;
-		border-radius: 36px;
-		border: 2px solid #1e2e4a;
+		border-radius: 60px;
+		border: 3px solid #1e2e4a;
 		overflow: hidden;
 		box-sizing: border-box;
 		flex-direction: column;
@@ -518,7 +517,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	@keyframes cardIn {
 		from {
-			transform: translateY(16px);
+			transform: translateY(20px);
 			opacity: 0;
 		}
 		to {
@@ -531,7 +530,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.card-header {
 		display: flex;
 		align-items: center;
-		gap: 16px;
+		gap: 26px;
 		width: 100%;
 		max-width: 100%;
 		overflow: hidden;
@@ -539,15 +538,15 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.badge-icon {
-		padding: 8px;
-		border-radius: 18px;
+		padding: 14px;
+		border-radius: 30px;
 		background: #1c2c48;
-		border: 2px solid #243654;
+		border: 3px solid #243654;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		flex-shrink: 0;
-		font-size: 22px;
+		font-size: 36px;
 		font-weight: 800;
 		color: #f6d87a;
 		letter-spacing: -0.02em;
@@ -560,7 +559,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.item-short {
-		font-size: 26px;
+		font-size: 44px;
 		font-weight: 600;
 		color: #ffffff;
 		line-height: 1.2;
@@ -571,44 +570,44 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.item-sub {
-		font-size: 22px;
+		font-size: 36px;
 		font-weight: 500;
 		color: #5c708f;
 		line-height: 1.1;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		margin-top: 2px;
+		margin-top: 4px;
 	}
 
 	.purity-badge {
-		font-size: 20px;
+		font-size: 34px;
 		font-weight: 700;
 		color: #2f4364;
 		background: #0e1a2d;
-		border: 2px solid #1b2b47;
-		padding: 8px 12px;
-		border-radius: 14px;
+		border: 3px solid #1b2b47;
+		padding: 14px 20px;
+		border-radius: 24px;
 		line-height: 1;
 		flex-shrink: 0;
 		white-space: nowrap;
 	}
 
 	.divider {
-		height: 2px;
+		height: 3px;
 		background: linear-gradient(
 			90deg,
 			rgba(255, 255, 255, 0.06),
 			rgba(255, 255, 255, 0)
 		);
-		margin-top: 24px;
-		margin-bottom: 24px;
+		margin-top: 40px;
+		margin-bottom: 40px;
 		width: 100%;
 	}
 
 	.price-grid {
 		display: flex;
-		gap: 16px;
+		gap: 26px;
 		width: 100%;
 		max-width: 100%;
 		overflow: hidden;
@@ -617,28 +616,28 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.price-box {
 		flex: 1;
 		min-width: 0;
-		padding: 20px 16px;
-		border-radius: 24px;
+		padding: 34px 26px;
+		border-radius: 40px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 12px;
+		gap: 20px;
 		overflow: hidden;
 		max-width: 100%;
 	}
 
 	.buy-box {
 		background: #0f1b2f;
-		border: 2px solid #1d2d4a;
+		border: 3px solid #1d2d4a;
 	}
 
 	.sell-box {
 		background: linear-gradient(180deg, #1b2740 0%, #121e34 100%);
-		border: 2px solid #2a3b5e;
+		border: 3px solid #2a3b5e;
 	}
 
 	.price-label {
-		font-size: 20px;
+		font-size: 34px;
 		font-weight: 700;
 		letter-spacing: 0.08em;
 		line-height: 1;
@@ -654,7 +653,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.price-value {
-		font-size: 48px;
+		font-size: 80px;
 		font-weight: 800;
 		line-height: 1;
 		letter-spacing: -0.03em;
@@ -671,7 +670,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.price-unit {
-		font-size: 18px;
+		font-size: 30px;
 		font-weight: 600;
 		line-height: 1;
 		white-space: nowrap;
@@ -685,7 +684,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.card-footer-info {
-		margin-top: 20px;
+		margin-top: 34px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -695,7 +694,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.diff-text {
-		font-size: 20px;
+		font-size: 34px;
 		color: #3d4f6b;
 		font-weight: 500;
 		white-space: nowrap;
@@ -708,15 +707,15 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.icon-arrow {
-		width: 36px;
-		height: 36px;
-		border-radius: 12px;
+		width: 60px;
+		height: 60px;
+		border-radius: 20px;
 		background: #0e1a2d;
-		border: 2px solid #1d2e4e;
+		border: 3px solid #1d2e4e;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 20px;
+		font-size: 34px;
 		color: #4a5e81;
 	}
 
@@ -725,14 +724,14 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 20px;
+		margin-bottom: 34px;
 		width: 100%;
 		max-width: 100%;
 		overflow: hidden;
 	}
 
 	.table-title {
-		font-size: 22px;
+		font-size: 36px;
 		font-weight: 700;
 		letter-spacing: 0.12em;
 		color: #7b8cae;
@@ -740,7 +739,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.table-date {
-		font-size: 20px;
+		font-size: 34px;
 		font-weight: 600;
 		color: #2f425f;
 		white-space: nowrap;
@@ -748,9 +747,9 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	.table-cols {
 		display: flex;
-		gap: 12px;
-		padding: 0 0 12px;
-		border-bottom: 2px solid #1d2d4a;
+		gap: 20px;
+		padding: 0 0 20px;
+		border-bottom: 3px solid #1d2d4a;
 		width: 100%;
 		max-width: 100%;
 		overflow: hidden;
@@ -759,17 +758,17 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.col-type {
 		flex: 1.2;
 		min-width: 0;
-		font-size: 20px;
+		font-size: 34px;
 		font-weight: 700;
 		color: #4a5e81;
 		letter-spacing: 0.06em;
 	}
 
 	.col-price {
-		width: 132px;
+		width: 220px;
 		flex-shrink: 0;
 		text-align: right;
-		font-size: 20px;
+		font-size: 34px;
 		font-weight: 700;
 		letter-spacing: 0.06em;
 	}
@@ -790,11 +789,11 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	.table-row {
 		display: flex;
-		gap: 12px;
+		gap: 20px;
 		align-items: center;
-		height: 72px;
-		min-height: 72px;
-		border-bottom: 2px solid rgba(29, 45, 74, 0.7);
+		height: 120px;
+		min-height: 120px;
+		border-bottom: 3px solid rgba(29, 45, 74, 0.7);
 		width: 100%;
 		max-width: 100%;
 		overflow: hidden;
@@ -807,7 +806,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.row-short {
-		font-size: 22px;
+		font-size: 36px;
 		font-weight: 600;
 		color: #d6e0f0;
 		line-height: 1.1;
@@ -817,22 +816,22 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.row-sub {
-		font-size: 18px;
+		font-size: 30px;
 		color: #3f5374;
 		line-height: 1;
-		margin-top: 4px;
+		margin-top: 6px;
 		white-space: nowrap;
 		overflow: hidden;
 	}
 
 	.row-price {
-		width: 132px;
+		width: 220px;
 		flex-shrink: 0;
 		display: flex;
 		justify-content: flex-end;
 		min-width: 0;
 		overflow: hidden;
-		font-size: 24px;
+		font-size: 40px;
 		font-weight: 800;
 		line-height: 1;
 		letter-spacing: -0.03em;
@@ -848,48 +847,48 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	/* Item Group Card (3 Items Per Slide) */
 	.item-group-card {
-		padding: 20px 24px;
-		gap: 14px;
+		padding: 34px 40px;
+		gap: 24px;
 		background: #162032;
-		border-radius: 36px;
-		border: 2px solid #1e2e4a;
+		border-radius: 60px;
+		border: 3px solid #1e2e4a;
 	}
 
 	.items-list {
 		display: flex;
 		flex-direction: column;
-		gap: 14px;
+		gap: 24px;
 		width: 100%;
 	}
 
 	.gold-item-block {
 		background: #0f1a2b;
-		border: 2px solid #1c2b45;
-		border-radius: 24px;
-		padding: 16px 20px;
+		border: 3px solid #1c2b45;
+		border-radius: 40px;
+		padding: 26px 34px;
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: 20px;
 		width: 100%;
 	}
 
 	.block-header {
 		display: flex;
 		align-items: center;
-		gap: 14px;
+		gap: 24px;
 		width: 100%;
 	}
 
 	.badge-icon-sm {
-		padding: 6px 12px;
-		border-radius: 12px;
+		padding: 10px 20px;
+		border-radius: 20px;
 		background: #1c2c48;
-		border: 1.5px solid #243654;
+		border: 2px solid #243654;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		flex-shrink: 0;
-		font-size: 16px;
+		font-size: 26px;
 		font-weight: 800;
 		color: #f6d87a;
 		letter-spacing: -0.02em;
@@ -902,7 +901,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.item-short-sm {
-		font-size: 20px;
+		font-size: 34px;
 		font-weight: 700;
 		color: #ffffff;
 		line-height: 1.2;
@@ -912,60 +911,60 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.item-sub-sm {
-		font-size: 16px;
+		font-size: 26px;
 		font-weight: 500;
 		color: #5c708f;
 		line-height: 1.1;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		margin-top: 2px;
+		margin-top: 4px;
 	}
 
 	.diff-badge-sm {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-end;
-		font-size: 14px;
+		font-size: 24px;
 		flex-shrink: 0;
 	}
 
 	.diff-label {
 		color: #3d4f6b;
 		font-weight: 500;
-		font-size: 13px;
+		font-size: 22px;
 	}
 
 	.diff-num {
 		color: #8a9bb5;
 		font-weight: 700;
-		font-size: 15px;
+		font-size: 26px;
 	}
 
 	.block-prices {
 		display: flex;
-		gap: 12px;
+		gap: 20px;
 		width: 100%;
 	}
 
 	.price-box-sm {
 		flex: 1;
 		min-width: 0;
-		padding: 12px 14px;
-		border-radius: 16px;
+		padding: 20px 24px;
+		border-radius: 26px;
 		display: flex;
 		flex-direction: column;
-		gap: 6px;
+		gap: 10px;
 	}
 
 	.buy-box-sm {
 		background: #0b1424;
-		border: 1.5px solid #1a2942;
+		border: 2px solid #1a2942;
 	}
 
 	.sell-box-sm {
 		background: linear-gradient(180deg, #18233a 0%, #101a2d 100%);
-		border: 1.5px solid #253654;
+		border: 2px solid #253654;
 	}
 
 	.price-header-sm {
@@ -976,15 +975,15 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.diff-chip {
-		font-size: 14px;
+		font-size: 24px;
 		font-weight: 700;
-		padding: 2px 8px;
+		padding: 4px 14px;
 		border-radius: 999px;
 		line-height: 1.2;
 	}
 
 	.price-val-sm {
-		font-size: 30px;
+		font-size: 50px;
 		font-weight: 800;
 		line-height: 1.1;
 		letter-spacing: -0.02em;
@@ -1003,11 +1002,11 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	/* Footer Styles */
 	.footer-section {
-		padding: 20px 32px 28px;
+		padding: 34px 54px 46px;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		border-top: 2px solid rgba(255, 255, 255, 0.05);
+		border-top: 3px solid rgba(255, 255, 255, 0.05);
 		width: 100%;
 		max-width: 100%;
 		overflow: hidden;
@@ -1018,20 +1017,20 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.footer-left {
 		display: flex;
 		align-items: center;
-		gap: 12px;
+		gap: 20px;
 		min-width: 0;
 		overflow: hidden;
 	}
 
 	.au-badge {
-		width: 40px;
-		height: 40px;
-		border-radius: 12px;
+		width: 68px;
+		height: 68px;
+		border-radius: 20px;
 		background: #f6d87a;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 20px;
+		font-size: 34px;
 		font-weight: 900;
 		color: #0b1220;
 		flex-shrink: 0;
@@ -1043,7 +1042,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.footer-title {
-		font-size: 20px;
+		font-size: 34px;
 		font-weight: 700;
 		color: #c9d6ea;
 		line-height: 1;
@@ -1053,15 +1052,15 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.footer-sub {
-		font-size: 18px;
+		font-size: 30px;
 		color: #3a4d6e;
 		line-height: 1;
-		margin-top: 4px;
+		margin-top: 6px;
 		white-space: nowrap;
 	}
 
 	.footer-ratio {
-		font-size: 18px;
+		font-size: 30px;
 		color: #2c3d5a;
 		font-weight: 500;
 		white-space: nowrap;
