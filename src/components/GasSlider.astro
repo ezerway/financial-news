@@ -3,7 +3,7 @@
 import { useTranslations } from "@/i18n/ui";
 import { toTableItems, attachComparison } from "@libs/commonTransformer";
 
-export interface GasItem {
+interface GasItem {
 	id: string;
 	shortName: string;
 	sub: string | null;
@@ -15,7 +15,7 @@ export interface GasItem {
 	type2Diff?: number;
 }
 
-export interface Props {
+interface Props {
 	collection: any[];
 	date: Date;
 }
@@ -46,11 +46,93 @@ const gasData: GasItem[] = (latestEntry?.data || []).map((item: any) => {
 	};
 });
 
-// Chunk gasData into 6 horizontal items per slide
-const itemSlides: GasItem[][] = [];
-for (let i = 0; i < gasData.length; i += 6) {
-	itemSlides.push(gasData.slice(i, i + 6));
+const mienBacProvinces = new Set([
+	"Hà Nội",
+	"Bắc Ninh",
+	"Hải Phòng",
+	"Quảng Ninh",
+	"Hưng Yên",
+	"Ninh Bình",
+	"Thanh Hóa",
+	"Thái Nguyên",
+	"Phú Thọ",
+	"Lạng Sơn",
+	"Tuyên Quang",
+	"Cao Bằng",
+	"Lào Cai",
+	"Sơn La",
+	"Điện Biên",
+	"Lai Châu",
+]);
+
+const mienTrungProvinces = new Set([
+	"Đà Nẵng",
+	"Thừa Thiên - Huế",
+	"Quảng Trị",
+	"Hà Tĩnh",
+	"Nghệ An",
+	"Quảng Ngãi",
+	"Gia Lai",
+	"Khánh Hòa",
+	"Lâm Đồng",
+	"Đắc Lắc",
+	"Đắk Lắk",
+]);
+
+const mienNamProvinces = new Set([
+	"Hồ Chí Minh",
+	"Đồng Nai",
+	"Tây Ninh",
+	"Đồng Tháp",
+	"Vĩnh Long",
+	"Cần Thơ",
+	"An Giang",
+	"Cà Mau",
+]);
+
+function getRegionName(provinceName: string): string {
+	if (mienNamProvinces.has(provinceName)) return t("gasSlider.regionSouth");
+	if (mienTrungProvinces.has(provinceName))
+		return t("gasSlider.regionCentral");
+	return t("gasSlider.regionNorth");
 }
+
+interface RegionalSlide {
+	title: string;
+	items: GasItem[];
+}
+
+const northItems = gasData.filter(
+	(i) => getRegionName(i.shortName) === t("gasSlider.regionNorth"),
+);
+const centralItems = gasData.filter(
+	(i) => getRegionName(i.shortName) === t("gasSlider.regionCentral"),
+);
+const southItems = gasData.filter(
+	(i) => getRegionName(i.shortName) === t("gasSlider.regionSouth"),
+);
+
+const regionalSlides: RegionalSlide[] = [];
+const maxPerSlide = 10;
+
+function addRegionSlides(regionLabel: string, itemsList: GasItem[]) {
+	const totalChunks = Math.ceil(itemsList.length / maxPerSlide);
+	for (let i = 0; i < itemsList.length; i += maxPerSlide) {
+		const chunk = itemsList.slice(i, i + maxPerSlide);
+		const partStr =
+			totalChunks > 1
+				? ` (${Math.floor(i / maxPerSlide) + 1}/${totalChunks})`
+				: "";
+		regionalSlides.push({
+			title: `${regionLabel}${partStr}`,
+			items: chunk,
+		});
+	}
+}
+
+addRegionSlides(t("gasSlider.regionNorth"), northItems);
+addRegionSlides(t("gasSlider.regionCentral"), centralItems);
+addRegionSlides(t("gasSlider.regionSouth"), southItems);
 
 // Chunk gasData into summary slides (19 items per slide)
 const summaryChunkSize = 19;
@@ -59,7 +141,7 @@ for (let i = 0; i < gasData.length; i += summaryChunkSize) {
 	summarySlides.push(gasData.slice(i, i + summaryChunkSize));
 }
 
-const totalSlides = itemSlides.length + summarySlides.length;
+const totalSlides = summarySlides.length + regionalSlides.length;
 
 const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	date.getMonth() + 1
@@ -173,81 +255,76 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 					})
 				}
 
-				{/* 6 Horizontal Items Per Slide (Second) */}
 				{
-					itemSlides.map((group, slideIdx) => {
-						const currentSlideIndex =
-							summarySlides.length + slideIdx;
+					regionalSlides.map((regSlide, rIdx) => {
+						const currentSlideIndex = summarySlides.length + rIdx;
 						return (
 							<div
-								class="slide-item horiz-slide"
+								class="slide-item summary-table detail-table"
 								data-slide-index={currentSlideIndex}
 							>
-								<div class="horiz-container">
-									{group.map((item) => (
-										<div class="horiz-card-6">
-											<div class="horiz-left">
-												<span class="horiz-icon">
-													🔥
-												</span>
+								<div class="table-header-top">
+									<div class="table-title">
+										{regSlide.title}
+									</div>
+									<div class="table-count">
+										{regSlide.items.length}{" "}
+										{t("slider.summaryCount")}
+									</div>
+								</div>
+								<div class="table-columns">
+									<div class="col-type">
+										{t("gasSlider.colType")}
+									</div>
+									<div class="col-v1">12KG</div>
+									<div class="col-v2">45KG</div>
+								</div>
+								<div class="table-rows">
+									{regSlide.items.map((item) => (
+										<div class="table-row">
+											<div class="row-type">
 												<span
-													class="horiz-name"
+													class="type-dot"
+													style="background: #f97316;"
+												/>
+												<span
+													class="type-name"
 													title={item.shortName}
 												>
 													{item.shortName}
 												</span>
 											</div>
-
-											<div class="horiz-right">
-												<div class="price-chip">
-													<span class="chip-label">
-														12K
-													</span>
-													<span class="chip-val">
-														{item.type1}
-													</span>
-													{item.type1Diff !==
-														undefined &&
-														item.type1Diff !==
-															0 && (
-															<span
-																class={`chip-diff ${item.type1Diff > 0 ? "diff-up" : "diff-down"}`}
-															>
-																{item.type1Diff >
-																0
-																	? "▲+"
-																	: "▼"}
-																{item.type1Diff.toLocaleString(
-																	numLocale,
-																)}
-															</span>
-														)}
-												</div>
-
-												<div class="price-chip chip-orange">
-													<span class="chip-label label-orange">
-														45K
-													</span>
-													<span class="chip-val val-orange">
-														{item.type2}
-													</span>
-													{item.type2Diff !==
-														undefined &&
-														item.type2Diff !==
-															0 && (
-															<span
-																class={`chip-diff ${item.type2Diff > 0 ? "diff-up" : "diff-down"}`}
-															>
-																{item.type2Diff >
-																0
-																	? "▲+"
-																	: "▼"}
-																{item.type2Diff.toLocaleString(
-																	numLocale,
-																)}
-															</span>
-														)}
-												</div>
+											<div class="row-v1 flex flex-col items-end leading-none">
+												<span>{item.type1}</span>
+												{item.type1Diff !== undefined &&
+													item.type1Diff !== 0 && (
+														<span
+															class={`text-[24px] font-bold ${item.type1Diff > 0 ? "text-emerald-400" : "text-rose-400"}`}
+														>
+															{item.type1Diff > 0
+																? "▲+"
+																: "▼"}
+															{item.type1Diff.toLocaleString(
+																numLocale,
+															)}
+														</span>
+													)}
+											</div>
+											<div class="row-v2 flex flex-col items-end leading-none">
+												<span>{item.type2}</span>
+												{item.type2Diff !== undefined &&
+													item.type2Diff !== 0 && (
+														<span
+															class={`text-[24px] font-bold ${item.type2Diff > 0 ? "text-emerald-400" : "text-rose-400"}`}
+														>
+															{item.type2Diff > 0
+																? "▲+"
+																: "▼"}
+															{item.type2Diff.toLocaleString(
+																numLocale,
+															)}
+														</span>
+													)}
 											</div>
 										</div>
 									))}
@@ -323,7 +400,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.card-header {
-		padding: 54px 54px 34px 54px;
+		padding: 120px 120px 40px 120px;
 		width: 1080px;
 		max-width: 1080px;
 		overflow: hidden;
@@ -335,7 +412,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		align-items: flex-start;
 		gap: 26px;
 		width: 100%;
-		max-width: 972px;
+		max-width: 840px;
 	}
 
 	.header-info {
@@ -428,7 +505,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.card-body {
 		flex: 1;
 		width: 1080px;
-		padding: 26px 34px 20px 34px;
+		padding: 40px 120px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -437,8 +514,8 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.content-box {
-		width: 1012px;
-		max-width: 1012px;
+		width: 840px;
+		max-width: 840px;
 		background: #162032;
 		border: 3px solid #1f2e4a;
 		border-radius: 54px;
@@ -455,8 +532,8 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.slide-item {
 		display: none;
 		width: 100%;
-		max-width: 1012px;
-		padding: 20px;
+		max-width: 840px;
+		padding: 40px 30px;
 		overflow: hidden;
 		height: 100%;
 	}
@@ -590,7 +667,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.table-header-top {
-		padding: 20px 26px 14px 26px;
+		padding: 20px 30px 14px 30px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -618,7 +695,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.table-columns {
 		display: flex;
 		width: 100%;
-		padding: 10px 26px;
+		padding: 10px 30px;
 		gap: 14px;
 		background: #0f1a2e;
 		border-bottom: 3px solid #1f2e4a;
@@ -654,7 +731,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		align-items: center;
 		width: 100%;
 		height: 64px;
-		padding: 0 26px;
+		padding: 0 30px;
 		gap: 10px;
 		border-bottom: 3px solid rgba(31, 46, 74, 0.4);
 		overflow: hidden;
@@ -704,14 +781,30 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		font-variant-numeric: tabular-nums;
 	}
 
+	/* Detail Table Styles (6 items per non-summary slide) */
+	.detail-table .table-row {
+		height: 104px;
+		padding: 0 30px;
+	}
+
+	.detail-table .type-name {
+		font-size: 34px;
+		line-height: 40px;
+	}
+
+	.detail-table .row-v1,
+	.detail-table .row-v2 {
+		font-size: 36px;
+	}
+
 	.indicators {
 		display: flex;
 		gap: 14px;
 		margin-top: 20px;
 		align-items: center;
 		justify-content: center;
-		width: 1012px;
-		max-width: 1012px;
+		width: 840px;
+		max-width: 840px;
 		flex-wrap: wrap;
 	}
 
@@ -734,8 +827,8 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 
 	.footer-note {
 		margin-top: 14px;
-		width: 1012px;
-		max-width: 1012px;
+		width: 840px;
+		max-width: 840px;
 		display: flex;
 		justify-content: center;
 		overflow: hidden;
@@ -750,12 +843,12 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	.card-footer {
 		width: 1080px;
 		max-width: 1080px;
-		height: 100px;
+		height: auto;
 		border-top: 3px solid #162032;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 0 54px;
+		padding: 40px 120px 120px 120px;
 		overflow: hidden;
 		flex-shrink: 0;
 	}

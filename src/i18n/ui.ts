@@ -95,6 +95,9 @@ export const ui = {
     'gasSlider.summaryTitle': 'TỔNG HỢP GIÁ GAS',
     'gasSlider.colType': 'KHU VỰC',
     'gasSlider.footerTitle': 'Giá gas hôm nay',
+    'gasSlider.regionNorth': 'Miền Bắc',
+    'gasSlider.regionCentral': 'Miền Trung',
+    'gasSlider.regionSouth': 'Miền Nam',
   },
   en: {
     'nav.dashboard': 'Dashboard',
@@ -185,6 +188,9 @@ export const ui = {
     'gasSlider.summaryTitle': 'GAS SUMMARY',
     'gasSlider.colType': 'LOCATION',
     'gasSlider.footerTitle': 'Gas prices today',
+    'gasSlider.regionNorth': 'North Vietnam',
+    'gasSlider.regionCentral': 'Central Vietnam',
+    'gasSlider.regionSouth': 'South Vietnam',
   },
 } as const;
 

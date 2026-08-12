@@ -81,6 +81,10 @@
   - [x] Update `GoldSlider.astro` component to feature 2 summary slides (splitting gold data across 2 summary table slides) and 3 items per non-summary slide (6 item group slides of 3 items each).
   - [x] Add price text colors (`#f97316` for 45KG and `#cbd5e1`/`#ffffff` for 12KG) to summary table slides in `GasSlider.astro`.
   - [x] Update all commodity sliders (`FuelSlider.astro`, `GasSlider.astro`, `GoldSlider.astro`) to 1080x1920 resolution, remove outer borders (`border: none`), and remove outer radiuses (`border-radius: 0`).
+  - [x] Update all commodity sliders (`FuelSlider.astro`, `GasSlider.astro`, `GoldSlider.astro`) to use consistent 40px content padding.
+  - [x] Update content padding to `x: 120px, y: 40px` and header/footer padding (header top: 120px bottom: 40px, footer top: 40px bottom: 120px) across all commodity sliders (`FuelSlider.astro`, `GoldSlider.astro`, `GasSlider.astro`).
+  - [x] Update `GasSlider.astro` non-summary slides to display prices as a 2-column table (`12KG`, `45KG`) grouped by region (**Miền Bắc**, **Miền Trung**, **Miền Nam**).
+  - [x] Fix Astro compiler `Unexpected "export"` error in `GasSlider.astro` by removing invalid top-level interface export inside frontmatter.
 
 ---
 
