@@ -112,7 +112,7 @@ pnpm build
 ### 3.2 CI Deployment Verification
 When pushing changes to `main`:
 1. Navigate to GitHub repository **Actions** tab.
-2. Confirm the `Deploy to CloudPanel VPS` workflow succeeds.
+2. Confirm the `Deploy to CloudPanel VPS` workflow succeeds (uses `-avzr --delete --omit-dir-times` to prevent directory timestamp modification errors on CloudPanel VPS).
 3. Verify updated deployment live on `https://financial-news.ezerway.com`.
 
 ---

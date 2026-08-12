@@ -59,7 +59,7 @@
 - [x] Create GitHub Actions workflow `.github/workflows/deploy.yml`:
   - [x] Setup Node 24 and pnpm caching.
   - [x] Frozen lockfile installation and Astro production build.
-  - [x] Rsync deployment over SSH to CloudPanel VPS (`htdocs/financial-news.ezerway.com/public`).
+  - [x] Rsync deployment over SSH to CloudPanel VPS (`htdocs/financial-news.ezerway.com/public`) with `--omit-dir-times` flag to resolve directory timestamp permission errors.
 - [x] Integrate `@astrojs/sitemap` to generate production sitemap index and routes (`sitemap-index.xml`) with `changefreq: 'daily'`.
 - [x] Create dynamic `src/pages/robots.txt.ts` endpoint referencing `sitemap-index.xml`.
 - [x] Add `<link rel="sitemap" href="/sitemap-index.xml" />` inside HTML `<head>` in `src/layouts/Layout.astro`.

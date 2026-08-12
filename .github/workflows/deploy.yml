@@ -38,7 +38,7 @@ jobs:
       - name: Deploy files via Rsync
         uses: burnett01/rsync-deployments@v9
         with:
-          switches: -avzr --delete
+          switches: -avzr --delete --omit-dir-times
           path: ./dist/
           remote_path: /home/ezerway-financial-news/htdocs/financial-news.ezerway.com/public
           remote_host: ${{ secrets.VPS_HOST }}

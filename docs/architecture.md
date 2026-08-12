@@ -175,4 +175,4 @@ The project deploys automatically to CloudPanel VPS via GitHub Actions (`.github
 1. **Trigger:** `push` on branch `main` or manual `workflow_dispatch`.
 2. **Environment:** Node 24 with pnpm `11.2.2` frozen lockfile.
 3. **Build:** Executes `pnpm run build` outputting static web files to `./dist/`.
-4. **Deploy:** Uses `burnett01/rsync-deployments@v9` with flags `-avzr --delete` to sync `./dist/` to remote path `/home/ezerway-financial-news/htdocs/financial-news.ezerway.com/public`.
+4. **Deploy:** Uses `burnett01/rsync-deployments@v9` with flags `-avzr --delete --omit-dir-times` to sync `./dist/` to remote path `/home/ezerway-financial-news/htdocs/financial-news.ezerway.com/public`.
