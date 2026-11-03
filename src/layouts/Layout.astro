@@ -20,9 +20,8 @@ const currentLocale = (Astro.currentLocale || "vi") as keyof typeof languages;
 const t = useTranslations(currentLocale);
 
 const currentPathname =
-	Astro.url.pathname.split("/").at(-1) ||
-	Astro.url.pathname.split("/").at(-2);
-const isDashboard = currentPathname === "" || currentPathname === "en";
+	Astro.url.pathname.split("/").filter(Boolean).filter((p) => p !== "en").pop() || "";
+const isDashboard = currentPathname === "";
 
 const pageTitleKey = `title.${currentPathname || "dashboard"}` as UIKey;
 const pageDescKey = `desc.${currentPathname || "dashboard"}` as UIKey;
@@ -217,7 +216,7 @@ const schemaOrg = {
 										return (
 											<a
 												href={getLocalizedPath(
-													`/${collection}`,
+													`/${collection}/`,
 													currentLocale,
 												)}
 												aria-current={
@@ -387,7 +386,7 @@ const schemaOrg = {
 								return (
 									<a
 										href={getLocalizedPath(
-											`/${collection}`,
+											`/${collection}/`,
 											currentLocale,
 										)}
 										class={

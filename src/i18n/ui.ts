@@ -215,8 +215,13 @@ export function getLocalizedPath(pathname: string, targetLang: 'vi' | 'en'): str
     cleanPath = '/' + cleanPath;
   }
 
+  // Ensure trailing slash for directory routes
+  if (!cleanPath.endsWith('/') && !cleanPath.includes('.')) {
+    cleanPath = cleanPath + '/';
+  }
+
   if (targetLang === 'en') {
-    return cleanPath === '/' ? '/en' : `/en${cleanPath}`;
+    return cleanPath === '/' ? '/en/' : `/en${cleanPath}`;
   }
 
   return cleanPath;

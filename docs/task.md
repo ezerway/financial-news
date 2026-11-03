@@ -96,6 +96,7 @@
 - [x] Canonical & Multilingual Hreflang Tags:
   - [x] Add `<link rel="canonical">` referencing production URLs.
   - [x] Add bidirectional `<link rel="alternate" hreflang="vi">`, `hreflang="en"`, and `hreflang="x-default">`.
+  - [x] Enforce `trailingSlash: 'always'` in `astro.config.mjs`, navigation links, hreflang, and `getLocalizedPath` to resolve Google Search Console "Page with redirect" errors caused by Nginx directory redirects.
 - [x] Social Cards (Open Graph & Twitter):
   - [x] Implement `og:site_name`, `og:type`, `og:title`, `og:description`, `og:url`, `og:image`, `og:locale`.
   - [x] Implement Twitter Cards (`twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`).
