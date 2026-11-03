@@ -12,11 +12,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: '--max-old-space-size=6144'
+      ASTRO_TELEMETRY_DISABLED: '1'
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v6
       
-              # 1. Install pnpm on the GitHub Runner
+      # 1. Install pnpm on the GitHub Runner
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:

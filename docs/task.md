@@ -58,6 +58,7 @@
 ## Phase 5: CI/CD & Production Deployment
 - [x] Create GitHub Actions workflow `.github/workflows/deploy.yml`:
   - [x] Setup Node 24 and pnpm caching.
+  - [x] Configure `NODE_OPTIONS="--max-old-space-size=6144"` and `ASTRO_TELEMETRY_DISABLED="1"` to resolve exit code 134 (JavaScript heap out-of-memory SIGABRT) during static generation of growing historical datasets.
   - [x] Frozen lockfile installation and Astro production build.
   - [x] Rsync deployment over SSH to CloudPanel VPS (`htdocs/financial-news.ezerway.com/public`) with `--omit-dir-times` flag to resolve directory timestamp permission errors.
 - [x] Integrate `@astrojs/sitemap` to generate production sitemap index and routes (`sitemap-index.xml`) with `changefreq: 'daily'`.

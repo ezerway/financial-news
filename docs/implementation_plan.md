@@ -112,7 +112,7 @@ pnpm build
 ### 3.2 CI Deployment Verification
 When pushing changes to `main`:
 1. Navigate to GitHub repository **Actions** tab.
-2. Confirm the `Deploy to CloudPanel VPS` workflow succeeds (uses `-avzr --delete --omit-dir-times` to prevent directory timestamp modification errors on CloudPanel VPS).
+2. Confirm the `Deploy to CloudPanel VPS` workflow succeeds (uses `-rlptDvz --delete --no-perms --omit-dir-times` to prevent permission and directory timestamp errors on CloudPanel VPS, with `NODE_OPTIONS="--max-old-space-size=6144"` and `ASTRO_TELEMETRY_DISABLED="1"` to allocate sufficient heap memory for building large historical datasets).
 3. Verify updated deployment live on `https://financial-news.ezerway.com`.
 
 ---

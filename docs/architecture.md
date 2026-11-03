@@ -173,6 +173,6 @@ Data is stored hierarchically in `./databases/YYYY-MM-DD/<collection>/<filename>
 The project deploys automatically to CloudPanel VPS via GitHub Actions (`.github/workflows/deploy.yml`):
 
 1. **Trigger:** `push` on branch `main` or manual `workflow_dispatch`.
-2. **Environment:** Node 24 with pnpm `11.2.2` frozen lockfile.
+2. **Environment:** Node 24 with pnpm `11.2.2` frozen lockfile, `NODE_OPTIONS="--max-old-space-size=6144"`, and `ASTRO_TELEMETRY_DISABLED="1"`.
 3. **Build:** Executes `pnpm run build` outputting static web files to `./dist/`.
-4. **Deploy:** Uses `burnett01/rsync-deployments@v9` with flags `-avzr --delete --omit-dir-times` to sync `./dist/` to remote path `/home/ezerway-financial-news/htdocs/financial-news.ezerway.com/public`.
+4. **Deploy:** Uses `burnett01/rsync-deployments@v9` with flags `-rlptDvz --delete --no-perms --omit-dir-times` to sync `./dist/` to remote path `/home/ezerway-financial-news/htdocs/financial-news.ezerway.com/public`.
