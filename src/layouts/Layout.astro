@@ -42,6 +42,10 @@ const ogLocale = currentLocale === "vi" ? "vi_VN" : "en_US";
 const mdPages = ["electric"];
 const navPages = Object.keys(collections).concat(mdPages);
 
+const datasetKeywords = currentLocale === "vi"
+  ? ["giá vàng", "giá xăng dầu", "giá gas", "giá điện", "tỷ lệ bóng đá", "Việt Nam", "hàng hóa tài chính"]
+  : ["gold prices", "fuel prices", "gas prices", "electricity tariffs", "soccer odds", "Vietnam", "financial commodities"];
+
 const schemaOrg = {
   "@context": "https://schema.org",
   "@graph": [
@@ -72,8 +76,19 @@ const schemaOrg = {
           "dateModified": new Date().toISOString().split("T")[0],
           "item": {
             "@type": "Dataset",
+            "@id": `${canonicalURL}#dataset`,
             "name": "Daily Financial Commodities & Utility Tariffs Vietnam",
             "description": displayDescription,
+            "url": canonicalURL,
+            "isAccessibleForFree": true,
+            "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+            "creator": {
+              "@type": "Organization",
+              "@id": `${siteUrl}/#organization`,
+              "name": "Financial News",
+              "url": siteUrl
+            },
+            "keywords": datasetKeywords,
             "distribution": [
               {
                 "@type": "DataDownload",

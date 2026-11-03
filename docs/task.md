@@ -107,7 +107,7 @@
   - [x] Create dynamic `/llms.txt` endpoint (`src/pages/llms.txt.ts`) providing LLM discovery index.
   - [x] Create dynamic `/llms-full.txt` endpoint (`src/pages/llms-full.txt.ts`) serving raw pre-parsed Markdown price tables.
   - [x] Configure AI crawler permissions in `src/pages/robots.txt.ts` (`GPTBot`, `ChatGPT-User`, `ClaudeBot`, `PerplexityBot`, `Google-Extended`, `Applebot-Extended`).
-  - [x] Add `<link rel="help" href="/llms.txt">` and Schema.org `DataFeed` / `Dataset` JSON-LD payloads.
+  - [x] Add `<link rel="help" href="/llms.txt">` and Schema.org `DataFeed` / `Dataset` JSON-LD payloads with required/recommended `creator`, `license` (CC0 1.0), `isAccessibleForFree`, `url`, and localized `keywords` addressing Google Search Console issues.
 
 ---
 
