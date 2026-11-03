@@ -3,7 +3,11 @@ import Layout from "@layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
 import CalendarTable from "@components/CalendarTable.astro";
-import { toChart, toTableItems, attachComparison } from "@libs/commonTransformer";
+import {
+    toChart,
+    toTableItems,
+    attachComparison,
+} from "@libs/commonTransformer";
 import Chart from "@components/Chart.astro";
 import { useTranslations } from "@/i18n/ui";
 
@@ -13,13 +17,43 @@ const t = useTranslations(currentLocale);
 const model = "oil";
 const collection = await getCollection(model);
 
-const items = attachComparison(toTableItems(collection, model), "title", ["zone1_price", "zone2_price"]);
+const items = attachComparison(toTableItems(collection, model), "title", [
+    "zone1_price",
+    "zone2_price",
+]);
 const chart = toChart(items, "title", "zone1_price", 30, [
-    "Xăng RON 95-V",
-    "Xăng RON 95-III",
-    "Xăng E5 RON 92-II",
-    "Xăng E10 RON 95-III",
-    "DO 0,05S-II",
+    {
+        name: "Xăng RON 95-V",
+        aliases: [
+            "Xăng E10 RON 95 Mức 5",
+            "Xăng E10 RON 95-V",
+            "Xăng RON 95-V",
+        ],
+    },
+    {
+        name: "Xăng RON 95-III",
+        aliases: [
+            "Xăng E10 RON 95 Mức 3",
+            "Xăng E10 RON 95-III",
+            "Xăng RON 95-III",
+        ],
+    },
+    {
+        name: "Xăng E5 RON 92",
+        aliases: [
+            "Xăng E5 RON 92",
+            "Xăng E5 RON 92 Mức 2",
+            "Xăng E5 RON 92-II",
+        ],
+    },
+    {
+        name: "DO 0,05S-II",
+        aliases: ["DO 0,05S Mức 2", "DO 0,05S-II"],
+    },
+    {
+        name: "DO 0,001S-V",
+        aliases: ["DO 0,001S Mức 5", "DO 0,001S-V"],
+    },
 ]);
 ---
 

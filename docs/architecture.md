@@ -159,8 +159,8 @@ Data is stored hierarchically in `./databases/YYYY-MM-DD/<collection>/<filename>
 ### 5.1 `commonTransformer.ts`
 1. `toTableItems(collection, model)`: Extracts date and time strings from folder structure IDs (e.g. `2026-07-28/gold/160000.json` -> `2026-07-28T16:00:00.000Z`).
 2. `toChart(collection, keyField, valueField, pageSize=30, ids=[])`:
-   - Filters the collection by target product IDs (e.g., SJC, RON 95-V).
-   - Generates Highcharts category array (formatted dates: `Jul 28`) and multi-series price arrays.
+   - Filters the collection by target product IDs with alias support (e.g., SJC, RON 95-V matching historical name variants like E10 RON 95 Mức 5 / RON 95-V).
+   - Generates Highcharts category array (formatted dates: `Jul 28`) and aligned multi-series price arrays with null-safety for missing dates.
 
 ### 5.2 Client-Side Highcharts Component (`Chart.astro`)
 - Encapsulates Highcharts options into `data-chart` attribute on container HTML elements.
