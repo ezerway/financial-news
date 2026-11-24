@@ -116,6 +116,7 @@
     - [x] Action buttons: manual proceed (`rel="nofollow noopener noreferrer"`) and cancel/return to dashboard.
     - [x] Retention marketing widgets: display live snapshot cards for Gold (SJC) and Fuel (RON 95, E5 RON 92) to keep visitors engaged and explore site data.
     - [x] SEO protections: set `<meta name="robots" content="noindex, nofollow, noarchive">`, exclude `/go/` from `sitemap-0.xml`, and add `Disallow: /go/` / `Disallow: /en/go/` to `robots.txt`.
+    - [x] Optimize redirect bridge layout & responsive vertical centering: add `showHeader={false}` in `Layout.astro` to eliminate redundant page header and top padding creep, vertically center redirect card with `my-auto`, and provide generous bottom padding (`pb-16 sm:pb-24`) plus divider styling above retention market cards.
 
 ---
 

@@ -14,9 +14,17 @@ interface Props {
 	image?: string;
 	type?: "website" | "article";
 	noindex?: boolean;
+	showHeader?: boolean;
 }
 
-const { title, description, image = "/logo.svg", type = "website", noindex = false } = Astro.props;
+const {
+	title,
+	description,
+	image = "/logo.svg",
+	type = "website",
+	noindex = false,
+	showHeader = true,
+} = Astro.props;
 const currentLocale = (Astro.currentLocale || "vi") as keyof typeof languages;
 const t = useTranslations(currentLocale);
 
@@ -460,18 +468,20 @@ const schemaOrg = {
 				</el-disclosure>
 			</nav>
 
-			<div class="py-10">
-				<header>
-					<div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
-						<h1
-							class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white"
-						>
-							{displayTitle}
-						</h1>
-					</div>
-				</header>
-				<main class="grow">
-					<div class="mx-auto max-w-full px-4 py-8 sm:px-6 lg:px-8">
+			<div class={`grow flex flex-col ${showHeader ? 'py-10' : 'py-4 sm:py-6'}`}>
+				{showHeader && (
+					<header>
+						<div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
+							<h1
+								class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white"
+							>
+								{displayTitle}
+							</h1>
+						</div>
+					</header>
+				)}
+				<main class="grow flex flex-col">
+					<div class={`mx-auto max-w-full px-4 sm:px-6 lg:px-8 grow flex flex-col ${showHeader ? 'py-8' : 'py-2 sm:py-4'}`}>
 						<slot />
 					</div>
 				</main>

@@ -170,6 +170,10 @@ To retain domain authority, capture outbound traffic analytics, and boost on-sit
   - `Layout.astro` accepts `noindex={true}`, rendering `<meta name="robots" content="noindex, nofollow, noarchive" />`.
   - Filtered out from `sitemap-0.xml` via `astro.config.mjs` sitemap filter option.
   - Explicitly disallowed in `src/pages/robots.txt.ts` (`Disallow: /go/`, `Disallow: /en/go/`).
+- **Layout & Responsive Vertical Spacing**:
+  - `Layout.astro` accepts `showHeader={false}` to strip redundant `<h1>` headers and reduce top padding.
+  - Bridge container applies `my-auto` for balanced vertical viewport centering and `pb-16 sm:pb-24` ensuring plenty of breathing room above the footer.
+  - Retention cards are bordered and spaced via `mt-12 sm:mt-14 pt-8 border-t border-gray-100 dark:border-white/10` to avoid crowding the action buttons.
 
 
 
