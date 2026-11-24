@@ -117,6 +117,7 @@
     - [x] Retention marketing widgets: display live snapshot cards for Gold (SJC) and Fuel (RON 95, E5 RON 92) to keep visitors engaged and explore site data.
     - [x] SEO protections: set `<meta name="robots" content="noindex, nofollow, noarchive">`, exclude `/go/` from `sitemap-0.xml`, and add `Disallow: /go/` / `Disallow: /en/go/` to `robots.txt`.
     - [x] Optimize redirect bridge layout & responsive vertical centering: add `showHeader={false}` in `Layout.astro` to eliminate redundant page header and top padding creep, vertically center redirect card with `my-auto`, and provide generous bottom padding (`pb-16 sm:pb-24`) plus divider styling above retention market cards.
+    - [x] Fix text wrapping / broken layout on Zone 1 and Zone 2 in `FuelSlider.astro` summary table (`.col-v1`, `.col-v2`, `.row-v1`, `.row-v2` with `white-space: nowrap; flex-shrink: 0;` and 30% width), `Table.astro` `<th>` (`whitespace-nowrap`), and `RedirectBridge.astro` (clean 2-row layout displaying both Zone 1 and Zone 2 prices with `whitespace-nowrap` labels).
 
 ---
 

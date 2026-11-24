@@ -174,6 +174,9 @@ To retain domain authority, capture outbound traffic analytics, and boost on-sit
   - `Layout.astro` accepts `showHeader={false}` to strip redundant `<h1>` headers and reduce top padding.
   - Bridge container applies `my-auto` for balanced vertical viewport centering and `pb-16 sm:pb-24` ensuring plenty of breathing room above the footer.
   - Retention cards are bordered and spaced via `mt-12 sm:mt-14 pt-8 border-t border-gray-100 dark:border-white/10` to avoid crowding the action buttons.
+  - Oil snapshot cards present both Zone 1 and Zone 2 prices with strict `whitespace-nowrap` labels and truncated product titles preventing multi-line badge wrapping.
+- **Slider Widget Text Wrap Prevention (`FuelSlider.astro`)**:
+  - Summary table columns (`.col-v1`, `.col-v2`) and rows (`.row-v1`, `.row-v2`) apply `white-space: nowrap; flex-shrink: 0;` and calibrated 30% width (paired with `flex: 1` on product title column) to prevent Zone 1 / Zone 2 text from breaking across multiple lines.
 
 
 
