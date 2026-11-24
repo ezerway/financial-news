@@ -161,7 +161,7 @@ To retain domain authority, capture outbound traffic analytics, and boost on-sit
   - Sanitizes user input in DOM using `.textContent` (no `innerHTML` injection).
   - Outbound links use `rel="nofollow noopener noreferrer"`.
 - **User Experience & Forwarding**:
-  - Sleek 3-second countdown timer accompanied by smooth progress bar animations.
+  - Sleek 5-second countdown timer accompanied by smooth progress bar animations.
   - Automatic non-history forwarding via `window.location.replace` so back button navigation remains seamless.
   - Manual override button ("Chuyển tiếp ngay" / "Proceed Now") and cancel button ("Hủy / Về trang chủ").
 - **Traffic Retention & Engagement**:
