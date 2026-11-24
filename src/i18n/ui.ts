@@ -98,6 +98,17 @@ export const ui = {
     'gasSlider.regionNorth': 'Miền Bắc',
     'gasSlider.regionCentral': 'Miền Trung',
     'gasSlider.regionSouth': 'Miền Nam',
+
+    'redirect.title': 'Đang chuyển hướng... - Financial News',
+    'redirect.heading': 'Đang chuyển hướng liên kết...',
+    'redirect.notice': 'Bạn đang được chuyển hướng ra liên kết ngoài:',
+    'redirect.countdown': 'Tự động chuyển tiếp sau {seconds} giây...',
+    'redirect.proceed': 'Chuyển tiếp ngay',
+    'redirect.cancel': 'Hủy / Về trang chủ',
+    'redirect.marketSnap': 'Trong lúc chờ đợi, xem nhanh thị trường hôm nay:',
+    'redirect.invalidTitle': 'Liên kết không hợp lệ',
+    'redirect.invalidDesc': 'Liên kết chuyển hướng bị thiếu hoặc không an toàn. Vui lòng kiểm tra lại tham số URL (?to=...).',
+    'redirect.backHome': 'Quay lại Trang Chủ',
   },
   en: {
     'nav.dashboard': 'Dashboard',
@@ -191,6 +202,17 @@ export const ui = {
     'gasSlider.regionNorth': 'North Vietnam',
     'gasSlider.regionCentral': 'Central Vietnam',
     'gasSlider.regionSouth': 'South Vietnam',
+
+    'redirect.title': 'Redirecting... - Financial News',
+    'redirect.heading': 'Redirecting to External Link...',
+    'redirect.notice': 'You are being redirected to an external website:',
+    'redirect.countdown': 'Automatically redirecting in {seconds} seconds...',
+    'redirect.proceed': 'Proceed Now',
+    'redirect.cancel': 'Cancel / Back to Home',
+    'redirect.marketSnap': 'While waiting, check today\'s market rates:',
+    'redirect.invalidTitle': 'Invalid Destination Link',
+    'redirect.invalidDesc': 'The destination URL is missing or unsafe. Please verify the URL parameter (?to=...).',
+    'redirect.backHome': 'Return to Dashboard',
   },
 } as const;
 

@@ -16,7 +16,8 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      changefreq: 'daily'
+      changefreq: 'daily',
+      filter: (page) => !page.includes('/go/')
     })
   ],
   vite: {

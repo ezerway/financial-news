@@ -109,6 +109,13 @@
   - [x] Create dynamic `/llms-full.txt` endpoint (`src/pages/llms-full.txt.ts`) serving raw pre-parsed Markdown price tables.
   - [x] Configure AI crawler permissions in `src/pages/robots.txt.ts` (`GPTBot`, `ChatGPT-User`, `ClaudeBot`, `PerplexityBot`, `Google-Extended`, `Applebot-Extended`).
   - [x] Add `<link rel="help" href="/llms.txt">` and Schema.org `DataFeed` / `Dataset` JSON-LD payloads with required/recommended `creator`, `license` (CC0 1.0), `isAccessibleForFree`, `url`, and localized `keywords` addressing Google Search Console issues.
+  - [x] Intermediate Redirect Bridge Page (`/go/` & `/en/go/`):
+    - [x] Build safe redirect bridge component `src/components/RedirectBridge.astro` supporting `?to=[target-url]`, `?url=`, `?target=`.
+    - [x] Strict URL protocol validation (HTTP/HTTPS only; disallow `javascript:`/XSS/data URIs).
+    - [x] 3-second animated countdown timer with progress bar and instant `window.location.replace` forwarding.
+    - [x] Action buttons: manual proceed (`rel="nofollow noopener noreferrer"`) and cancel/return to dashboard.
+    - [x] Retention marketing widgets: display live snapshot cards for Gold (SJC) and Fuel (RON 95, E5 RON 92) to keep visitors engaged and explore site data.
+    - [x] SEO protections: set `<meta name="robots" content="noindex, nofollow, noarchive">`, exclude `/go/` from `sitemap-0.xml`, and add `Disallow: /go/` / `Disallow: /en/go/` to `robots.txt`.
 
 ---
 

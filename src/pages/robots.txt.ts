@@ -2,6 +2,8 @@ import type { APIRoute } from 'astro';
 
 const getRobotsTxt = (sitemapURL: URL, llmsURL: URL) => `
 User-agent: *
+Disallow: /go/
+Disallow: /en/go/
 Allow: /
 
 # AI Crawlers & LLM Search Agents

@@ -1,0 +1,15 @@
+---
+import Layout from "@layouts/Layout.astro";
+import RedirectBridge from "@components/RedirectBridge.astro";
+import { useTranslations } from "@/i18n/ui";
+
+const t = useTranslations("en");
+---
+
+<Layout
+	title={t("redirect.title")}
+	description={t("redirect.notice")}
+	noindex={true}
+>
+	<RedirectBridge locale="en" />
+</Layout>

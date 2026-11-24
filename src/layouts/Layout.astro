@@ -13,9 +13,10 @@ interface Props {
 	description?: string;
 	image?: string;
 	type?: "website" | "article";
+	noindex?: boolean;
 }
 
-const { title, description, image = "/logo.svg", type = "website" } = Astro.props;
+const { title, description, image = "/logo.svg", type = "website", noindex = false } = Astro.props;
 const currentLocale = (Astro.currentLocale || "vi") as keyof typeof languages;
 const t = useTranslations(currentLocale);
 
@@ -132,7 +133,11 @@ const schemaOrg = {
 		<title>{displayTitle}</title>
 		<meta name="description" content={displayDescription} />
 		<link rel="canonical" href={canonicalURL} />
-		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+		{noindex ? (
+			<meta name="robots" content="noindex, nofollow, noarchive" />
+		) : (
+			<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+		)}
 		<meta name="theme-color" content="#4f46e5" />
 		<meta name="author" content="EzerWay" />
 

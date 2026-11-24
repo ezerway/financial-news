@@ -148,6 +148,30 @@ The application implements full SSG SEO compliance in `src/layouts/Layout.astro`
 - **UI Rendering (`Table.astro`)**: Renders inline emerald green badges (`▲ +<diff>`) for price increases and rose red badges (`▼ -<diff>`) for price decreases.
 - **Slider Widgets (`GoldSlider.astro`, `FuelSlider.astro`, `GasSlider.astro`)**: Integrates `attachComparison` to render day-before change badges across product cards (Buy/Sell, Zone 1/Zone 2, and 12kg/45kg boxes) and summary table slides. `GoldSlider` presents 2 summary table slides (splitting 18 gold products into 9-item tables) and 3 items per non-summary slide (6 group slides of 3 item cards each). `GasSlider` chunks 34 province items into 2 summary table slides (parts 1/2 and 2/2) and regional non-summary table slides grouped by **Miền Bắc** (parts 1/2 and 2/2), **Miền Trung**, and **Miền Nam**, rendered as 2-column tables (`12KG`, `45KG`) with distinct price text colors (`#f97316` for 45KG column/prices and `#cbd5e1`/`#ffffff` for 12KG) to ensure layout consistency. Dedicated widget routes (`/gold/widget`, `/oil/widget`, `/gas/widget`, and `/en/*` counterparts) serve visual embeds scaled at 1080px × 1920px (9:16 vertical format) without outer borders or border radiuses (`border: none; border-radius: 0;`), standardizing content section padding at `x: 120px, y: 40px` (`padding: 40px 120px`), header padding at 120px top / 40px bottom / 120px side, and footer padding at 40px top / 120px bottom / 120px side, with high-density canvas capture streams and video player outputs.
 
+---
+
+## 8. Intermediate Redirect Bridge Page Architecture (`/go/`)
+
+To retain domain authority, capture outbound traffic analytics, and boost on-site brand engagement, external links route through an intermediate branded countdown bridge page:
+- **Routes**: `/go/?to=[target_url]` (Vietnamese default) and `/en/go/?to=[target_url]` (English localized). Also supports `?url=` and `?target=` aliases.
+- **Component**: `src/components/RedirectBridge.astro`.
+- **Security & Sanitation**:
+  - Validates protocols using `new URL()`; strictly accepts `http:` and `https:`.
+  - Disallows `javascript:`, `data:`, `vbscript:`, or malformed URLs. Unsafe URLs trigger an error state preventing forwarding.
+  - Sanitizes user input in DOM using `.textContent` (no `innerHTML` injection).
+  - Outbound links use `rel="nofollow noopener noreferrer"`.
+- **User Experience & Forwarding**:
+  - Sleek 3-second countdown timer accompanied by smooth progress bar animations.
+  - Automatic non-history forwarding via `window.location.replace` so back button navigation remains seamless.
+  - Manual override button ("Chuyển tiếp ngay" / "Proceed Now") and cancel button ("Hủy / Về trang chủ").
+- **Traffic Retention & Engagement**:
+  - Live market snapshot cards for Gold SJC (Buy/Sell) and Petrolimex Fuels (RON 95, E5 RON 92) rendered at build time beneath the countdown card to convert bridge visits into active site readers.
+- **Search Engine Safe (SEO)**:
+  - `Layout.astro` accepts `noindex={true}`, rendering `<meta name="robots" content="noindex, nofollow, noarchive" />`.
+  - Filtered out from `sitemap-0.xml` via `astro.config.mjs` sitemap filter option.
+  - Explicitly disallowed in `src/pages/robots.txt.ts` (`Disallow: /go/`, `Disallow: /en/go/`).
+
+
 
 
 
