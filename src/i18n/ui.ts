@@ -12,24 +12,21 @@ export const ui = {
     'nav.oil': 'Giá Xăng Dầu',
     'nav.gas': 'Giá Gas',
     'nav.electric': 'Giá Điện',
-    'nav.soccer': 'Tỷ lệ Bóng đá',
 
     'title.dashboard': 'Thống kê Giá Vàng & Xăng Dầu Hôm Nay - Financial News',
     'title.gold': 'Bảng Giá Vàng SJC, PNJ, 24K Hôm Nay - Financial News',
     'title.oil': 'Giá Xăng Dầu Petrolimex Vùng 1 & Vùng 2 - Financial News',
     'title.gas': 'Bảng Giá Gas 12kg & 45kg Tỉnh Thành - Financial News',
     'title.electric': 'Biểu Giá Điện & Thông Tư Pháp Quy - Financial News',
-    'title.soccer': 'Tỷ Lệ Bóng Đá & Lịch Thi Đấu - Financial News',
 
     'site.title': 'Financial News - Thống kê Giá Vàng, Xăng Dầu & Thị trường',
-    'site.description': 'Hệ thống tra cứu giá vàng SJC, 24K, giá xăng dầu Petrolimex, giá gas, biểu giá điện lực và tỷ lệ bóng đá cập nhật hàng ngày tại Việt Nam.',
+    'site.description': 'Hệ thống tra cứu giá vàng SJC, 24K, giá xăng dầu Petrolimex, giá gas và biểu giá điện lực cập nhật hàng ngày tại Việt Nam.',
 
     'desc.dashboard': 'Trang tổng hợp giá vàng SJC, giá xăng dầu Petrolimex Vùng 1 & Vùng 2 và giá bình gas trực tuyến mới nhất hôm nay.',
     'desc.gold': 'Theo dõi biến động bảng giá vàng SJC, PNJ, 24K, vàng nhẫn hôm nay với biểu đồ lịch sử 30 ngày và bộ lọc lịch ngày.',
     'desc.oil': 'Tra cứu giá xăng RON 95-V, RON 95-III, E5 RON 92, dầu Diesel Petrolimex Vùng 1 và Vùng 2 mới nhất.',
     'desc.gas': 'Bảng so sánh giá gas gia dụng bình 12kg và gas công nghiệp bình 45kg các khu vực tỉnh thành trên toàn quốc.',
     'desc.electric': 'Tra cứu quy định biểu giá bán lẻ điện, quy định điều chỉnh giá điện và thông tư hướng dẫn của Tập đoàn Điện lực.',
-    'desc.soccer': 'Cập nhật tỷ lệ cược bóng đá, kèo nhà cái, lịch thi đấu và biến động thị trường bóng đá hàng ngày.',
 
     'gold.code': 'Mã',
     'gold.name': 'Tên sản phẩm',
@@ -43,13 +40,6 @@ export const ui = {
     'gas.title': 'Khu vực / Tỉnh thành',
     'gas.type1': 'Bình 12kg (VNĐ)',
     'gas.type2': 'Bình 45kg (VNĐ)',
-
-    'soccer.league': 'Giải đấu',
-    'soccer.match': 'Trận đấu',
-    'soccer.start': 'Thời gian',
-    'soccer.bet100': 'Cược 100',
-    'soccer.winwin': 'Thắng/Thắng',
-    'soccer.windraw': 'Thắng/Hòa',
 
     'calendar.noRecords': 'Không có dữ liệu cho ngày đã chọn. Vui lòng chọn ngày được đánh dấu trên lịch!',
     'calendar.recordsFor': 'Dữ liệu ngày',
@@ -105,24 +95,21 @@ export const ui = {
     'nav.oil': 'Fuel Prices',
     'nav.gas': 'Gas Prices',
     'nav.electric': 'Electricity Tariffs',
-    'nav.soccer': 'Soccer Odds',
 
     'title.dashboard': 'Today Gold & Fuel Price Dashboard - Financial News',
     'title.gold': 'Live SJC & 24K Gold Price Analytics - Financial News',
     'title.oil': 'Petrolimex Fuel Rates (Zone 1 & 2) - Financial News',
     'title.gas': 'LPG Gas Cylinder Prices by Province - Financial News',
     'title.electric': 'Electricity Tariff Schedules & Policies - Financial News',
-    'title.soccer': 'Soccer Odds & Match Schedules - Financial News',
 
     'site.title': 'Financial News - Gold Prices, Fuel Rates & Market Data',
-    'site.description': 'Real-time tracking dashboard for SJC gold prices, Petrolimex petroleum rates, LPG gas prices, electricity tariffs, and soccer betting odds in Vietnam.',
+    'site.description': 'Real-time tracking dashboard for SJC gold prices, Petrolimex petroleum rates, LPG gas prices, and electricity tariffs in Vietnam.',
 
     'desc.dashboard': 'Live daily dashboard aggregating Vietnam SJC gold rates, Petrolimex fuel prices, and LPG gas cylinder prices.',
     'desc.gold': 'Track SJC, PNJ, 24K, and bullion gold prices in Vietnam with historical 30-day interactive charts and calendar lookup.',
     'desc.oil': 'Check official Petrolimex gasoline rates (RON 95-V, RON 95-III, E5 RON 92) and Diesel across Zone 1 & Zone 2.',
     'desc.gas': 'Compare LPG gas cylinder prices for 12kg residential and 45kg commercial units across provinces in Vietnam.',
     'desc.electric': 'Read official Vietnam electricity tariff brackets, policy documents, and utility pricing guidelines.',
-    'desc.soccer': 'Live soccer odds, match statistics, betting brackets, and daily fixture schedules.',
 
     'gold.code': 'Code',
     'gold.name': 'Product Name',
@@ -136,13 +123,6 @@ export const ui = {
     'gas.title': 'Zone / City',
     'gas.type1': '12kg Cylinder (VND)',
     'gas.type2': '45kg Cylinder (VND)',
-
-    'soccer.league': 'League',
-    'soccer.match': 'Match',
-    'soccer.start': 'Start Time',
-    'soccer.bet100': 'Bet 100',
-    'soccer.winwin': 'Win/Win',
-    'soccer.windraw': 'Win/Draw',
 
     'calendar.noRecords': 'No records found for the selected date. Choose a highlighted date in the calendar!',
     'calendar.recordsFor': 'Records for',

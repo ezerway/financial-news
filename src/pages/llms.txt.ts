@@ -5,7 +5,7 @@ export const GET: APIRoute = ({ site }) => {
   
   const content = `# Financial News
 
-> Financial News is a static, high-performance financial data dashboard tracking daily commodity prices, utility tariffs, and sports analytics in Vietnam.
+> Financial News is a static, high-performance financial data dashboard tracking daily commodity prices and utility tariffs in Vietnam.
 
 ## Core Categories & Pages
 
@@ -14,7 +14,6 @@ export const GET: APIRoute = ({ site }) => {
 - [Fuel Prices (Giá Xăng Dầu)](${siteOrigin}/oil): Petrolimex petroleum prices (RON 95-V, RON 95-III, E5 RON 92, Diesel) for Zone 1 & Zone 2.
 - [LPG Gas Prices (Giá Gas)](${siteOrigin}/gas): Retail LPG gas cylinder prices for 12kg household and 45kg commercial units across provinces in Vietnam.
 - [Electricity Tariffs (Giá Điện)](${siteOrigin}/electric): Official retail electricity price schedules, regulatory policy notifications, and EVN circulars.
-- [Soccer Odds (Tỷ lệ Bóng đá)](${siteOrigin}/soccer): Daily match schedules, win/draw/loss odds, and league statistics.
 
 ## English Localized Versions
 
@@ -23,7 +22,6 @@ export const GET: APIRoute = ({ site }) => {
 - [English Fuel Prices](${siteOrigin}/en/oil): Petrolimex fuel analytics in English.
 - [English Gas Prices](${siteOrigin}/en/gas): LPG gas rates in English.
 - [English Electricity Tariffs](${siteOrigin}/en/electric): Electricity tariff documents in English.
-- [English Soccer Odds](${siteOrigin}/en/soccer): Soccer odds in English.
 
 ## Additional Resources & Data Feeds
 

@@ -20,7 +20,7 @@ The **Financial News** system follows a static-first data-driven architecture us
                              ▼
 ┌─────────────────────────────────────────────────────────┐
 │              Data Transformers & Helpers                │
-│    src/libs/commonTransformer.ts & soccerTransformer.ts │
+│             src/libs/commonTransformer.ts               │
 └────────────────────────────┬────────────────────────────┘
                              │
                              ▼
@@ -64,8 +64,8 @@ finance/
 │   ├── YYYY-MM-DD/
 │   │   ├── gold/           # Daily gold rate JSONs
 │   │   ├── oil/            # Daily petrolimex fuel JSONs
-│   │   ├── electric/       # Daily electricity policy Markdown docs
-│   │   └── soccer/         # Daily soccer odds JSONs
+│   │   ├── gas/            # Daily gas price JSONs
+│   │   └── electric/       # Daily electricity policy Markdown docs
 │   └── schema.ts           # TypeScript domain interfaces
 ├── docs/                   # System & project documentation
 │   ├── prd.md
@@ -83,14 +83,13 @@ finance/
 │   ├── layouts/
 │   │   └── Layout.astro    # Navigation navbar, dark theme shell
 │   ├── libs/
-│   │   ├── commonTransformer.ts  # Date parsing & Highcharts series formatter
-│   │   └── soccerTransformer.ts  # Sports data transformer
+│   │   └── commonTransformer.ts  # Date parsing & Highcharts series formatter
 │   ├── pages/
 │   │   ├── index.astro     # Main Dashboard (Gold + Oil overview)
 │   │   ├── gold.astro      # Gold analytics page
 │   │   ├── oil.astro       # Petroleum analytics page
-│   │   ├── electric.astro  # Electricity markdown reader page
-│   │   └── soccer.astro    # Soccer odds tracking page
+│   │   ├── gas.astro       # Gas analytics page
+│   │   └── electric.astro  # Electricity markdown reader page
 │   ├── styles/
 │   │   └── global.css      # CSS entrypoint with Tailwind directives
 │   └── content.config.ts   # Astro collection schemas & glob loaders

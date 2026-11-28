@@ -16,18 +16,6 @@ export interface OilPrice {
   zone2_price: number;
 }
 
-export interface SoccerMatch {
-  serie?: string;
-  title?: string;
-  sortTitle?: string;
-  start?: string;
-  startDate?: string;
-  startTime?: string;
-  winMarketOutcomePrices?: string[];
-  drawMarketOutcomePrices?: string[];
-  lossMarketOutcomePrices?: string[];
-}
-
 export interface GasPrice {
   id: number;
   created_at: string;

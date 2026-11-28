@@ -6,7 +6,7 @@
 **Repository:** `ezerway/financial-news`  
 **Target Domain:** `financial-news.ezerway.com`  
 
-The **Financial News** system is a high-performance, lightweight web dashboard engineered to aggregate, transform, and visualize daily financial asset and commodity data in Vietnam. Key assets tracked include **Gold Prices (SJC, PNJ, Ring Gold)**, **Petroleum/Fuel Prices (Petrolimex Zone 1 & Zone 2)**, **Electricity Tariff Schedules**, and **Sports Betting Odds**.
+The **Financial News** system is a high-performance, lightweight web dashboard engineered to aggregate, transform, and visualize daily financial asset and commodity data in Vietnam. Key assets tracked include **Gold Prices (SJC, PNJ, Ring Gold)**, **Petroleum/Fuel Prices (Petrolimex Zone 1 & Zone 2)**, **LPG Gas Prices**, and **Electricity Tariff Schedules**.
 
 ---
 
@@ -27,7 +27,7 @@ Financial asset prices such as gold standard rates and fuel costs fluctuate dail
 
 1. **Individual Investors & Consumers:** Monitor daily purchasing and selling rates for SJC gold, PNJ 24K gold, and local bullion variants.
 2. **Drivers & Logistics Operators:** Track Petrolimex gasoline (RON 95-V, RON 95-III, E5 RON 92) and diesel price adjustments across Zone 1 and Zone 2.
-3. **Analysts & Utility Subscribers:** Inspect official electricity tariff schedules and market betting odds.
+3. **Analysts & Utility Subscribers:** Inspect official electricity tariff schedules and utility regulations.
 
 ---
 
@@ -50,9 +50,6 @@ Financial asset prices such as gold standard rates and fuel costs fluctuate dail
 ### 4.4 Electricity Tariff Notices (`/electric`)
 - Markdown-compiled reader parsing regulatory notifications, utility price brackets, and policy documentation.
 - HTML rendering using Astro's `set:html` and Tailwind Typography prose container (`Prose.astro`).
-
-### 4.5 Soccer Odds & Sports Analytics (`/soccer`)
-- Data collection tracking soccer matches, start times, win/draw/loss odds, and league details.
 
 ---
 

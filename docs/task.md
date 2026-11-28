@@ -17,11 +17,11 @@
 ---
 
 ## Phase 2: Data Schemas & Content Layer
-- [x] Define `databases/schema.ts` domain model interfaces for Gold, Petroleum, and Soccer.
+- [x] Define `databases/schema.ts` domain model interfaces for Gold, Petroleum, and Gas.
 - [x] Configure `src/content.config.ts` Astro collections loader with Zod validation rules:
   - [x] `gold` collection loader (`**/gold/*.json`).
   - [x] `oil` collection loader (`**/oil/*.json`).
-  - [x] `soccer` collection loader (`**/soccer/*.json`).
+  - [x] `gas` collection loader (`**/gas/*.json`).
 - [x] Implement glob dataset parser for Markdown electricity documents in `src/pages/electric.astro`.
 
 ---
@@ -31,7 +31,6 @@
   - [x] `toTableItems()` transformer parsing date/timestamp paths.
   - [x] `filesToItems()` transformer for markdown content files.
   - [x] `toChart()` transformer producing Highcharts categories and multi-series arrays.
-- [x] Create `src/libs/soccerTransformer.ts` for sports dataset structuring.
 
 ---
 
@@ -51,7 +50,6 @@
   - [x] `/oil` (Oil analytics table & interactive Highchart).
   - [x] `/gas` (Gas price analytics for 12kg and 45kg cylinders).
   - [x] `/electric` (Electricity tariff markdown reader).
-  - [x] `/soccer` (Soccer odds grid).
 
 ---
 
@@ -71,7 +69,7 @@
   - [x] Configure `astro.config.mjs` with `locales: ['vi', 'en']`, `defaultLocale: 'vi'`, `prefixDefaultLocale: false`.
   - [x] Create `src/i18n/ui.ts` for Vietnamese and English UI translation dictionaries and path helpers.
   - [x] Add dynamic locale switcher (VI / EN) in `Layout.astro` desktop & mobile navigation bars.
-  - [x] Create English localized route pages under `src/pages/en/` (`/en`, `/en/gold`, `/en/oil`, `/en/electric`, `/en/soccer`, `/en/oil/widget`, `/en/gold/widget`).
+  - [x] Create English localized route pages under `src/pages/en/` (`/en`, `/en/gold`, `/en/oil`, `/en/gas`, `/en/electric`, `/en/oil/widget`, `/en/gold/widget`, `/en/gas/widget`).
   - [x] Internationalize `FuelSlider.astro` component with multi-language dictionary support (`slider.*`).
   - [x] Add day-before price comparison indicators (`▲ +X` / `▼ -X`) to `GoldSlider.astro` widget component.
   - [x] Add day-before price comparison indicators (`▲ +X` / `▼ -X`) to `FuelSlider.astro` widget component.
@@ -85,6 +83,7 @@
   - [x] Update content padding to `x: 120px, y: 40px` and header/footer padding (header top: 120px bottom: 40px, footer top: 40px bottom: 120px) across all commodity sliders (`FuelSlider.astro`, `GoldSlider.astro`, `GasSlider.astro`).
   - [x] Update `GasSlider.astro` non-summary slides to display prices as a 2-column table (`12KG`, `45KG`) grouped by region (**Miền Bắc**, **Miền Trung**, **Miền Nam**).
   - [x] Fix Astro compiler `Unexpected "export"` error in `GasSlider.astro` by removing invalid top-level interface export inside frontmatter.
+- [x] Remove all soccer related features, schemas, databases, pages, and dependencies.
 
 ---
 
