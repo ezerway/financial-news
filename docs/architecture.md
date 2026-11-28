@@ -158,8 +158,8 @@ Data is stored hierarchically in `./databases/YYYY-MM-DD/<collection>/<filename>
 ### 5.1 `commonTransformer.ts`
 1. `toTableItems(collection, model)`: Extracts date and time strings from folder structure IDs (e.g. `2026-07-28/gold/160000.json` -> `2026-07-28T16:00:00.000Z`).
 2. `toChart(collection, keyField, valueField, pageSize=30, ids=[])`:
-   - Filters the collection by target product IDs (e.g., SJC, RON 95-V).
-   - Generates Highcharts category array (formatted dates: `Jul 28`) and multi-series price arrays.
+   - Filters the collection by target product IDs with alias support (e.g., SJC, RON 95-V matching historical name variants like E10 RON 95 Mức 5 / RON 95-V).
+   - Generates Highcharts category array (formatted dates: `Jul 28`) and aligned multi-series price arrays with null-safety for missing dates.
 
 ### 5.2 Client-Side Highcharts Component (`Chart.astro`)
 - Encapsulates Highcharts options into `data-chart` attribute on container HTML elements.
@@ -172,6 +172,6 @@ Data is stored hierarchically in `./databases/YYYY-MM-DD/<collection>/<filename>
 The project deploys automatically to CloudPanel VPS via GitHub Actions (`.github/workflows/deploy.yml`):
 
 1. **Trigger:** `push` on branch `main` or manual `workflow_dispatch`.
-2. **Environment:** Node 24 with pnpm `11.2.2` frozen lockfile.
+2. **Environment:** Node 24 with pnpm `11.2.2` frozen lockfile, `NODE_OPTIONS="--max-old-space-size=6144"`, and `ASTRO_TELEMETRY_DISABLED="1"`.
 3. **Build:** Executes `pnpm run build` outputting static web files to `./dist/`.
-4. **Deploy:** Uses `burnett01/rsync-deployments@v9` with flags `-avzr --delete --omit-dir-times` to sync `./dist/` to remote path `/home/ezerway-financial-news/htdocs/financial-news.ezerway.com/public`.
+4. **Deploy:** Uses `burnett01/rsync-deployments@v9` with flags `-rlptDvz --delete --no-perms --omit-dir-times` to sync `./dist/` to remote path `/home/ezerway-financial-news/htdocs/financial-news.ezerway.com/public`.

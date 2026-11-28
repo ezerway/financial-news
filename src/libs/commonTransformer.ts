@@ -23,35 +23,79 @@ export const filesToItems = (collection, model, type = "md") => collection.map((
     };
 });
 
-export const toChart = (collection, keyField, valueField, pageSize = 30, ids = []) => {
+    const DEFAULT_ALIASES: Record<string, string[]> = {
+        "Xăng RON 95-V": ["Xăng E10 RON 95 Mức 5", "Xăng E10 RON 95-V", "Xăng RON 95-V"],
+        "Xăng RON 95-III": ["Xăng E10 RON 95 Mức 3", "Xăng E10 RON 95-III", "Xăng RON 95-III"],
+        "Xăng E5 RON 92": ["Xăng E5 RON 92", "Xăng E5 RON 92 Mức 2", "Xăng E5 RON 92-II"],
+        "Xăng E5 RON 92-II": ["Xăng E5 RON 92", "Xăng E5 RON 92 Mức 2", "Xăng E5 RON 92-II"],
+        "Xăng E10 RON 95-III": ["Xăng E10 RON 95 Mức 3", "Xăng E10 RON 95-III", "Xăng RON 95-III"],
+        "DO 0,05S-II": ["DO 0,05S Mức 2", "DO 0,05S-II"],
+        "DO 0,001S-V": ["DO 0,001S Mức 5", "DO 0,001S-V"],
+    };
 
-    let series = {};
-    let latest = collection.sort((a, b) => b.date - a.date).slice(collection.length > pageSize ? -pageSize : 0);
-    latest.map((record) => {
-        record.data.forEach((item) => {
+            export const toChart = (
+                collection: any[],
+                keyField: string,
+                valueField: string,
+                pageSize = 30,
+                ids: (string | { name: string; aliases?: string[] })[] = []
+            ) => {
+                const sorted = [...collection]
+                    .filter((r) => r.data && Array.isArray(r.data) && r.data.length > 0)
+                    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-            if (ids.length > 0 && !ids.includes(item[keyField])) {
-                return;
-            }
+                const latest = sorted.slice(sorted.length > pageSize ? -pageSize : 0);
 
-            if (!series[item[keyField]]) {
-                series[item[keyField]] = [];
-            }
-            series[item[keyField]].push(item[valueField]);
+                    const categories = latest.map((record) =>
+                        new Date(record.date).toLocaleDateString(undefined, {
+                            month: "short",
+                            day: "numeric",
+                        })
+                    );
+
+                    let targetConfigs: { name: string; aliases: string[] }[] = [];
+                    if (ids.length > 0) {
+                        targetConfigs = ids.map((id) => {
+                            if (typeof id === "object" && id !== null && id.name) {
+                                return {
+                                    name: id.name,
+                                    aliases: id.aliases || [id.name],
+                                };
+                            }
+                            const nameStr = String(id);
+                            return {
+                                name: nameStr,
+                                aliases: DEFAULT_ALIASES[nameStr] || [nameStr],
+                            };
+                        });
+    } else {
+        const lastRecord = latest[latest.length - 1];
+        if(lastRecord) {
+            targetConfigs = lastRecord.data.map((item: any) => ({
+                name: item[keyField],
+                aliases: [item[keyField]],
+            }));
+        }
+    }
+
+    const series = targetConfigs.map((cfg) => {
+        const data = latest.map((record) => {
+            const item = record.data.find(
+                (i: any) =>
+                    i[keyField] === cfg.name ||
+                    (cfg.aliases && cfg.aliases.includes(i[keyField]))
+            );
+            return item ? Number(item[valueField]) : null;
         });
-    })
+        return {
+            name: cfg.name,
+            data,
+        };
+    });
 
     return {
-        categories: latest.map((record) => (new Date(record.date).toLocaleDateString(undefined, {
-            month: 'short',
-            day: 'numeric'
-        }))),
-        series: Object.keys(series).map((key) => {
-            return {
-                name: key,
-                data: series[key],
-            };
-        })
+        categories,
+        series,
     };
 };
 

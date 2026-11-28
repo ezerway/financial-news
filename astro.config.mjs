@@ -6,6 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+  trailingSlash: 'always',
   i18n: {
     locales: ['vi', 'en'],
     defaultLocale: 'vi',
@@ -15,7 +16,8 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      changefreq: 'daily'
+      changefreq: 'daily',
+      filter: (page) => !page.includes('/go/')
     })
   ],
   vite: {

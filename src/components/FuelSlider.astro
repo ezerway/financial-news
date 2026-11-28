@@ -686,15 +686,20 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.col-type {
-		width: 44%;
+		flex: 1;
+		min-width: 0;
 	}
 	.col-v1 {
-		width: 28%;
+		width: 30%;
 		text-align: right;
+		white-space: nowrap;
+		flex-shrink: 0;
 	}
 	.col-v2 {
-		width: 28%;
+		width: 30%;
 		text-align: right;
+		white-space: nowrap;
+		flex-shrink: 0;
 	}
 
 	.table-rows {
@@ -712,7 +717,7 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 	}
 
 	.row-type {
-		width: 44%;
+		flex: 1;
 		min-width: 0;
 		overflow: hidden;
 		display: flex;
@@ -735,19 +740,23 @@ const displayDate = `${date.getDate().toString().padStart(2, "0")}. ${(
 		text-overflow: ellipsis;
 	}
 	.row-v1 {
-		width: 28%;
+		width: 30%;
 		font-size: 36px;
 		font-weight: 700;
 		color: #ffffff;
 		text-align: right;
 		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+		flex-shrink: 0;
 	}
 	.row-v2 {
-		width: 28%;
+		width: 30%;
 		font-size: 36px;
 		font-weight: 800;
 		text-align: right;
 		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+		flex-shrink: 0;
 	}
 
 	/* Indicators */

@@ -47,7 +47,7 @@
 - [x] Implement route pages:
   - [x] `/` (Dashboard overview with Gold and Oil latest prices).
   - [x] `/gold` (Gold analytics table & interactive Highchart).
-  - [x] `/oil` (Oil analytics table & interactive Highchart).
+  - [x] `/oil` (Oil analytics table & interactive Highchart with fuel name alias mapping for RON 95-V, RON 95-III, E5 RON 92, DO 0,05S, DO 0,001S).
   - [x] `/gas` (Gas price analytics for 12kg and 45kg cylinders).
   - [x] `/electric` (Electricity tariff markdown reader).
 
@@ -56,6 +56,7 @@
 ## Phase 5: CI/CD & Production Deployment
 - [x] Create GitHub Actions workflow `.github/workflows/deploy.yml`:
   - [x] Setup Node 24 and pnpm caching.
+  - [x] Configure `NODE_OPTIONS="--max-old-space-size=6144"` and `ASTRO_TELEMETRY_DISABLED="1"` to resolve exit code 134 (JavaScript heap out-of-memory SIGABRT) during static generation of growing historical datasets.
   - [x] Frozen lockfile installation and Astro production build.
   - [x] Rsync deployment over SSH to CloudPanel VPS (`htdocs/financial-news.ezerway.com/public`) with `--omit-dir-times` flag to resolve directory timestamp permission errors.
 - [x] Integrate `@astrojs/sitemap` to generate production sitemap index and routes (`sitemap-index.xml`) with `changefreq: 'daily'`.
@@ -94,6 +95,7 @@
 - [x] Canonical & Multilingual Hreflang Tags:
   - [x] Add `<link rel="canonical">` referencing production URLs.
   - [x] Add bidirectional `<link rel="alternate" hreflang="vi">`, `hreflang="en"`, and `hreflang="x-default">`.
+  - [x] Enforce `trailingSlash: 'always'` in `astro.config.mjs`, navigation links, hreflang, and `getLocalizedPath` to resolve Google Search Console "Page with redirect" errors caused by Nginx directory redirects.
 - [x] Social Cards (Open Graph & Twitter):
   - [x] Implement `og:site_name`, `og:type`, `og:title`, `og:description`, `og:url`, `og:image`, `og:locale`.
   - [x] Implement Twitter Cards (`twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`).
@@ -105,7 +107,16 @@
   - [x] Create dynamic `/llms.txt` endpoint (`src/pages/llms.txt.ts`) providing LLM discovery index.
   - [x] Create dynamic `/llms-full.txt` endpoint (`src/pages/llms-full.txt.ts`) serving raw pre-parsed Markdown price tables.
   - [x] Configure AI crawler permissions in `src/pages/robots.txt.ts` (`GPTBot`, `ChatGPT-User`, `ClaudeBot`, `PerplexityBot`, `Google-Extended`, `Applebot-Extended`).
-  - [x] Add `<link rel="help" href="/llms.txt">` and Schema.org `DataFeed` / `Dataset` JSON-LD payloads.
+  - [x] Add `<link rel="help" href="/llms.txt">` and Schema.org `DataFeed` / `Dataset` JSON-LD payloads with required/recommended `creator`, `license` (CC0 1.0), `isAccessibleForFree`, `url`, and localized `keywords` addressing Google Search Console issues.
+  - [x] Intermediate Redirect Bridge Page (`/go/` & `/en/go/`):
+    - [x] Build safe redirect bridge component `src/components/RedirectBridge.astro` supporting `?to=[target-url]`, `?url=`, `?target=`.
+    - [x] Strict URL protocol validation (HTTP/HTTPS only; disallow `javascript:`/XSS/data URIs).
+    - [x] 5-second animated countdown timer with progress bar and instant `window.location.replace` forwarding.
+    - [x] Action buttons: manual proceed (`rel="nofollow noopener noreferrer"`) and cancel/return to dashboard.
+    - [x] Retention marketing widgets: display live snapshot cards for Gold (SJC) and Fuel (RON 95, E5 RON 92) to keep visitors engaged and explore site data.
+    - [x] SEO protections: set `<meta name="robots" content="noindex, nofollow, noarchive">`, exclude `/go/` from `sitemap-0.xml`, and add `Disallow: /go/` / `Disallow: /en/go/` to `robots.txt`.
+    - [x] Optimize redirect bridge layout & responsive vertical centering: add `showHeader={false}` in `Layout.astro` to eliminate redundant page header and top padding creep, vertically center redirect card with `my-auto`, and provide generous bottom padding (`pb-16 sm:pb-24`) plus divider styling above retention market cards.
+    - [x] Fix text wrapping / broken layout on Zone 1 and Zone 2 in `FuelSlider.astro` summary table (`.col-v1`, `.col-v2`, `.row-v1`, `.row-v2` with `white-space: nowrap; flex-shrink: 0;` and 30% width), `Table.astro` `<th>` (`whitespace-nowrap`), and `RedirectBridge.astro` (clean 2-row layout displaying both Zone 1 and Zone 2 prices with `whitespace-nowrap` labels).
 
 ---
 
